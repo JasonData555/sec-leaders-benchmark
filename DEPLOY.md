@@ -69,5 +69,5 @@ Ensure the app has the **Sign In with LinkedIn using OpenID Connect** product en
 ## Notes
 - **Rotate the LinkedIn client secret** that was shared in chat.
 - `.env.local` is gitignored and never committed; `.env.local.example` documents the keys.
-- PDF route is configured for `maxDuration: 60` (`vercel.json`) and uses `@sparticuz/chromium`
-  on Vercel (env-switched in `lib/pdf.ts`).
+- PDF route is configured for `maxDuration: 60` via route segment config in
+  `app/api/export/route.ts` and uses `@sparticuz/chromium` on Vercel (env-switched in `lib/pdf.ts`).
