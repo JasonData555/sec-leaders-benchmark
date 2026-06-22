@@ -1,0 +1,35 @@
+/* Hitch Intelligence — design tokens (DESIGN.md §2: Color Palette — Ink & Champagne) */
+
+:root {
+  /* Named tokens — the locked color system */
+  --ink-deep:      #141820; /* Darkest surface — panel backgrounds, header, footer */
+  --ink:           #181C26; /* Primary page background */
+  --ink-surface:   #1E2232; /* Card and block surfaces — sits above --ink */
+  --champagne:     #B8A882; /* Primary accent — data highlights, active states, CTAs */
+  --champagne-mid: #8C7E62; /* Secondary data — donut segments, chart fills, muted accents */
+  --text-primary:  #ECEAE6; /* Primary type — warm off-white */
+  --hitch-blue:    #2F80ED; /* Brand blue — authentication screen LinkedIn button ONLY */
+
+  /* Derived tokens — computed from the named tokens, never hardcoded elsewhere */
+  --text-secondary: rgba(236, 234, 230, 0.50); /* Secondary labels, metadata */
+  --text-tertiary:  rgba(236, 234, 230, 0.27); /* Placeholder, disabled, micro-labels */
+  --border:         rgba(184, 168, 130, 0.13); /* All dividers and outlines */
+  --border-active:  rgba(184, 168, 130, 0.40); /* Active chip borders, focused inputs */
+  --chip-bg:        rgba(184, 168, 130, 0.07); /* Resting chip backgrounds */
+  --chip-active:    rgba(184, 168, 130, 0.16); /* Selected chip backgrounds */
+  --bar-bg:         rgba(184, 168, 130, 0.09); /* Chart track backgrounds */
+  --accent-glow:    rgba(184, 168, 130, 0.05); /* Candidate band, subtle highlights */
+}
+
+/* Base reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+input::placeholder {
+  color: var(--text-tertiary);
+}
