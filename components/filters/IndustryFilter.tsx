@@ -12,7 +12,7 @@ const INDUSTRIES = Array.from(
 
 const groupLabel: React.CSSProperties = {
   fontFamily: "'DM Sans', sans-serif",
-  fontSize: 9,
+  fontSize: 11,
   letterSpacing: "0.10em",
   textTransform: "uppercase",
   color: "var(--text-tertiary)",
@@ -48,7 +48,7 @@ export default function IndustryFilter() {
           padding: "6px 8px",
           fontFamily: "'DM Sans', sans-serif",
           fontWeight: 300,
-          fontSize: 10,
+          fontSize: 12,
           color: "var(--text-primary)",
         }}
       />

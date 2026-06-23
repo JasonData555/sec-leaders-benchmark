@@ -112,7 +112,7 @@ export default function Page() {
           <span
             style={{
               fontWeight: 300,
-              fontSize: 10,
+              fontSize: 11,
               color: "var(--text-tertiary)",
             }}
           >
@@ -156,7 +156,7 @@ export default function Page() {
             color: "var(--champagne)",
             fontFamily: "'DM Sans', sans-serif",
             fontWeight: 400,
-            fontSize: 10,
+            fontSize: 11,
             letterSpacing: "0.10em",
             textTransform: "uppercase",
             border: "1px solid var(--border-active)",
@@ -173,7 +173,7 @@ export default function Page() {
             style={{
               marginTop: 8,
               fontWeight: 300,
-              fontSize: 10,
+              fontSize: 11,
               color: "var(--text-secondary)",
             }}
           >
@@ -185,7 +185,7 @@ export default function Page() {
           style={{
             marginTop: 48,
             fontWeight: 300,
-            fontSize: 8.5,
+            fontSize: 10.5,
             lineHeight: 1.7,
             color: "var(--text-tertiary)",
           }}

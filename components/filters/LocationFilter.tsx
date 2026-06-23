@@ -15,7 +15,7 @@ import {
 
 const groupLabel: React.CSSProperties = {
   fontFamily: "'DM Sans', sans-serif",
-  fontSize: 9,
+  fontSize: 11,
   letterSpacing: "0.10em",
   textTransform: "uppercase",
   color: "var(--text-tertiary)",

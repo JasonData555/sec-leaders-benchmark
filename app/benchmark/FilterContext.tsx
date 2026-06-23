@@ -5,6 +5,7 @@ import { allRecords, type BenchmarkRecord } from "@/lib/data";
 import {
   resolveLocation,
   EMPTY_FILTERS,
+  FLOOR,
   type FilterState,
 } from "@/lib/filters";
 import {
@@ -48,6 +49,10 @@ interface FilterContextValue {
   metrics: Metrics;
   nCount: number;
   floorWarning: boolean;
+  /** No records match the active filters — show the empty state, not $0. */
+  noResults: boolean;
+  /** Some records match, but fewer than the reliability floor. */
+  lowSample: boolean;
   /** Toggle a value for array filters; set/toggle for region & city. */
   setFilter: (key: keyof FilterState, value: string | null) => void;
   candidate: CandidateProfile | null;
@@ -106,12 +111,15 @@ export function FilterProvider({
     [filteredRecords]
   );
 
+  const nCount = filteredRecords.length;
   const value: FilterContextValue = {
     filterState,
     filteredRecords,
     metrics,
-    nCount: filteredRecords.length,
+    nCount,
     floorWarning,
+    noResults: nCount === 0,
+    lowSample: nCount > 0 && nCount < FLOOR,
     setFilter,
     candidate,
     setCandidate,

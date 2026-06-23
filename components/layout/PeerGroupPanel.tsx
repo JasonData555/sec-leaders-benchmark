@@ -48,7 +48,7 @@ const STRUCTURE_OPTIONS: Option[] = [
 
 const groupLabel: React.CSSProperties = {
   fontFamily: "'DM Sans', sans-serif",
-  fontSize: 9,
+  fontSize: 11,
   letterSpacing: "0.10em",
   textTransform: "uppercase",
   color: "var(--text-tertiary)",
@@ -84,7 +84,7 @@ function ChipGroup({
 }
 
 export default function PeerGroupPanel() {
-  const { filterState, nCount } = useFilters();
+  const { filterState, nCount, lowSample } = useFilters();
   const [compareOpen, setCompareOpen] = useState(false);
 
   return (
@@ -107,7 +107,7 @@ export default function PeerGroupPanel() {
         <span
           style={{
             fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: 8.5,
+            fontSize: 11,
             letterSpacing: "0.18em",
             textTransform: "uppercase",
             color: "var(--text-tertiary)",
@@ -117,6 +117,21 @@ export default function PeerGroupPanel() {
         </span>
         <NCounter n={nCount} />
       </div>
+
+      {lowSample && (
+        <span
+          style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontWeight: 300,
+            fontSize: 11,
+            lineHeight: 1.4,
+            color: "var(--text-tertiary)",
+            marginTop: -14,
+          }}
+        >
+          Small sample — broaden your filters.
+        </span>
+      )}
 
       <ChipGroup
         label="Role"
@@ -149,7 +164,7 @@ export default function PeerGroupPanel() {
             width: "100%",
             fontFamily: "'DM Sans', sans-serif",
             fontWeight: 400,
-            fontSize: 10,
+            fontSize: 11,
             letterSpacing: "0.10em",
             textTransform: "uppercase",
             color: "var(--champagne)",

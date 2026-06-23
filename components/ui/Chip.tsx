@@ -13,12 +13,12 @@ const stateStyles: Record<ChipState, CSSProperties> = {
   active: {
     color: "var(--champagne)",
     background: "var(--chip-active)",
-    border: "1px solid rgba(184, 168, 130, 0.40)",
+    border: "1px solid var(--border-active)",
   },
   disabled: {
     color: "var(--text-tertiary)",
     background: "transparent",
-    border: "1px solid rgba(255, 255, 255, 0.05)",
+    border: "1px solid var(--border)",
   },
 };
 
@@ -43,7 +43,7 @@ export default function Chip({
       style={{
         fontFamily: "'DM Sans', sans-serif",
         fontWeight: 300,
-        fontSize: 10.5,
+        fontSize: 12,
         lineHeight: 1.3,
         padding: "3px 9px",
         borderRadius: 2,

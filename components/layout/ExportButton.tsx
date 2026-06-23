@@ -39,11 +39,11 @@ export default function ExportButton() {
       style={{
         fontFamily: "'DM Sans', sans-serif",
         fontWeight: 400,
-        fontSize: 10,
+        fontSize: 11,
         letterSpacing: "0.10em",
         textTransform: "uppercase",
         color: "var(--champagne)",
-        border: "1px solid rgba(184, 168, 130, 0.30)",
+        border: "1px solid var(--border-active)",
         background: "var(--chip-bg)",
         padding: "6px 16px",
         borderRadius: 2,

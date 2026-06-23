@@ -41,7 +41,7 @@ function StatBlock({
       <span
         style={{
           fontFamily: "'DM Sans', sans-serif",
-          fontSize: 9,
+          fontSize: 11,
           letterSpacing: "0.10em",
           textTransform: "uppercase",
           color: "var(--text-tertiary)",
@@ -59,12 +59,12 @@ function StatBlock({
         }}
       >
         ${k(value)}
-        <sup style={{ fontSize: 14, opacity: 0.45 }}>K</sup>
+        <sup style={{ fontSize: 16, opacity: 0.7 }}>K</sup>
       </span>
       <span
         style={{
           fontFamily: "'IBM Plex Mono', monospace",
-          fontSize: 8.5,
+          fontSize: 10.5,
           color: "var(--text-tertiary)",
         }}
       >
@@ -131,7 +131,7 @@ export default function CompensationZone() {
         <span
           style={{
             fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: 8.5,
+            fontSize: 11,
             letterSpacing: "0.18em",
             textTransform: "uppercase",
             color: "var(--text-tertiary)",
@@ -142,7 +142,7 @@ export default function CompensationZone() {
         <span
           style={{
             fontFamily: "'DM Sans', sans-serif",
-            fontSize: 10,
+            fontSize: 11,
             color: "var(--text-tertiary)",
           }}
         >
@@ -172,7 +172,7 @@ export default function CompensationZone() {
                 transform: "translateX(-50%)",
                 whiteSpace: "nowrap",
                 fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: 8,
+                fontSize: 10.5,
                 color: "var(--champagne)",
               }}
             >
@@ -209,7 +209,7 @@ export default function CompensationZone() {
           <span
             style={{
               fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: 8.5,
+              fontSize: 10.5,
               color: "var(--text-tertiary)",
             }}
           >
@@ -218,7 +218,7 @@ export default function CompensationZone() {
           <span
             style={{
               fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: 8.5,
+              fontSize: 10.5,
               color: "var(--text-tertiary)",
             }}
           >

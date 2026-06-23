@@ -25,7 +25,7 @@ export default function ToolHeader() {
           style={{
             fontFamily: "'DM Sans', sans-serif",
             fontWeight: 300,
-            fontSize: 10.5,
+            fontSize: 11.5,
             letterSpacing: "0.10em",
             textTransform: "uppercase",
             color: "var(--text-secondary)",
@@ -40,7 +40,7 @@ export default function ToolHeader() {
         <span
           style={{
             fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: 9.5,
+            fontSize: 11,
             color: "var(--text-tertiary)",
           }}
         >

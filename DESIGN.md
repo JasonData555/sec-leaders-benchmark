@@ -13,26 +13,26 @@ Audience: CISOs, board members, General Counsel, CFOs, and the Hitch partners wh
 ________________
 
 
-2. Color Palette — Ink & Champagne
-The locked six-token system. Use only these values. Do not introduce additional colors without explicit approval.
---ink-deep:       #141820   /* Darkest surface — panel backgrounds, header, footer */
---ink:            #181C26   /* Primary page background */
---ink-surface:    #1E2232   /* Card and block surfaces — sits above --ink */
---champagne:      #B8A882   /* Primary accent — data highlights, active states, CTAs */
---champagne-mid:  #8C7E62   /* Secondary data — donut segments, chart fills, muted accents */
---text-primary:   #ECEAE6   /* Primary type — warm off-white, picks up champagne warmth */
+2. Color Palette — Parchment & Bronze
+The locked six-token system. Use only these values. Do not introduce additional colors without explicit approval. (v1.1 — light theme; replaces the original dark "Ink & Champagne" ground. Token *names* are unchanged so all component code stays valid.)
+--ink-deep:       #F2EFE7   /* Framing surface — header, footer, left panel */
+--ink:            #E9E6DC   /* Primary page background */
+--ink-surface:    #F8F6F0   /* Card and block surfaces — sits above --ink */
+--champagne:      #8C6D3F   /* Primary accent — data highlights, active states, CTAs (bronze) */
+--champagne-mid:  #B39A6A   /* Secondary data — donut segments, chart fills, muted accents */
+--text-primary:   #1F232C   /* Primary type — warm near-black ink */
 --hitch-blue:     #2F80ED   /* Brand blue — authentication screen LinkedIn button ONLY */
 
 
 Derived values (do not hardcode — compute from tokens)
---text-secondary:  rgba(236, 234, 230, 0.50);   /* Secondary labels, metadata */
---text-tertiary:   rgba(236, 234, 230, 0.27);   /* Placeholder, disabled, micro-labels */
---border:          rgba(184, 168, 130, 0.13);   /* All dividers and outlines */
---border-active:   rgba(184, 168, 130, 0.40);   /* Active chip borders, focused inputs */
---chip-bg:         rgba(184, 168, 130, 0.07);   /* Resting chip backgrounds */
---chip-active:     rgba(184, 168, 130, 0.16);   /* Selected chip backgrounds */
---bar-bg:          rgba(184, 168, 130, 0.09);   /* Chart track backgrounds */
---accent-glow:     rgba(184, 168, 130, 0.05);   /* Candidate band, subtle highlights */
+--text-secondary:  rgba(31, 35, 44, 0.64);   /* Secondary labels, metadata */
+--text-tertiary:   rgba(31, 35, 44, 0.50);   /* Placeholder, disabled, micro-labels */
+--border:          rgba(60, 50, 30, 0.20);   /* All dividers and outlines */
+--border-active:   rgba(140, 109, 63, 0.55); /* Active chip borders, focused inputs */
+--chip-bg:         rgba(60, 50, 30, 0.05);   /* Resting chip backgrounds */
+--chip-active:     rgba(140, 109, 63, 0.16); /* Selected chip backgrounds */
+--bar-bg:          rgba(60, 50, 30, 0.11);   /* Chart track backgrounds */
+--accent-glow:     rgba(140, 109, 63, 0.07); /* Candidate band, subtle highlights */
 
 
 Usage rules
@@ -65,20 +65,22 @@ Used for: all UI copy, filter labels, chip text, governance sublabels, methodolo
 Import: DM Sans:wght@300;400;500
 Scale:
 --type-body-md:     font-size: 12px; font-weight: 300; line-height: 1.6;
---type-body-sm:     font-size: 10.5px; font-weight: 300; line-height: 1.5;
---type-label:       font-size: 10px;  font-weight: 400; letter-spacing: 0.10em; text-transform: uppercase;
---type-label-sm:    font-size: 9px;   font-weight: 400; letter-spacing: 0.10em; text-transform: uppercase;
---type-button:      font-size: 10px;  font-weight: 400; letter-spacing: 0.10em; text-transform: uppercase;
+--type-body-sm:     font-size: 12px; font-weight: 300; line-height: 1.5;
+--type-label:       font-size: 11px;  font-weight: 400; letter-spacing: 0.10em; text-transform: uppercase;
+--type-label-sm:    font-size: 11px;   font-weight: 400; letter-spacing: 0.10em; text-transform: uppercase;
+--type-button:      font-size: 11px;  font-weight: 400; letter-spacing: 0.10em; text-transform: uppercase;
 
 
 Data / Mono — IBM Plex Mono
 Used for: zone labels, hex values, n= counters, percentages, ranges, filter metadata, timestamps, methodology footnote labels.
 Import: IBM Plex Mono:wght@300;400
 Scale:
---type-mono-md:     font-size: 10px;  font-weight: 400; letter-spacing: 0.06em;
---type-mono-sm:     font-size: 8.5px; font-weight: 400; letter-spacing: 0.04em;
---type-mono-xs:     font-size: 8px;   font-weight: 300; letter-spacing: 0.04em;
---type-zone-label:  font-size: 8.5px; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase;
+--type-mono-md:     font-size: 11px;  font-weight: 400; letter-spacing: 0.06em;
+--type-mono-sm:     font-size: 10.5px; font-weight: 400; letter-spacing: 0.04em;
+--type-mono-xs:     font-size: 10.5px; font-weight: 300; letter-spacing: 0.04em;
+--type-zone-label:  font-size: 11px; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase;
+
+Minimum legible size: no UI text falls below 10.5px (v1.1 legibility pass). Earlier sub-9px micro-labels were the primary readability complaint and have been retired.
 
 
 IBM Plex Mono on data values signals precision. The n = 247 counter, the P50 · $525K marker label, the 47% in a donut legend — all mono. Never use a proportional face for a number that represents a data point.
@@ -212,10 +214,10 @@ border: 1px solid var(--border-active);
 /* Disabled / out of scope */
 color: var(--text-tertiary);
 background: transparent;
-border: 1px solid rgba(255,255,255,0.05);
+border: 1px solid var(--border);
 
 
-Font: DM Sans 300, 10.5px. Padding: 3px 9px. Border-radius: 2px. No transition longer than 120ms.
+Font: DM Sans 300, 12px. Padding: 3px 9px. Border-radius: 2px. No transition longer than 120ms.
 Chips never wrap beyond two rows. If a filter category would require more than two rows of chips, convert to a compact select or search input.
 7.3 Data Numbers (Comp Values)
 $525K
@@ -223,8 +225,8 @@ $525K
 
 * Dollar sign + value in Cormorant Garamond 400, 30px, --text-primary for supporting values
 * Primary total comp value uses --champagne
-* K / M suffix as <sup> in Cormorant Garamond, 14px, opacity 0.45
-* Range below in IBM Plex Mono 8.5px, --text-tertiary (accent color at 0.55 opacity for primary value range)
+* K / M suffix as <sup> in Cormorant Garamond, 16px, opacity 0.70
+* Range below in IBM Plex Mono 10.5px, --text-tertiary (accent color at 0.55 opacity for primary value range)
 Never abbreviate values differently within the same view — if base is $300K, bonus must also be $68K, not $68,000.
 7.4 Distribution Bar
 A single horizontal track showing the full comp distribution with P25 / P50 / P75 markers.
@@ -257,18 +259,18 @@ top: -6px;
 
 /* Marker label */
 font-family: 'IBM Plex Mono';
-font-size: 8px;
+font-size: 10.5px;
 color: var(--champagne);
 transform: translateX(-50%);
 white-space: nowrap;
 
 
-Floor and ceiling labels in IBM Plex Mono 8.5px --text-tertiary at track ends.
+Floor and ceiling labels in IBM Plex Mono 10.5px --text-tertiary at track ends.
 7.5 Zone Labels
 COMPENSATION
 
 
-IBM Plex Mono 400, 8.5px, letter-spacing 0.18em, all-caps, --text-tertiary. Always left-aligned, always paired with an optional right-aligned zone toggle in DM Sans 10px.
+IBM Plex Mono 400, 11px, letter-spacing 0.18em, all-caps, --text-tertiary. Always left-aligned, always paired with an optional right-aligned zone toggle in DM Sans 11px.
 Zone labels identify data categories, not sections of a page. They are never headlines.
 7.6 Governance Blocks
 Four equal-width cards inside the Governance zone. Each card:
@@ -277,57 +279,57 @@ Four equal-width cards inside the Governance zone. Each card:
 * Border-radius: 3px
 * Padding: 12px 14px
 Card layout (top to bottom):
-1. Category label — DM Sans 400, 8.5px, letter-spacing 0.10em, uppercase, --text-tertiary
-2. Primary stat — Cormorant Garamond 400, 32px, --text-primary
-3. Sublabel — DM Sans 300, 8.5px, --text-tertiary
+1. Category label — DM Sans 400, 11px, letter-spacing 0.10em, uppercase, --text-tertiary
+2. Primary stat — Cormorant Garamond 400, 32px, --text-primary (% suffix <sup> 17px, opacity 0.70)
+3. Sublabel — DM Sans 300, 10.5px, --text-tertiary
 4. Optional: mini bar stack or donut (Board Access card only)
-Board Access card uses a donut chart (48×48px SVG, stroke-width 9) with a four-segment legend. Donut colors use the champagne family: --champagne, --champagne-mid, champagne at 30%, champagne at 11%.
+Board Access card uses a donut chart (48×48px SVG, stroke-width 9) with a five-segment legend. Donut colors use the bronze family: --champagne, --champagne-mid, then rgba(140,109,63,·) at 0.55 / 0.35 / 0.18 for the dimmer segments.
 7.7 Mini Bar Stack (D&O breakdown)
 Full D&O    ████░░░░░░  16%
 Indemnified ████████░░  46%
 Neither     ███████░░░  38%
 
 
-* Label: DM Sans 8.5px, --text-tertiary, fixed 80px width
+* Label: DM Sans 10.5px, --text-tertiary, fixed 80px width
 * Track: 2.5px height, --bar-bg, border-radius 2px
 * Fill: --bar-fill (--champagne)
-* Percentage: IBM Plex Mono 8px, --text-tertiary, right-aligned, fixed 26px width
+* Percentage: IBM Plex Mono 10.5px, --text-tertiary, right-aligned, fixed 34px width
 7.8 Horizontal Function Bars
 Incident Response   ████████████████████  88%
 Security Operations ███████████████████   83%
 
 
-* Label: DM Sans 300, 10px, --text-secondary, fixed 152px width
+* Label: DM Sans 300, 12.5px, --text-secondary, fixed 170px width
 * Track: 2.5px height, --bar-bg
 * Fill: --champagne
-* Percentage: IBM Plex Mono 8.5px, --text-tertiary, 30px right-aligned
+* Percentage: IBM Plex Mono 10.5px, --text-tertiary, 34px right-aligned
 Always sorted descending by frequency. Never sorted alphabetically.
 7.9 n= Counter
 n = 1,180
 
 
-IBM Plex Mono 400, 9px, --champagne, letter-spacing 0.06em. Lives in the peer group panel header, right-aligned. Updates live as filters change.
-When n drops below the floor (20 for city-level), the counter turns --text-tertiary and a sublabel appears: "Showing [Region] — broaden filters for city view" in DM Sans 300 8.5px.
+IBM Plex Mono 400, 11px, --champagne, letter-spacing 0.06em. Lives in the peer group panel header, right-aligned. Updates live as filters change.
+When n drops below the floor (20), the counter turns --text-tertiary and a sublabel appears in the panel: "Small sample — broaden your filters." in DM Sans 300 11px. (City-level floor expansion uses the separate FloorWarning copy in §10.)
 7.10 Candidate Comparison Band
 Appears below Functional Scope when a comparison profile is active. Dismissed via an × control.
 CANDIDATE PROFILE  |  $610K Total Comp · D&O Included · Quarterly Board Access       ↑ 72nd percentile
 
 
-* Background: rgba(184, 168, 130, 0.05) — subtly warmer than the zone backgrounds
-* Top border: 1px solid rgba(184, 168, 130, 0.18) — slightly stronger than standard --border
-* "CANDIDATE PROFILE" label: IBM Plex Mono 8.5px, --champagne, letter-spacing 0.12em
+* Background: var(--accent-glow) — subtly warmer than the zone backgrounds
+* Top border: 1px solid rgba(140, 109, 63, 0.30) — slightly stronger than standard --border
+* "CANDIDATE PROFILE" label: IBM Plex Mono 10.5px, --champagne, letter-spacing 0.12em
 * Separator rule: 1px vertical, 12px tall, --border
 * Profile summary: Cormorant Garamond 400, 15px, --text-primary
-* Percentile: IBM Plex Mono 9.5px, --champagne, right-aligned
+* Percentile: IBM Plex Mono 11px, --champagne, right-aligned
 7.11 Export Button
 [ Export PDF ]
 
 
-DM Sans 400, 10px, letter-spacing 0.10em, uppercase. Color: --champagne. Border: 1px solid rgba(184,168,130,0.30). Background: --chip-bg. Border-radius: 2px. Padding: 6px 16px. Hover: background shifts to --chip-active.
+DM Sans 400, 11px, letter-spacing 0.10em, uppercase. Color: --champagne. Border: 1px solid var(--border-active). Background: --chip-bg. Border-radius: 2px. Padding: 6px 16px. Hover: background shifts to --chip-active.
 No filled buttons anywhere in the system. All buttons are outline style.
 7.12 Footer / Methodology
-Left: methodology text in DM Sans 300, 8.5px, --text-tertiary, line-height 1.7, max-width 660px.
-Right: "Hitch Partners" in Cormorant Garamond 400, 10px, --text-tertiary, letter-spacing 0.16em, uppercase.
+Left: methodology text in DM Sans 300, 10.5px, --text-tertiary, line-height 1.7, max-width 660px.
+Right: "Hitch Partners" in Cormorant Garamond 400, 12px, --text-tertiary, letter-spacing 0.16em, uppercase.
 Locked methodology copy:
 This benchmark reflects 2,000+ security leadership profiles across North America and Europe, collected across the 2025–2026 survey period. Compensation figures are reported and normalized in USD. Peer group filters dynamically adjust to available data — combinations yielding fewer than 20 matching profiles automatically broaden to the next geographic level to preserve statistical reliability. Published by Hitch Partners.
 Update year ranges on each annual data upload. The "2,000+" figure updates to reflect the actual record count rounded down to the nearest hundred.
@@ -402,7 +404,7 @@ ________________
 
 11. Authentication UI
 LinkedIn OAuth (primary path)
-Landing page before auth: minimal. Dark --ink-deep background. Centered wordmark. Single sentence of context. One button.
+Landing page before auth: minimal. --ink-deep (parchment) background. Centered wordmark. Single sentence of context. One button.
                    HITCH  ·  Intelligence
 
 
@@ -450,7 +452,7 @@ Structure:
 6. Candidate comparison (conditional): appears if a profile was active at export time.
 7. Footer: Methodology copy. "Prepared by Hitch Partners" + date.
 PDF typography: Identical to screen. Cormorant Garamond + DM Sans + IBM Plex Mono all embed correctly in PDF via html-to-pdf rendering (Puppeteer / @sparticuz/chromium).
-PDF color: The ink backgrounds render as-is. Do not invert to white for PDF. The dark-ground version is appropriate for a premium deliverable.
+PDF color: The export renders in the same light Parchment & Bronze theme as the screen (v1.1). The parchment ground prints cleanly and remains the premium deliverable. Do not introduce a separate dark variant for PDF.
 ________________
 
 

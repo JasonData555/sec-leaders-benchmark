@@ -8,7 +8,7 @@ import type { BoardMetrics, DOMetrics } from "@/lib/metrics";
 const CARD_LABEL: React.CSSProperties = {
   fontFamily: "'DM Sans', sans-serif",
   fontWeight: 400,
-  fontSize: 8.5,
+  fontSize: 11,
   letterSpacing: "0.10em",
   textTransform: "uppercase",
   color: "var(--text-tertiary)",
@@ -17,7 +17,7 @@ const CARD_LABEL: React.CSSProperties = {
 const SUBLABEL: React.CSSProperties = {
   fontFamily: "'DM Sans', sans-serif",
   fontWeight: 300,
-  fontSize: 8.5,
+  fontSize: 10.5,
   color: "var(--text-tertiary)",
 };
 
@@ -44,7 +44,7 @@ function BigStat({ value }: { value: number }) {
       }}
     >
       {Math.round(value)}
-      <sup style={{ fontSize: 15, opacity: 0.4 }}>%</sup>
+      <sup style={{ fontSize: 17, opacity: 0.7 }}>%</sup>
     </span>
   );
 }
@@ -55,9 +55,9 @@ function BoardAccessCard({ board }: { board: BoardMetrics }) {
   const segments = [
     { label: "Quarterly", pct: board.quarterly, color: "var(--champagne)" },
     { label: "Semi-Ann.", pct: board.semiAnnual, color: "var(--champagne-mid)" },
-    { label: "Annually", pct: board.annual, color: "rgba(184, 168, 130, 0.40)" },
-    { label: "Per Request", pct: board.perRequest, color: "rgba(184, 168, 130, 0.22)" },
-    { label: "None", pct: board.none, color: "rgba(184, 168, 130, 0.11)" },
+    { label: "Annually", pct: board.annual, color: "rgba(140, 109, 63, 0.55)" },
+    { label: "Per Request", pct: board.perRequest, color: "rgba(140, 109, 63, 0.35)" },
+    { label: "None", pct: board.none, color: "rgba(140, 109, 63, 0.18)" },
   ];
   let cumulative = 0;
   return (
@@ -113,7 +113,7 @@ function BoardAccessCard({ board }: { board: BoardMetrics }) {
               <span
                 style={{
                   fontFamily: "'IBM Plex Mono', monospace",
-                  fontSize: 8,
+                  fontSize: 10.5,
                   color: "var(--text-tertiary)",
                   marginLeft: "auto",
                 }}
@@ -164,9 +164,9 @@ function DandOCard({ dao }: { dao: DOMetrics }) {
             <span
               style={{
                 fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: 8,
+                fontSize: 10.5,
                 color: "var(--text-tertiary)",
-                width: 26,
+                width: 34,
                 textAlign: "right",
                 flexShrink: 0,
               }}
@@ -218,7 +218,7 @@ export default function GovernanceZone() {
       <span
         style={{
           fontFamily: "'IBM Plex Mono', monospace",
-          fontSize: 8.5,
+          fontSize: 11,
           letterSpacing: "0.18em",
           textTransform: "uppercase",
           color: "var(--text-tertiary)",

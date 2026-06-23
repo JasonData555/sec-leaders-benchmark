@@ -12,9 +12,9 @@ function FunctionBar({ label, pct }: { label: string; pct: number }) {
         style={{
           fontFamily: "'DM Sans', sans-serif",
           fontWeight: 300,
-          fontSize: 10,
+          fontSize: 12.5,
           color: "var(--text-secondary)",
-          width: 152,
+          width: 170,
           flexShrink: 0,
           whiteSpace: "nowrap",
           overflow: "hidden",
@@ -44,9 +44,9 @@ function FunctionBar({ label, pct }: { label: string; pct: number }) {
       <span
         style={{
           fontFamily: "'IBM Plex Mono', monospace",
-          fontSize: 8.5,
+          fontSize: 10.5,
           color: "var(--text-tertiary)",
-          width: 30,
+          width: 34,
           textAlign: "right",
           flexShrink: 0,
         }}
@@ -85,7 +85,7 @@ export default function FunctionalScopeZone() {
       <span
         style={{
           fontFamily: "'IBM Plex Mono', monospace",
-          fontSize: 8.5,
+          fontSize: 11,
           letterSpacing: "0.18em",
           textTransform: "uppercase",
           color: "var(--text-tertiary)",
@@ -121,7 +121,7 @@ export default function FunctionalScopeZone() {
             style={{
               fontFamily: "'DM Sans', sans-serif",
               fontWeight: 400,
-              fontSize: 8.5,
+              fontSize: 11,
               letterSpacing: "0.10em",
               textTransform: "uppercase",
               color: "var(--text-tertiary)",
@@ -137,7 +137,7 @@ export default function FunctionalScopeZone() {
               <span
                 style={{
                   fontFamily: "'IBM Plex Mono', monospace",
-                  fontSize: 8.5,
+                  fontSize: 10.5,
                   color: "var(--text-tertiary)",
                   width: 26,
                 }}

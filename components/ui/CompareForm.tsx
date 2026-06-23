@@ -18,7 +18,7 @@ const BOARD_OPTIONS: BoardAccess[] = [
 
 const groupLabel: React.CSSProperties = {
   fontFamily: "'DM Sans', sans-serif",
-  fontSize: 9,
+  fontSize: 11,
   letterSpacing: "0.10em",
   textTransform: "uppercase",
   color: "var(--text-tertiary)",
@@ -99,7 +99,7 @@ export default function CompareForm({ onClose }: { onClose: () => void }) {
           padding: "6px 10px",
           fontFamily: "'DM Sans', sans-serif",
           fontWeight: 300,
-          fontSize: 11,
+          fontSize: 12,
           color: "var(--text-primary)",
         }}
       />
@@ -141,7 +141,7 @@ export default function CompareForm({ onClose }: { onClose: () => void }) {
             flex: 1,
             fontFamily: "'DM Sans', sans-serif",
             fontWeight: 400,
-            fontSize: 10,
+            fontSize: 11,
             letterSpacing: "0.10em",
             textTransform: "uppercase",
             color: canApply ? "var(--champagne)" : "var(--text-tertiary)",
@@ -162,7 +162,7 @@ export default function CompareForm({ onClose }: { onClose: () => void }) {
           style={{
             fontFamily: "'DM Sans', sans-serif",
             fontWeight: 400,
-            fontSize: 10,
+            fontSize: 11,
             letterSpacing: "0.10em",
             textTransform: "uppercase",
             color: "var(--text-tertiary)",

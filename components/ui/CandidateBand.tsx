@@ -34,7 +34,7 @@ export default function CandidateBand() {
         gap: 16,
         padding: "10px 26px",
         background: "var(--accent-glow)",
-        borderTop: "1px solid rgba(184, 168, 130, 0.18)",
+        borderTop: "1px solid rgba(140, 109, 63, 0.30)",
       }}
     >
       {/* Left: label + summary */}
@@ -42,7 +42,7 @@ export default function CandidateBand() {
         <span
           style={{
             fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: 8.5,
+            fontSize: 10.5,
             letterSpacing: "0.12em",
             color: "var(--champagne)",
             whiteSpace: "nowrap",
@@ -75,7 +75,7 @@ export default function CandidateBand() {
         <span
           style={{
             fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: 9.5,
+            fontSize: 11,
             color: "var(--champagne)",
             whiteSpace: "nowrap",
           }}

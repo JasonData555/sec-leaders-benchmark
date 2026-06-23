@@ -11,7 +11,7 @@ export default function NCounter({ n }: { n: number }) {
       style={{
         fontFamily: "'IBM Plex Mono', monospace",
         fontWeight: 400,
-        fontSize: 9,
+        fontSize: 11,
         letterSpacing: "0.06em",
         color: below ? "var(--text-tertiary)" : "var(--champagne)",
         transition: "color 150ms ease",

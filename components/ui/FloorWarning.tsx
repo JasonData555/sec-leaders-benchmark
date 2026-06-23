@@ -8,7 +8,7 @@ export default function FloorWarning({ region }: { region: string }) {
       style={{
         fontFamily: "'DM Sans', sans-serif",
         fontWeight: 300,
-        fontSize: 8.5,
+        fontSize: 10.5,
         fontStyle: "italic",
         lineHeight: 1.5,
         color: "var(--text-tertiary)",

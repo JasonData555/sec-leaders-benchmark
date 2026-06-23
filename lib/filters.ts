@@ -85,13 +85,17 @@ export const EMPTY_FILTERS: FilterState = {
   structures: [],
 };
 
-/** Serialize filter state to URL query params (arrays comma-joined, §10). */
+/** Delimiter for multi-value params. Not a comma — several filter values
+ *  (e.g. "10,000 - 25,000 employees") contain commas. (§10) */
+const DELIM = "~";
+
+/** Serialize filter state to URL query params (arrays DELIM-joined, §10). */
 export function encodeFilters(filters: FilterState): string {
   const p = new URLSearchParams();
-  if (filters.roles.length) p.set("roles", filters.roles.join(","));
-  if (filters.sizes.length) p.set("sizes", filters.sizes.join(","));
-  if (filters.industries.length) p.set("industries", filters.industries.join(","));
-  if (filters.structures.length) p.set("structures", filters.structures.join(","));
+  if (filters.roles.length) p.set("roles", filters.roles.join(DELIM));
+  if (filters.sizes.length) p.set("sizes", filters.sizes.join(DELIM));
+  if (filters.industries.length) p.set("industries", filters.industries.join(DELIM));
+  if (filters.structures.length) p.set("structures", filters.structures.join(DELIM));
   if (filters.region) p.set("region", filters.region);
   if (filters.city) p.set("city", filters.city);
   return p.toString();
@@ -100,7 +104,7 @@ export function encodeFilters(filters: FilterState): string {
 /** Parse filter state back from URL query params. */
 export function decodeFilters(params: URLSearchParams): FilterState {
   const list = (key: string) =>
-    params.get(key)?.split(",").filter(Boolean) ?? [];
+    params.get(key)?.split(DELIM).filter(Boolean) ?? [];
   return {
     roles: list("roles"),
     sizes: list("sizes"),

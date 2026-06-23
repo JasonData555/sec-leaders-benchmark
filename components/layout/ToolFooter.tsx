@@ -16,7 +16,7 @@ export default function ToolFooter() {
         style={{
           fontFamily: "'DM Sans', sans-serif",
           fontWeight: 300,
-          fontSize: 8.5,
+          fontSize: 10.5,
           lineHeight: 1.7,
           color: "var(--text-tertiary)",
           maxWidth: 660,
@@ -34,7 +34,7 @@ export default function ToolFooter() {
         style={{
           fontFamily: "'Cormorant Garamond', serif",
           fontWeight: 400,
-          fontSize: 10,
+          fontSize: 12,
           letterSpacing: "0.16em",
           textTransform: "uppercase",
           color: "var(--text-tertiary)",

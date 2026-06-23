@@ -1,10 +1,7 @@
 import ToolHeader from "@/components/layout/ToolHeader";
 import ToolFooter from "@/components/layout/ToolFooter";
 import PeerGroupPanel from "@/components/layout/PeerGroupPanel";
-import CompensationZone from "@/components/zones/CompensationZone";
-import GovernanceZone from "@/components/zones/GovernanceZone";
-import FunctionalScopeZone from "@/components/zones/FunctionalScopeZone";
-import CandidateBand from "@/components/ui/CandidateBand";
+import ZoneStack from "@/components/layout/ZoneStack";
 import { FilterProvider } from "@/app/benchmark/FilterContext";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
@@ -59,10 +56,7 @@ export default async function BenchmarkPage() {
             minHeight: 0,
           }}
         >
-          <CompensationZone />
-          <GovernanceZone />
-          <FunctionalScopeZone />
-          <CandidateBand />
+          <ZoneStack />
         </div>
       </div>
 

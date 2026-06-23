@@ -4,9 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { allRecords } from "@/lib/data";
 import { decodeFilters, resolveLocation } from "@/lib/filters";
 import { FilterProvider } from "@/app/benchmark/FilterContext";
-import CompensationZone from "@/components/zones/CompensationZone";
-import GovernanceZone from "@/components/zones/GovernanceZone";
-import FunctionalScopeZone from "@/components/zones/FunctionalScopeZone";
+import ZoneStack from "@/components/layout/ZoneStack";
 
 type SearchParams = { [key: string]: string | string[] | undefined };
 
@@ -79,7 +77,7 @@ export default async function ExportPage({
           <span
             style={{
               fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: 9,
+              fontSize: 10.5,
               color: "var(--text-tertiary)",
               textAlign: "right",
             }}
@@ -95,7 +93,7 @@ export default async function ExportPage({
             borderBottom: "1px solid var(--border)",
             fontFamily: "'DM Sans', sans-serif",
             fontWeight: 300,
-            fontSize: 9,
+            fontSize: 10.5,
             color: "var(--text-secondary)",
           }}
         >
@@ -103,9 +101,7 @@ export default async function ExportPage({
         </div>
 
         {/* Zones */}
-        <CompensationZone />
-        <GovernanceZone />
-        <FunctionalScopeZone />
+        <ZoneStack withCandidate={false} />
 
         {/* Methodology footer */}
         <div
@@ -122,7 +118,7 @@ export default async function ExportPage({
             style={{
               fontFamily: "'DM Sans', sans-serif",
               fontWeight: 300,
-              fontSize: 8.5,
+              fontSize: 10.5,
               lineHeight: 1.7,
               color: "var(--text-tertiary)",
               maxWidth: 660,
@@ -140,7 +136,7 @@ export default async function ExportPage({
             style={{
               fontFamily: "'Cormorant Garamond', serif",
               fontWeight: 400,
-              fontSize: 10,
+              fontSize: 12,
               letterSpacing: "0.16em",
               textTransform: "uppercase",
               color: "var(--text-tertiary)",
