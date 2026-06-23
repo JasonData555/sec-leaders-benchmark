@@ -55,6 +55,8 @@ interface FilterContextValue {
   lowSample: boolean;
   /** Toggle a value for array filters; set/toggle for region & city. */
   setFilter: (key: keyof FilterState, value: string | null) => void;
+  /** Replace the roles selection with a single role, or clear it. */
+  setRole: (role: string | null) => void;
   candidate: CandidateProfile | null;
   setCandidate: (profile: CandidateProfile | null) => void;
 }
@@ -111,6 +113,10 @@ export function FilterProvider({
     [filteredRecords]
   );
 
+  const setRole = (role: string | null) => {
+    setFilterState((prev) => ({ ...prev, roles: role ? [role] : [] }));
+  };
+
   const nCount = filteredRecords.length;
   const value: FilterContextValue = {
     filterState,
@@ -121,6 +127,7 @@ export function FilterProvider({
     noResults: nCount === 0,
     lowSample: nCount > 0 && nCount < FLOOR,
     setFilter,
+    setRole,
     candidate,
     setCandidate,
   };

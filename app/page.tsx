@@ -73,7 +73,7 @@ export default function Page() {
             color: "var(--text-secondary)",
           }}
         >
-          Compensation and governance data for 2,000+ security leadership
+          Compensation and governance data for 1,640 security leadership
           profiles. Access provided by Hitch Partners.
         </p>
 
@@ -190,7 +190,7 @@ export default function Page() {
             color: "var(--text-tertiary)",
           }}
         >
-          This benchmark reflects 2,000+ security leadership profiles across
+          This benchmark reflects 1,640 security leadership profiles across
           North America and Europe, collected across the 2025–2026 survey
           period. Compensation figures are reported and normalized in USD.
           Published by Hitch Partners.

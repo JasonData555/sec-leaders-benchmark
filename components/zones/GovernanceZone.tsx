@@ -208,7 +208,7 @@ export default function GovernanceZone() {
         minHeight: 0,
         overflow: "hidden",
         padding: "20px 26px",
-        borderTop: "1px solid var(--border)",
+        borderTop: "1px solid var(--focus-cobalt-border)",
         display: "flex",
         flexDirection: "column",
         gap: 12,

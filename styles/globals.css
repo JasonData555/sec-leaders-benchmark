@@ -9,12 +9,15 @@
   --champagne-mid: #B39A6A; /* Secondary data — donut segments, chart fills, muted accents */
   --text-primary:  #1F232C; /* Primary type — warm near-black ink */
   --hitch-blue:    #2F80ED; /* Brand blue — authentication screen LinkedIn button ONLY */
+  --focus-cobalt:        #1A3A5C; /* Structural chrome — zone dividers, n= counter */
+  --focus-cobalt-border: rgba(26, 58, 92, 0.30); /* Zone separator lines */
+  --focus-cobalt-active: rgba(26, 58, 92, 0.55); /* Active chip borders */
 
   /* Derived tokens — computed from the named tokens, never hardcoded elsewhere */
   --text-secondary: rgba(31, 35, 44, 0.64); /* Secondary labels, metadata */
   --text-tertiary:  rgba(31, 35, 44, 0.50); /* Placeholder, disabled, micro-labels */
   --border:         rgba(60, 50, 30, 0.20); /* All dividers and outlines */
-  --border-active:  rgba(140, 109, 63, 0.55); /* Active chip borders, focused inputs */
+  --border-active:  rgba(26, 58, 92, 0.55); /* Active chip borders — cobalt separates filter state from data emphasis */
   --chip-bg:        rgba(60, 50, 30, 0.05); /* Resting chip backgrounds */
   --chip-active:    rgba(140, 109, 63, 0.16); /* Selected chip backgrounds */
   --bar-bg:         rgba(60, 50, 30, 0.11); /* Chart track backgrounds */

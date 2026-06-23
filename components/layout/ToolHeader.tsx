@@ -44,7 +44,7 @@ export default function ToolHeader() {
             color: "var(--text-tertiary)",
           }}
         >
-          2,000 profiles · 2025–2026
+          1,640 profiles · 2025–2026
         </span>
         <ExportButton />
       </div>

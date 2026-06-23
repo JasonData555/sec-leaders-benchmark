@@ -8,22 +8,13 @@ import NCounter from "@/components/ui/NCounter";
 import CompareForm from "@/components/ui/CompareForm";
 import IndustryFilter from "@/components/filters/IndustryFilter";
 import LocationFilter from "@/components/filters/LocationFilter";
+import RoleFilter from "@/components/filters/RoleFilter";
 
 interface Option {
   label: string;
   value: string;
 }
 
-const ROLE_OPTIONS: Option[] = [
-  { label: "CISO", value: "CISO" },
-  { label: "Deputy CISO", value: "Deputy CISO" },
-  { label: "CIO", value: "CIO" },
-  { label: "VP Security", value: "VP Security" },
-  { label: "Dir. Product Security", value: "Director Product Security" },
-  { label: "Dir. Security Eng.", value: "Director Security Engineering" },
-  { label: "Dir. GRC", value: "Director GRC" },
-  { label: "VP Business Tech", value: "VP Business Technology" },
-];
 
 const SIZE_LABELS: Record<string, string> = {
   "< 250 employees": "< 250",
@@ -133,12 +124,7 @@ export default function PeerGroupPanel() {
         </span>
       )}
 
-      <ChipGroup
-        label="Role"
-        options={ROLE_OPTIONS}
-        selected={filterState.roles}
-        filterKey="roles"
-      />
+      <RoleFilter />
       <ChipGroup
         label="Company Size"
         options={SIZE_OPTIONS}
