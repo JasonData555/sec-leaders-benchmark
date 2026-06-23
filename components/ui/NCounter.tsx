@@ -13,7 +13,7 @@ export default function NCounter({ n }: { n: number }) {
         fontWeight: 400,
         fontSize: 11,
         letterSpacing: "0.06em",
-        color: below ? "var(--text-tertiary)" : "var(--focus-cobalt)",
+        color: below ? "var(--text-tertiary)" : "var(--data-cobalt)",
         transition: "color 150ms ease",
       }}
     >

@@ -13,13 +13,18 @@
   --focus-cobalt-border: rgba(26, 58, 92, 0.30); /* Zone separator lines */
   --focus-cobalt-active: rgba(26, 58, 92, 0.55); /* Active chip borders */
 
+  /* Data accent — cobalt for signal moments: key numbers, active filter states, n= counter */
+  --data-cobalt:        #1D6FE8;
+  --data-cobalt-mid:    rgba(29, 111, 232, 0.10); /* Active chip background */
+  --data-cobalt-border: rgba(29, 111, 232, 0.40); /* Active chip border */
+
   /* Derived tokens — computed from the named tokens, never hardcoded elsewhere */
   --text-secondary: rgba(31, 35, 44, 0.64); /* Secondary labels, metadata */
-  --text-tertiary:  rgba(31, 35, 44, 0.50); /* Placeholder, disabled, micro-labels */
+  --text-tertiary:  rgba(31, 35, 44, 0.65); /* Zone labels, micro-labels */
   --border:         rgba(60, 50, 30, 0.20); /* All dividers and outlines */
-  --border-active:  rgba(26, 58, 92, 0.55); /* Active chip borders — cobalt separates filter state from data emphasis */
+  --border-active:  rgba(29, 111, 232, 0.40); /* Active chip borders — cobalt */
   --chip-bg:        rgba(60, 50, 30, 0.05); /* Resting chip backgrounds */
-  --chip-active:    rgba(140, 109, 63, 0.16); /* Selected chip backgrounds */
+  --chip-active:    rgba(29, 111, 232, 0.10); /* Selected chip backgrounds — cobalt tint */
   --bar-bg:         rgba(60, 50, 30, 0.11); /* Chart track backgrounds */
   --accent-glow:    rgba(140, 109, 63, 0.07); /* Candidate band, subtle highlights */
 }

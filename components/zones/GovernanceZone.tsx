@@ -55,9 +55,9 @@ function BoardAccessCard({ board }: { board: BoardMetrics }) {
   const segments = [
     { label: "Quarterly", pct: board.quarterly, color: "var(--champagne)" },
     { label: "Semi-Ann.", pct: board.semiAnnual, color: "var(--champagne-mid)" },
-    { label: "Annually", pct: board.annual, color: "rgba(140, 109, 63, 0.55)" },
-    { label: "Per Request", pct: board.perRequest, color: "rgba(140, 109, 63, 0.35)" },
-    { label: "None", pct: board.none, color: "rgba(140, 109, 63, 0.18)" },
+    { label: "Annually", pct: board.annual, color: "#7A6548" },
+    { label: "Per Request", pct: board.perRequest, color: "#5C4E38" },
+    { label: "None", pct: board.none, color: "rgba(140, 109, 63, 0.30)" },
   ];
   let cumulative = 0;
   return (

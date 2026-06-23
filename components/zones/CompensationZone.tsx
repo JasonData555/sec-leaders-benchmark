@@ -55,7 +55,7 @@ function StatBlock({
           fontWeight: 400,
           fontSize: 30,
           lineHeight: 1,
-          color: accent ? "var(--champagne)" : "var(--text-primary)",
+          color: accent ? "var(--data-cobalt)" : "var(--text-primary)",
         }}
       >
         ${k(value)}
@@ -96,15 +96,15 @@ export default function CompensationZone() {
     {
       label: "Total Comp",
       value: c.tcP50,
-      sublabel: `${formatDollars(c.tcP25)} – ${formatDollars(c.tcP75)}`,
+      sublabel: "median · mean is higher",
       accent: true,
     },
   ];
 
   const markers = [
-    { label: `P25 · ${formatDollars(c.tcP25)}`, left: pos(c.tcP25) },
-    { label: `P50 · ${formatDollars(c.tcP50)}`, left: pos(c.tcP50) },
-    { label: `P75 · ${formatDollars(c.tcP75)}`, left: pos(c.tcP75) },
+    { label: `P25 · ${formatDollars(c.tcP25)}`, left: pos(c.tcP25), highlight: false },
+    { label: `P50 · ${formatDollars(c.tcP50)}`, left: pos(c.tcP50), highlight: true },
+    { label: `P75 · ${formatDollars(c.tcP75)}`, left: pos(c.tcP75), highlight: false },
   ];
 
   return (
@@ -146,7 +146,7 @@ export default function CompensationZone() {
             color: "var(--text-tertiary)",
           }}
         >
-          <span style={{ color: "var(--champagne)" }}>Total Comp</span> | Base |
+          <span style={{ color: "var(--data-cobalt)" }}>Total Comp</span> | Base |
           Equity
         </span>
       </div>
@@ -173,7 +173,8 @@ export default function CompensationZone() {
                 whiteSpace: "nowrap",
                 fontFamily: "'IBM Plex Mono', monospace",
                 fontSize: 10.5,
-                color: "var(--champagne)",
+                fontWeight: m.highlight ? 400 : 300,
+                color: m.highlight ? "var(--data-cobalt)" : "var(--champagne)",
               }}
             >
               {m.label}
@@ -182,9 +183,9 @@ export default function CompensationZone() {
               style={{
                 position: "absolute",
                 top: 12,
-                width: 1.5,
+                width: m.highlight ? 2 : 1.5,
                 height: 17,
-                background: "var(--champagne)",
+                background: m.highlight ? "var(--data-cobalt)" : "var(--champagne)",
               }}
             />
           </div>

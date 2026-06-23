@@ -11,9 +11,9 @@ const stateStyles: Record<ChipState, CSSProperties> = {
     border: "1px solid var(--border)",
   },
   active: {
-    color: "var(--champagne)",
-    background: "var(--chip-active)",
-    border: "1px solid var(--border-active)",
+    color: "var(--data-cobalt)",
+    background: "var(--data-cobalt-mid)",
+    border: "1px solid var(--data-cobalt-border)",
   },
   disabled: {
     color: "var(--text-tertiary)",
