@@ -111,13 +111,16 @@ function main() {
     if (idx === -1) throw new Error(`KEEP column not found in CSV: ${src}`);
     return { dest, idx };
   });
-  const records = dataRows.map((cells) => {
-    const obj: Record<string, string> = {};
-    for (const { dest, idx } of keepIdx) {
-      obj[dest] = cells[idx] ?? "";
-    }
-    return obj;
-  });
+  const records = dataRows
+    .map((cells) => {
+      const obj: Record<string, string> = {};
+      for (const { dest, idx } of keepIdx) {
+        obj[dest] = cells[idx] ?? "";
+      }
+      return obj;
+    })
+    // CISO-only tool — keep only CISO records (§ confirmed scope).
+    .filter((r) => r["Role_Bucket"] === "CISO");
 
   writeFileSync(OUTPUT, JSON.stringify(records));
   console.log(

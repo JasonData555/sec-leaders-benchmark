@@ -55,7 +55,7 @@ function StatBlock({
           fontWeight: 400,
           fontSize: 30,
           lineHeight: 1,
-          color: accent ? "var(--data-cobalt)" : "var(--text-primary)",
+          color: "var(--text-primary)",
         }}
       >
         ${k(value)}
@@ -95,7 +95,7 @@ export default function CompensationZone() {
     },
     {
       label: "Total Comp",
-      value: c.tcMean,
+      value: c.totalCompAvg,
       sublabel: "average",
       accent: true,
     },
@@ -146,7 +146,7 @@ export default function CompensationZone() {
             color: "var(--text-tertiary)",
           }}
         >
-          <span style={{ color: "var(--data-cobalt)" }}>Total Comp</span> | Base |
+          <span style={{ color: "var(--text-secondary)" }}>Total Comp</span> | Base |
           Equity
         </span>
       </div>
@@ -174,7 +174,7 @@ export default function CompensationZone() {
                 fontFamily: "'IBM Plex Mono', monospace",
                 fontSize: 10.5,
                 fontWeight: m.highlight ? 400 : 300,
-                color: m.highlight ? "var(--data-cobalt)" : "var(--champagne)",
+                color: "var(--text-primary)",
               }}
             >
               {m.label}

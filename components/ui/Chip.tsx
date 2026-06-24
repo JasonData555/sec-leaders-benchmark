@@ -27,13 +27,16 @@ export default function Chip({
   state = "resting",
   onClick,
   title,
+  size = "md",
 }: {
   label: string;
   state?: ChipState;
   onClick?: () => void;
   title?: string;
+  size?: "md" | "lg";
 }) {
   const disabled = state === "disabled";
+  const lg = size === "lg";
   return (
     <button
       type="button"
@@ -43,9 +46,9 @@ export default function Chip({
       style={{
         fontFamily: "'DM Sans', sans-serif",
         fontWeight: 300,
-        fontSize: 12,
+        fontSize: lg ? 15 : 12,
         lineHeight: 1.3,
-        padding: "3px 9px",
+        padding: lg ? "7px 14px" : "3px 9px",
         borderRadius: 2,
         whiteSpace: "nowrap",
         cursor: disabled ? "default" : "pointer",

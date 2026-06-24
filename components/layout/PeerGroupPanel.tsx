@@ -4,8 +4,6 @@ import { useFilters } from "@/app/benchmark/FilterContext";
 import { SIZE_ORDER, type FilterState } from "@/lib/filters";
 import Chip from "@/components/ui/Chip";
 import NCounter from "@/components/ui/NCounter";
-import LocationFilter from "@/components/filters/LocationFilter";
-import RoleFilter from "@/components/filters/RoleFilter";
 
 interface Option {
   label: string;
@@ -44,11 +42,13 @@ function ChipGroup({
   options,
   selected,
   filterKey,
+  size = "md",
 }: {
   label: string;
   options: Option[];
   selected: string[];
   filterKey: keyof FilterState;
+  size?: "md" | "lg";
 }) {
   const { setFilter } = useFilters();
   return (
@@ -61,6 +61,7 @@ function ChipGroup({
             label={opt.label}
             state={selected.includes(opt.value) ? "active" : "resting"}
             onClick={() => setFilter(filterKey, opt.value)}
+            size={size}
           />
         ))}
       </div>
@@ -117,20 +118,19 @@ export default function PeerGroupPanel() {
         </span>
       )}
 
-      <RoleFilter />
+      <ChipGroup
+        label="Industry Tier"
+        options={TIER_OPTIONS}
+        selected={filterState.industryTier}
+        filterKey="industryTier"
+        size="lg"
+      />
       <ChipGroup
         label="Company Size"
         options={SIZE_OPTIONS}
         selected={filterState.sizes}
         filterKey="sizes"
       />
-      <ChipGroup
-        label="Industry Tier"
-        options={TIER_OPTIONS}
-        selected={filterState.industryTier}
-        filterKey="industryTier"
-      />
-      <LocationFilter />
     </div>
   );
 }

@@ -150,7 +150,7 @@ export default function FunctionalScopeZone() {
                   fontWeight: 400,
                   fontSize: 22,
                   lineHeight: 1,
-                  color: row.accent ? "var(--champagne)" : "var(--text-primary)",
+                  color: "var(--text-primary)",
                 }}
               >
                 {Math.round(row.value)}

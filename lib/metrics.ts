@@ -105,6 +105,7 @@ export interface CompMetrics {
   bonusMean: number;
   equityMean: number;
   tcMean: number;
+  totalCompAvg: number;
 }
 
 export function calcCompMetrics(records: BenchmarkRecord[]): CompMetrics {
@@ -112,6 +113,9 @@ export function calcCompMetrics(records: BenchmarkRecord[]): CompMetrics {
   const bonus = compColumn(records, "Bonus-Converted");
   const equity = compColumn(records, "Equity-Converted");
   const tc = compColumn(records, "Total Comp-Converted");
+  const baseMean = mean(base.values);
+  const bonusMean = mean(bonus.values);
+  const equityMean = mean(equity.values);
   return {
     baseP50: median(base.values),
     bonusP50: median(bonus.values),
@@ -121,10 +125,12 @@ export function calcCompMetrics(records: BenchmarkRecord[]): CompMetrics {
     tcP75: tc.values.length ? percentile(tc.values, 75) : 0,
     bonusNullRate: bonus.nullRate,
     equityNullRate: equity.nullRate,
-    baseMean: mean(base.values),
-    bonusMean: mean(bonus.values),
-    equityMean: mean(equity.values),
+    baseMean,
+    bonusMean,
+    equityMean,
     tcMean: mean(tc.values),
+    // Headline total = sum of the component averages (not the column mean).
+    totalCompAvg: baseMean + bonusMean + equityMean,
   };
 }
 
