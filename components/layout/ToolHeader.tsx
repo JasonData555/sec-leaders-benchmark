@@ -1,5 +1,3 @@
-import ExportButton from "@/components/layout/ExportButton";
-
 export default function ToolHeader() {
   return (
     <header
@@ -35,19 +33,16 @@ export default function ToolHeader() {
         </span>
       </div>
 
-      {/* Metadata + export */}
-      <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-        <span
-          style={{
-            fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: 11,
-            color: "var(--text-tertiary)",
-          }}
-        >
-          1,640 profiles · 2025–2026
-        </span>
-        <ExportButton />
-      </div>
+      {/* Metadata */}
+      <span
+        style={{
+          fontFamily: "'IBM Plex Mono', monospace",
+          fontSize: 11,
+          color: "var(--text-tertiary)",
+        }}
+      >
+        1,464 profiles · 2025–2026
+      </span>
     </header>
   );
 }

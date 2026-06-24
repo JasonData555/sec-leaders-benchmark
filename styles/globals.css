@@ -1,32 +1,32 @@
-/* Hitch Intelligence — design tokens (DESIGN.md §2: Color Palette — Ink & Champagne) */
+/* Hitch Intelligence — design tokens (DESIGN.md §2: Color Palette — Navy & Gold) */
 
 :root {
-  /* Named tokens — Parchment & Bronze (light theme) */
-  --ink-deep:      #F2EFE7; /* Framing surface — header, footer, left panel */
-  --ink:           #E9E6DC; /* Primary page background */
-  --ink-surface:   #F8F6F0; /* Card and block surfaces — sits above --ink */
-  --champagne:     #8C6D3F; /* Primary accent — data highlights, active states, CTAs */
-  --champagne-mid: #B39A6A; /* Secondary data — donut segments, chart fills, muted accents */
-  --text-primary:  #1F232C; /* Primary type — warm near-black ink */
+  /* Named tokens — Dark enterprise theme (Hitch brand colors) */
+  --ink-deep:      #0B1F3A; /* Framing surface — header, footer, left panel (Hitch navy) */
+  --ink:           #0D1B2E; /* Primary page background */
+  --ink-surface:   #122338; /* Card and block surfaces — sits above --ink */
+  --champagne:     #C9A44C; /* Primary accent — data highlights, active states (Hitch gold) */
+  --champagne-mid: #A8873A; /* Secondary data — donut segments, chart fills */
+  --text-primary:  #F7F9FC; /* Primary type — crisp near-white */
   --hitch-blue:    #2F80ED; /* Brand blue — authentication screen LinkedIn button ONLY */
-  --focus-cobalt:        #1A3A5C; /* Structural chrome — zone dividers, n= counter */
-  --focus-cobalt-border: rgba(26, 58, 92, 0.30); /* Zone separator lines */
-  --focus-cobalt-active: rgba(26, 58, 92, 0.55); /* Active chip borders */
+  --focus-cobalt:        #0B1F3A; /* Structural chrome — zone dividers */
+  --focus-cobalt-border: rgba(247, 249, 252, 0.08); /* Zone separator lines */
+  --focus-cobalt-active: rgba(47, 128, 237, 0.50); /* Active chip borders */
 
   /* Data accent — cobalt for signal moments: key numbers, active filter states, n= counter */
-  --data-cobalt:        #1D6FE8;
-  --data-cobalt-mid:    rgba(29, 111, 232, 0.10); /* Active chip background */
-  --data-cobalt-border: rgba(29, 111, 232, 0.40); /* Active chip border */
+  --data-cobalt:        #2F80ED; /* Hitch brand blue */
+  --data-cobalt-mid:    rgba(47, 128, 237, 0.12); /* Active chip background */
+  --data-cobalt-border: rgba(47, 128, 237, 0.45); /* Active chip border */
 
   /* Derived tokens — computed from the named tokens, never hardcoded elsewhere */
-  --text-secondary: rgba(31, 35, 44, 0.64); /* Secondary labels, metadata */
-  --text-tertiary:  rgba(31, 35, 44, 0.65); /* Zone labels, micro-labels */
-  --border:         rgba(60, 50, 30, 0.20); /* All dividers and outlines */
-  --border-active:  rgba(29, 111, 232, 0.40); /* Active chip borders — cobalt */
-  --chip-bg:        rgba(60, 50, 30, 0.05); /* Resting chip backgrounds */
-  --chip-active:    rgba(29, 111, 232, 0.10); /* Selected chip backgrounds — cobalt tint */
-  --bar-bg:         rgba(60, 50, 30, 0.11); /* Chart track backgrounds */
-  --accent-glow:    rgba(140, 109, 63, 0.07); /* Candidate band, subtle highlights */
+  --text-secondary: rgba(247, 249, 252, 0.65); /* Secondary labels, metadata */
+  --text-tertiary:  rgba(247, 249, 252, 0.38); /* Zone labels, micro-labels */
+  --border:         rgba(247, 249, 252, 0.10); /* All dividers and outlines */
+  --border-active:  rgba(47, 128, 237, 0.50);  /* Active chip borders — cobalt */
+  --chip-bg:        rgba(247, 249, 252, 0.05); /* Resting chip backgrounds */
+  --chip-active:    rgba(47, 128, 237, 0.18);  /* Selected chip backgrounds — cobalt tint */
+  --bar-bg:         rgba(47, 128, 237, 0.12);  /* Chart track backgrounds */
+  --accent-glow:    rgba(47, 128, 237, 0.06);  /* Subtle highlights */
 }
 
 /* Base reset */

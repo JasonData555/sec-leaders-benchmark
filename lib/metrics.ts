@@ -68,6 +68,11 @@ function median(values: number[]): number {
   return values.length ? percentile(values, 50) : 0;
 }
 
+/** Arithmetic mean over a numeric array, 0 if empty. */
+function mean(values: number[]): number {
+  return values.length ? values.reduce((s, v) => s + v, 0) / values.length : 0;
+}
+
 /** % of `count` over `denom`, 0 if denom is 0. */
 function rate(count: number, denom: number): number {
   return denom ? (count / denom) * 100 : 0;
@@ -96,6 +101,10 @@ export interface CompMetrics {
   tcP75: number;
   bonusNullRate: number;
   equityNullRate: number;
+  baseMean: number;
+  bonusMean: number;
+  equityMean: number;
+  tcMean: number;
 }
 
 export function calcCompMetrics(records: BenchmarkRecord[]): CompMetrics {
@@ -112,6 +121,10 @@ export function calcCompMetrics(records: BenchmarkRecord[]): CompMetrics {
     tcP75: tc.values.length ? percentile(tc.values, 75) : 0,
     bonusNullRate: bonus.nullRate,
     equityNullRate: equity.nullRate,
+    baseMean: mean(base.values),
+    bonusMean: mean(bonus.values),
+    equityMean: mean(equity.values),
+    tcMean: mean(tc.values),
   };
 }
 

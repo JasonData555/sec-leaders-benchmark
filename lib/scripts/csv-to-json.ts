@@ -12,17 +12,17 @@ import { readFileSync, writeFileSync } from "fs";
 import { join } from "path";
 
 const ROOT = join(__dirname, "..", "..");
-const INPUT = join(ROOT, "AllSecBenchmark-CISO-NextGen.csv");
+const INPUT = join(ROOT, "AllSecBenchmark-highcon - CISO.csv");
 const OUTPUT = join(ROOT, "data", "allsec-benchmark.json");
 
 /** src = column name in the CSV; dest = field name written to JSON. */
 const KEEP: { src: string; dest: string }[] = [
   { src: "Role_Bucket",            dest: "Role_Bucket" },
   { src: "Current Company Size",   dest: "Current Company Size" },
-  { src: "Industry",               dest: "Industry" },
-  { src: "Company Structure",      dest: "Company Structure" },
+  { src: "Industry Tier",          dest: "Industry Tier" },
   { src: "City",                   dest: "City" },
-  // Compensation — new CSV uses raw field names; app expects -Converted names
+  { src: "Global Region",          dest: "Global Region" },
+  // Compensation — CSV uses raw field names; app expects -Converted names
   { src: "Annual Base",            dest: "Base-Converted" },
   { src: "Annual Bonus",           dest: "Bonus-Converted" },
   { src: "Est Annual Equity",      dest: "Equity-Converted" },

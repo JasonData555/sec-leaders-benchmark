@@ -4,10 +4,9 @@ import type { BenchmarkRecord } from "@/lib/data";
 export interface FilterState {
   roles: string[];
   sizes: string[];
-  industries: string[];
+  industryTier: string[];
   region: string | null; // §6 region group key (e.g. "West Coast") or null
   city: string | null; // specific city, or null (falls back to region)
-  structures: string[];
 }
 
 /** Region → member cities. The region tier filters by City membership
@@ -79,10 +78,9 @@ export const FLOOR = 20;
 export const EMPTY_FILTERS: FilterState = {
   roles: [],
   sizes: [],
-  industries: [],
+  industryTier: [],
   region: null,
   city: null,
-  structures: [],
 };
 
 /** Delimiter for multi-value params. Not a comma — several filter values
@@ -94,8 +92,7 @@ export function encodeFilters(filters: FilterState): string {
   const p = new URLSearchParams();
   if (filters.roles.length) p.set("roles", filters.roles.join(DELIM));
   if (filters.sizes.length) p.set("sizes", filters.sizes.join(DELIM));
-  if (filters.industries.length) p.set("industries", filters.industries.join(DELIM));
-  if (filters.structures.length) p.set("structures", filters.structures.join(DELIM));
+  if (filters.industryTier.length) p.set("industryTier", filters.industryTier.join(DELIM));
   if (filters.region) p.set("region", filters.region);
   if (filters.city) p.set("city", filters.city);
   return p.toString();
@@ -108,8 +105,7 @@ export function decodeFilters(params: URLSearchParams): FilterState {
   return {
     roles: list("roles"),
     sizes: list("sizes"),
-    industries: list("industries"),
-    structures: list("structures"),
+    industryTier: list("industryTier"),
     region: params.get("region") || null,
     city: params.get("city") || null,
   };
@@ -132,9 +128,7 @@ export function applyFilters(
     if (filters.roles.length && !filters.roles.includes(r["Role_Bucket"])) return false;
     if (filters.sizes.length && !filters.sizes.includes(r["Current Company Size"]))
       return false;
-    if (filters.industries.length && !filters.industries.includes(r["Industry"]))
-      return false;
-    if (filters.structures.length && !filters.structures.includes(r["Company Structure"]))
+    if (filters.industryTier.length && !filters.industryTier.includes(r["Industry Tier"]))
       return false;
     // Location — city takes precedence over region (§6).
     if (filters.city) {

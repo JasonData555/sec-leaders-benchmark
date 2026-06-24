@@ -40,7 +40,7 @@ export interface CandidateProfile {
   board: "Quarterly" | "Semi-Annual" | "Per Request" | "Annual" | "None";
 }
 
-const ARRAY_KEYS = ["roles", "sizes", "industries", "structures"] as const;
+const ARRAY_KEYS = ["roles", "sizes", "industryTier"] as const;
 type ArrayKey = (typeof ARRAY_KEYS)[number];
 
 interface FilterContextValue {

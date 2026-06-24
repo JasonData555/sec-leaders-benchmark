@@ -1,12 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { useFilters } from "@/app/benchmark/FilterContext";
 import { SIZE_ORDER, type FilterState } from "@/lib/filters";
 import Chip from "@/components/ui/Chip";
 import NCounter from "@/components/ui/NCounter";
-import CompareForm from "@/components/ui/CompareForm";
-import IndustryFilter from "@/components/filters/IndustryFilter";
 import LocationFilter from "@/components/filters/LocationFilter";
 import RoleFilter from "@/components/filters/RoleFilter";
 
@@ -14,7 +11,6 @@ interface Option {
   label: string;
   value: string;
 }
-
 
 const SIZE_LABELS: Record<string, string> = {
   "< 250 employees": "< 250",
@@ -30,11 +26,9 @@ const SIZE_OPTIONS: Option[] = SIZE_ORDER.map((value) => ({
   value,
 }));
 
-const STRUCTURE_OPTIONS: Option[] = [
-  { label: "Public", value: "Publicly Traded Company" },
-  { label: "Private", value: "Privately Held Company" },
-  { label: "Non-Profit", value: "Non-Profit" },
-  { label: "Government", value: "Government / Municipality" },
+const TIER_OPTIONS: Option[] = [
+  { label: "Baseline Risk",    value: "Baseline" },
+  { label: "High Consequence", value: "High Consequence" },
 ];
 
 const groupLabel: React.CSSProperties = {
@@ -76,7 +70,6 @@ function ChipGroup({
 
 export default function PeerGroupPanel() {
   const { filterState, nCount, lowSample } = useFilters();
-  const [compareOpen, setCompareOpen] = useState(false);
 
   return (
     <div
@@ -131,39 +124,13 @@ export default function PeerGroupPanel() {
         selected={filterState.sizes}
         filterKey="sizes"
       />
-      <IndustryFilter />
-      <LocationFilter />
       <ChipGroup
-        label="Structure"
-        options={STRUCTURE_OPTIONS}
-        selected={filterState.structures}
-        filterKey="structures"
+        label="Industry Tier"
+        options={TIER_OPTIONS}
+        selected={filterState.industryTier}
+        filterKey="industryTier"
       />
-
-      {compareOpen ? (
-        <CompareForm onClose={() => setCompareOpen(false)} />
-      ) : (
-        <button
-          type="button"
-          onClick={() => setCompareOpen(true)}
-          style={{
-            width: "100%",
-            fontFamily: "'DM Sans', sans-serif",
-            fontWeight: 400,
-            fontSize: 11,
-            letterSpacing: "0.10em",
-            textTransform: "uppercase",
-            color: "var(--champagne)",
-            border: "1px solid var(--border-active)",
-            background: "var(--chip-bg)",
-            padding: "6px 14px",
-            borderRadius: 2,
-            cursor: "pointer",
-          }}
-        >
-          Compare a profile
-        </button>
-      )}
+      <LocationFilter />
     </div>
   );
 }

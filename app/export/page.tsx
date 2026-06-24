@@ -28,12 +28,10 @@ export default async function ExportPage({
   const summaryParts: string[] = [];
   if (filters.roles.length) summaryParts.push(`Role: ${filters.roles.join(", ")}`);
   if (filters.sizes.length) summaryParts.push(`Size: ${filters.sizes.join(", ")}`);
-  if (filters.industries.length)
-    summaryParts.push(`Industry: ${filters.industries.join(", ")}`);
+  if (filters.industryTier.length)
+    summaryParts.push(`Tier: ${filters.industryTier.join(", ")}`);
   if (filters.city) summaryParts.push(`City: ${filters.city}`);
   else if (filters.region) summaryParts.push(`Region: ${filters.region}`);
-  if (filters.structures.length)
-    summaryParts.push(`Structure: ${filters.structures.join(", ")}`);
   if (summaryParts.length === 0) summaryParts.push("All security leadership profiles");
 
   const date = new Date().toLocaleDateString("en-US", {
@@ -124,7 +122,7 @@ export default async function ExportPage({
               maxWidth: 660,
             }}
           >
-            This benchmark reflects 1,640 security leadership profiles across
+            This benchmark reflects 1,464 security leadership profiles across
             North America and Europe, collected across the 2025–2026 survey
             period. Compensation figures are reported and normalized in USD. Peer
             group filters dynamically adjust to available data — combinations

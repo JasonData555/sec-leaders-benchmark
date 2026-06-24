@@ -80,23 +80,23 @@ export default function CompensationZone() {
   const c = metrics.comp;
 
   const stats = [
-    { label: "Base", value: c.baseP50, sublabel: "median", accent: false },
+    { label: "Base", value: c.baseMean, sublabel: "average", accent: false },
     {
       label: "Bonus",
-      value: c.bonusP50,
+      value: c.bonusMean,
       sublabel: `${formatPercent(c.bonusNullRate)} report none`,
       accent: false,
     },
     {
       label: "Equity",
-      value: c.equityP50,
+      value: c.equityMean,
       sublabel: `${formatPercent(c.equityNullRate)} report none`,
       accent: false,
     },
     {
       label: "Total Comp",
-      value: c.tcP50,
-      sublabel: "median · mean is higher",
+      value: c.tcMean,
+      sublabel: "average",
       accent: true,
     },
   ];
