@@ -1,19 +1,7 @@
 "use client";
 
 import { useFilters } from "@/app/benchmark/FilterContext";
-import { type FilterState } from "@/lib/filters";
-import Chip from "@/components/ui/Chip";
 import NCounter from "@/components/ui/NCounter";
-
-interface Option {
-  label: string;
-  value: string;
-}
-
-const TIER_OPTIONS: Option[] = [
-  { label: "Baseline Risk",    value: "Baseline" },
-  { label: "High Consequence", value: "High Consequence" },
-];
 
 const groupLabel: React.CSSProperties = {
   fontFamily: "'DM Sans', sans-serif",
@@ -23,40 +11,66 @@ const groupLabel: React.CSSProperties = {
   color: "var(--text-tertiary)",
 };
 
-function ChipGroup({
-  label,
-  options,
-  selected,
-  filterKey,
-  size = "md",
-}: {
-  label: string;
-  options: Option[];
-  selected: string[];
-  filterKey: keyof FilterState;
-  size?: "md" | "lg";
-}) {
-  const { setFilter } = useFilters();
+/** Single-select segments for the Industry Tier toggle. `null` = all tiers. */
+const TIER_SEGMENTS: { label: string; value: string | null }[] = [
+  { label: "All Tiers", value: null },
+  { label: "Baseline Risk", value: "Baseline" },
+  { label: "High Consequence", value: "High Consequence" },
+];
+
+function TierToggle() {
+  const { filterState, setTier } = useFilters();
+  const selected = filterState.industryTier;
+
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-      <span style={groupLabel}>{label}</span>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-        {options.map((opt) => (
-          <Chip
-            key={opt.value}
-            label={opt.label}
-            state={selected.includes(opt.value) ? "active" : "resting"}
-            onClick={() => setFilter(filterKey, opt.value)}
-            size={size}
-          />
-        ))}
+      <span style={groupLabel}>Industry Tier</span>
+      <div
+        style={{
+          display: "inline-flex",
+          alignSelf: "flex-start",
+          background: "var(--chip-bg)",
+          border: "1px solid var(--border)",
+          borderRadius: 2,
+          overflow: "hidden",
+        }}
+      >
+        {TIER_SEGMENTS.map((seg, i) => {
+          const active =
+            seg.value === null
+              ? selected.length === 0
+              : selected[0] === seg.value;
+          return (
+            <button
+              key={seg.label}
+              type="button"
+              onClick={() => setTier(seg.value)}
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontWeight: 300,
+                fontSize: 13,
+                lineHeight: 1.3,
+                padding: "7px 14px",
+                whiteSpace: "nowrap",
+                cursor: "pointer",
+                border: "none",
+                borderLeft: i === 0 ? "none" : "1px solid var(--border)",
+                background: active ? "var(--data-cobalt-mid)" : "transparent",
+                color: active ? "var(--data-cobalt)" : "var(--text-secondary)",
+                transition: "background 120ms ease, color 120ms ease",
+              }}
+            >
+              {seg.label}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
 }
 
 export default function PeerGroupPanel() {
-  const { filterState, nCount, lowSample } = useFilters();
+  const { nCount, lowSample } = useFilters();
 
   return (
     <div className="peer-panel-inner">
@@ -97,13 +111,7 @@ export default function PeerGroupPanel() {
         </span>
       )}
 
-      <ChipGroup
-        label="Industry Tier"
-        options={TIER_OPTIONS}
-        selected={filterState.industryTier}
-        filterKey="industryTier"
-        size="lg"
-      />
+      <TierToggle />
     </div>
   );
 }

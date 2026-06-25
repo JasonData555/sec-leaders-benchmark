@@ -219,7 +219,7 @@ export default function GovernanceZone() {
           fontSize: 11,
           letterSpacing: "0.18em",
           textTransform: "uppercase",
-          color: "var(--text-tertiary)",
+          color: "var(--text-secondary)",
         }}
       >
         Governance &amp; Protection

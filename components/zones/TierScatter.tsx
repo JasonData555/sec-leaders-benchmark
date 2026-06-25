@@ -204,7 +204,7 @@ export default function TierScatter() {
           fontSize: 11,
           letterSpacing: "0.18em",
           textTransform: "uppercase",
-          color: "var(--text-tertiary)",
+          color: "var(--text-secondary)",
         }}
       >
         Total Comp Distribution

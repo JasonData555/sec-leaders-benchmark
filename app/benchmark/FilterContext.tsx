@@ -67,6 +67,8 @@ interface FilterContextValue {
   setFilter: (key: keyof FilterState, value: string | null) => void;
   /** Replace the roles selection with a single role, or clear it. */
   setRole: (role: string | null) => void;
+  /** Single-select Industry Tier — replace with one tier, or clear (all tiers). */
+  setTier: (tier: string | null) => void;
   candidate: CandidateProfile | null;
   setCandidate: (profile: CandidateProfile | null) => void;
 }
@@ -142,6 +144,10 @@ export function FilterProvider({
     setFilterState((prev) => ({ ...prev, roles: role ? [role] : [] }));
   };
 
+  const setTier = (tier: string | null) => {
+    setFilterState((prev) => ({ ...prev, industryTier: tier ? [tier] : [] }));
+  };
+
   const nCount = filteredRecords.length;
   const value: FilterContextValue = {
     filterState,
@@ -154,6 +160,7 @@ export function FilterProvider({
     lowSample: nCount > 0 && nCount < FLOOR,
     setFilter,
     setRole,
+    setTier,
     candidate,
     setCandidate,
   };

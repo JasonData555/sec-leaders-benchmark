@@ -121,6 +121,20 @@ input::placeholder {
 .scatter-zone { flex: 1; min-width: 0; min-height: 0; overflow: hidden; }
 .gov-zone     { flex: 1; min-width: 0; min-height: 0; overflow: hidden; }
 
+/* Compensation hero (Total Comp) + component breakdown row */
+.comp-row { display: flex; align-items: flex-start; gap: 26px; }
+.comp-hero {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.comp-row > .comp-stats {
+  flex: 1;
+  border-left: 1px solid var(--border);
+  padding-left: 26px;
+}
+
 /* Compensation stat-block row — flex with rule dividers between cells */
 .comp-stats { display: flex; align-items: flex-start; }
 .comp-stats > .stat-block {
@@ -176,6 +190,9 @@ input::placeholder {
 }
 
 @media (max-width: 767px) {
+  /* Hero stacks above the breakdown; drop the vertical divider. */
+  .comp-row { flex-direction: column; gap: 16px; }
+  .comp-row > .comp-stats { border-left: none; padding-left: 0; }
   .comp-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 0; }
   .comp-stats > .stat-block + .stat-block {
     border-left: none;
@@ -203,6 +220,11 @@ input::placeholder {
   display: grid !important;
   grid-template-columns: 1fr 1fr;
   flex: none;
+}
+.export-ready .comp-row { flex-direction: row !important; gap: 26px; }
+.export-ready .comp-row > .comp-stats {
+  border-left: 1px solid var(--border);
+  padding-left: 26px;
 }
 .export-ready .comp-stats { display: flex !important; }
 .export-ready .comp-stats > .stat-block + .stat-block {
