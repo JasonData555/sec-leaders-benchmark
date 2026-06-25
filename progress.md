@@ -3,7 +3,7 @@
 > Living working-log. Most-recent-first. Build rules in **CLAUDE.md**, design in **DESIGN.md**.
 > This file is the *state of play* — what's done, pending, and how to verify.
 
-_Last updated: 2026-06-25 · branch `main` · responsive redesign + comp distribution rework._
+_Last updated: 2026-06-25 · branch `main` · tier toggle + comp hero + header legibility (commit `29ee376`)._
 
 ---
 
@@ -22,7 +22,20 @@ Feature-complete through Phases 1–3 (build, data, export/auth) and deployed on
 
 ## 2. Recently completed (newest first)
 
-### Responsive redesign + comp distribution rework — (this change, commit `4a2a63c`)
+### Tier toggle + comp hero + header legibility — (commit `29ee376`)
+- **Industry Tier → single-select segmented toggle** (`All Tiers · Baseline Risk · High
+  Consequence`). New `setTier` in `FilterContext`; active segment = cobalt tint. Fixes the old
+  multi-select 3-click dance and makes the "both tiers" default explicit.
+  `components/layout/PeerGroupPanel.tsx` (`TierToggle`; dead `ChipGroup`/`Chip` removed).
+- **Average Total Comp featured as a hero** — large gold (`--champagne`) figure, leftmost, with
+  Base/Bonus/Equity as a smaller inline breakdown past a divider. Dropped the Bonus/Equity
+  "% report none" sublabels + the redundant legend. `components/zones/CompensationZone.tsx`,
+  `.comp-row`/`.comp-hero` in `globals.css` (+ mobile stack + `.export-ready` override).
+- **Section headers brightened** `--text-tertiary` → `--text-secondary` (Compensation, Total Comp
+  Distribution, Governance & Protection) for legibility; propagates to PDF export via `ZoneStack`.
+- `npm run build` clean; pushed to `main`.
+
+### Responsive redesign + comp distribution rework — (commit `4a2a63c`)
 - **Fully responsive** via `@media` layout classes in `globals.css` applied to shell/body/
   sidebar/zones (SSR-safe, token-based, layout-only; colors/type stay inline). Breakpoints:
   **≥1680** capped & centered · **≥1280** signature no-scroll desktop · **768–1279** sidebar →

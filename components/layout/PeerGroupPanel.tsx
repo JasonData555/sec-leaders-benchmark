@@ -26,9 +26,8 @@ function TierToggle() {
     <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
       <span style={groupLabel}>Industry Tier</span>
       <div
+        className="tier-toggle"
         style={{
-          display: "inline-flex",
-          alignSelf: "flex-start",
           background: "var(--chip-bg)",
           border: "1px solid var(--border)",
           borderRadius: 2,
@@ -45,16 +44,17 @@ function TierToggle() {
               key={seg.label}
               type="button"
               onClick={() => setTier(seg.value)}
+              className="tier-segment"
+              data-first={i === 0 || undefined}
               style={{
                 fontFamily: "'DM Sans', sans-serif",
                 fontWeight: 300,
                 fontSize: 13,
                 lineHeight: 1.3,
-                padding: "7px 14px",
+                padding: "9px 14px",
                 whiteSpace: "nowrap",
                 cursor: "pointer",
                 border: "none",
-                borderLeft: i === 0 ? "none" : "1px solid var(--border)",
                 background: active ? "var(--data-cobalt-mid)" : "transparent",
                 color: active ? "var(--data-cobalt)" : "var(--text-secondary)",
                 transition: "background 120ms ease, color 120ms ease",
