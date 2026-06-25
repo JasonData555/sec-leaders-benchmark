@@ -31,6 +31,11 @@
   --chip-active:    rgba(47, 128, 237, 0.18);  /* Selected chip backgrounds — cobalt tint */
   --bar-bg:         rgba(47, 128, 237, 0.12);  /* Chart track backgrounds */
   --accent-glow:    rgba(47, 128, 237, 0.06);  /* Subtle highlights */
+
+  /* Tier scatter — Baseline slate vs. High Consequence champagne */
+  --scatter-slate:         #8A99B3; /* Baseline Risk dots / lines / labels */
+  --scatter-slate-band:    rgba(138, 153, 179, 0.13); /* Baseline P25–P75 band */
+  --scatter-champagne-band: rgba(201, 164, 76, 0.13); /* High Consequence P25–P75 band */
 }
 
 /* Base reset */
@@ -95,8 +100,26 @@ input::placeholder {
   min-height: 0;
 }
 
-.comp-zone { flex: 1.6; min-height: 0; overflow: hidden; }
-.gov-zone  { flex: 1.8; min-height: 0; overflow: hidden; }
+/* Compensation header + stat tiles — sizes to content; the panel below fills
+   the remaining height (preserves the no-scroll desktop). */
+.comp-zone { flex: none; }
+
+/* Single-row panel: scatter (left half) + governance 2×2 (right half). */
+.benchmark-panel {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+}
+.scatter-half { flex: 1; min-width: 0; display: flex; }
+.gov-half {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  border-left: 1px solid var(--border);
+}
+.scatter-zone { flex: 1; min-width: 0; min-height: 0; overflow: hidden; }
+.gov-zone     { flex: 1; min-width: 0; min-height: 0; overflow: hidden; }
 
 /* Compensation stat-block row — flex with rule dividers between cells */
 .comp-stats { display: flex; align-items: flex-start; }
@@ -112,13 +135,14 @@ input::placeholder {
   padding-left: 20px;
 }
 
-/* Governance 4-up card row */
+/* Governance 2×2 card grid (right half of the panel) */
 .gov-cards {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 1fr;
   gap: 16px;
   flex: 1;
   min-height: 0;
-  align-items: stretch;
 }
 
 @media (max-width: 1279px) {
@@ -141,12 +165,14 @@ input::placeholder {
     padding: 14px 20px;
   }
   .app-main { overflow: visible; }
-  .comp-zone, .gov-zone { flex: none; overflow: visible; }
-  .gov-cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    flex: none;
-  }
+  .comp-zone, .gov-zone, .scatter-zone { flex: none; overflow: visible; }
+  /* Panel stacks: scatter on top, governance below. */
+  .benchmark-panel { flex-direction: column; flex: none; overflow: visible; }
+  .scatter-half, .gov-half { overflow: visible; }
+  .gov-half { border-left: none; border-top: 1px solid var(--border); }
+  /* Percentage-based scatter needs an explicit height once the page scrolls. */
+  .scatter-zone { min-height: 360px; }
+  .gov-cards { flex: none; }
 }
 
 @media (max-width: 767px) {
@@ -163,7 +189,21 @@ input::placeholder {
 
 /* PDF export renders near Letter width (~816px) — force the full desktop
    layout so the exported document is never reflowed into the tablet grid. */
-.export-ready .gov-cards { display: flex !important; flex: none; }
+.export-ready .benchmark-panel {
+  display: flex !important;
+  flex-direction: row !important;
+  /* No 100vh parent on the export page — give the percentage-based scatter
+     an explicit height so dots/bands resolve. */
+  height: 380px;
+}
+.export-ready .scatter-half, .export-ready .gov-half { overflow: hidden; }
+.export-ready .gov-half { border-left: 1px solid var(--border); border-top: none; }
+.export-ready .scatter-zone { min-height: 0; }
+.export-ready .gov-cards {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  flex: none;
+}
 .export-ready .comp-stats { display: flex !important; }
 .export-ready .comp-stats > .stat-block + .stat-block {
   border-left: 1px solid var(--border);

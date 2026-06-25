@@ -3,6 +3,7 @@
 import { useFilters } from "@/app/benchmark/FilterContext";
 import CompensationZone from "@/components/zones/CompensationZone";
 import GovernanceZone from "@/components/zones/GovernanceZone";
+import TierScatter from "@/components/zones/TierScatter";
 import CandidateBand from "@/components/ui/CandidateBand";
 
 /** The three data zones — or, when no records match the active filters, a
@@ -65,7 +66,14 @@ export default function ZoneStack({
   return (
     <>
       <CompensationZone />
-      <GovernanceZone />
+      <div className="benchmark-panel">
+        <div className="scatter-half">
+          <TierScatter />
+        </div>
+        <div className="gov-half">
+          <GovernanceZone />
+        </div>
+      </div>
       {withCandidate && <CandidateBand />}
     </>
   );

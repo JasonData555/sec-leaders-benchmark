@@ -41,7 +41,7 @@ styles/     globals.css             # all design tokens — never hardcode hex i
 
 ## 4. Design system (see DESIGN.md)
 - **Never hardcode hex in components.** All colors are CSS custom properties in `styles/globals.css` (`:root`). Change values there.
-- Current core tokens: `--ink-deep #0B1F3A`, `--ink #0D1B2E`, `--ink-surface #122338`, `--champagne #C9A44C`, `--champagne-mid #A8873A`, `--text-primary #F7F9FC`, `--data-cobalt #2F80ED` (signal accent), `--hitch-blue #2F80ED` (auth LinkedIn button ONLY).
+- Current core tokens: `--ink-deep #0B1F3A`, `--ink #0D1B2E`, `--ink-surface #122338`, `--champagne #C9A44C`, `--champagne-mid #A8873A`, `--text-primary #F7F9FC`, `--data-cobalt #2F80ED` (signal accent), `--hitch-blue #2F80ED` (auth LinkedIn button ONLY), `--donut-champagne-light #E6C36B` + `--donut-cobalt-light #4F9BF5` (Board Access donut segments).
 - **Fonts** (loaded in `app/layout.tsx`): Cormorant Garamond (display/numbers), DM Sans (UI copy), IBM Plex Mono (labels/percentages/ranges/metadata).
 - Border-radius max: 10px outer container, 3–5px cards/charts, 2px chips/buttons. Shadows use `rgba(0,0,0,n)` only.
 
@@ -57,9 +57,13 @@ styles/     globals.css             # all design tokens — never hardcode hex i
 - Display rules: `$XXXK` (round to $1K), whole-number `%`, nulls excluded never imputed 0.
 
 ## 7. Layout
-- Single-page, **no-scroll** desktop (≥1280px): 100vh, overflow hidden. Column: header → body → footer.
-- Body row: left panel (236px fixed) + right content (flex). Right = 3 zones; zones own padding `20px 26px`, divided by 1px border. Candidate band conditional above footer.
-- Tablet (768–1279): panel → horizontal bar, zones stack, page scrolls. Mobile (<768): bottom-sheet filters, governance 2×2.
+- **Responsive** via `@media` layout classes in `globals.css` (`.app-shell/.app-body/.peer-panel/.comp-zone/.gov-zone/.comp-stats/.gov-cards`). Components keep colors/type inline; only layout props live in the classes. SSR-safe — no JS breakpoint hooks.
+- **Desktop ≥1280px:** signature **no-scroll** 100vh, overflow hidden. Column header → body → footer. Body row = left panel (236px fixed) + right content (flex) → 3 zones, padding `20px 26px`, 1px divider. Candidate band conditional above footer.
+- **Large ≥1680px:** shell capped `max-width:1680px`, centered (page `--ink` shows on the sides).
+- **Tablet 768–1279px:** page scrolls; left panel → sticky top bar (horizontal); governance cards 2×2.
+- **Mobile <768px:** single column; comp stat blocks 2×2 (dividers off); Industry Tier pills ride the sticky top bar.
+- **Comp distribution:** taller (14px) bar with ticks at true P25/P50/P75 positions; dollar figures in an evenly-spaced 3-column readout **below** the bar (no overlap); block `flex:1`, vertically centered to fill the zone.
+- **PDF export:** `.export-ready` overrides force the desktop layout at Letter width — don't let the tablet/mobile breakpoints reflow the print output.
 
 ## 8. Auth
 - `app/api/auth/[...nextauth]/route.ts` + `lib/auth.ts`. Providers: LinkedIn OAuth (`openid profile email`) + Credentials (shared `NEXTAUTH_ACCESS_CODE`). JWT session, 8h max.

@@ -207,7 +207,6 @@ export default function GovernanceZone() {
       className="gov-zone"
       style={{
         padding: "20px 26px",
-        borderTop: "1px solid var(--focus-cobalt-border)",
         display: "flex",
         flexDirection: "column",
         gap: 12,

@@ -134,6 +134,27 @@ export function calcCompMetrics(records: BenchmarkRecord[]): CompMetrics {
   };
 }
 
+/** Per-tier Total-Comp distribution for the scatter plot. Read-only: reuses
+ *  parseComp + percentile, no new math. Nulls excluded, never imputed. */
+export interface TierScatter {
+  points: number[];
+  p25: number;
+  p50: number;
+  p75: number;
+  n: number;
+}
+
+export function calcTierScatter(records: BenchmarkRecord[]): TierScatter {
+  const { values } = compColumn(records, "Total Comp-Converted");
+  return {
+    points: values,
+    p25: values.length ? percentile(values, 25) : 0,
+    p50: values.length ? percentile(values, 50) : 0,
+    p75: values.length ? percentile(values, 75) : 0,
+    n: values.length,
+  };
+}
+
 export interface BoardMetrics {
   quarterly: number;
   semiAnnual: number;

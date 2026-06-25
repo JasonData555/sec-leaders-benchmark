@@ -3,7 +3,7 @@
 > Living working-log. Most-recent-first. Build rules in **CLAUDE.md**, design in **DESIGN.md**.
 > This file is the *state of play* — what's done, pending, and how to verify.
 
-_Last updated: 2026-06-24 · branch `main` · dark-theme CISO pass + UI polish._
+_Last updated: 2026-06-25 · branch `main` · responsive redesign + comp distribution rework._
 
 ---
 
@@ -12,7 +12,8 @@ _Last updated: 2026-06-24 · branch `main` · dark-theme CISO pass + UI polish._
 Feature-complete through Phases 1–3 (build, data, export/auth) and deployed on Vercel
 (push to `main` auto-deploys). Live app:
 
-- Single-page, no-scroll benchmark tool, auth-gated (LinkedIn OAuth + shared access code).
+- Single-page benchmark tool, auth-gated (LinkedIn OAuth + shared access code).
+- **Now fully responsive** — no-scroll desktop ≥1280, stacks/scrolls below, capped & centered ≥1680.
 - **Dark enterprise theme** (Hitch navy/gold; cobalt data accent).
 - **CISO-only dataset** — `data/allsec-benchmark.json`, **957 records**, filtering client-side.
 - PDF export via Puppeteer at `/export`.
@@ -21,26 +22,26 @@ Feature-complete through Phases 1–3 (build, data, export/auth) and deployed on
 
 ## 2. Recently completed (newest first)
 
-### UI polish — white logo, bolder comp bar, donut palette — (this change, commit `3aacead`)
-- **White logo on the dark theme.** Added `public/hitch-logo-white.png`; repointed all three
-  `<img>` refs (header, auth screen, export cover strip) from `hitch-logo.png` → white version.
-- **Compensation distribution bar enlarged.** Track 5px→10px (radius 3→5), marker pins
-  17→24px, percentile labels 14→16px, floor/ceiling 10.5→12px. Edits inline in
+### Responsive redesign + comp distribution rework — (this change, commit `4a2a63c`)
+- **Fully responsive** via `@media` layout classes in `globals.css` applied to shell/body/
+  sidebar/zones (SSR-safe, token-based, layout-only; colors/type stay inline). Breakpoints:
+  **≥1680** capped & centered · **≥1280** signature no-scroll desktop · **768–1279** sidebar →
+  sticky top bar + governance 2×2, page scrolls · **<768** single column + comp stats 2×2.
+- **Label overlap fixed.** P25/P50/P75 dollar figures moved to an evenly-spaced 3-column
+  readout *below* a taller (14px) bar; thin ticks still mark true positions → no collision.
   `components/zones/CompensationZone.tsx`.
-- **Board Access donut recolored** (gold+cobalt+neutral, replacing the all-bronze ramp that
-  washed out): Quarterly `--champagne` · Semi-Ann. `#E6C36B` · Annually `#4F9BF5` ·
-  Per Request `--data-cobalt` · None `rgba(247,249,252,0.14)`. In `GovernanceZone.tsx`.
+- **Comp dead space reclaimed.** Distribution block now `flex:1`, vertically centered.
+- **Donut hexes tokenized.** `#E6C36B`/`#4F9BF5` → `--donut-champagne-light`/`--donut-cobalt-light`.
+- **PDF export protected.** `.export-ready` overrides force desktop layout at Letter width.
 - `npm run build` clean; pushed to `main`.
 
-### Dark-theme CISO pass
-- **Data scoped to CISO.** `csv-to-json.ts` filters `Role_Bucket === "CISO"` from
-  `AllSecBenchmark-highcon - CISO.csv` → **957 records** (406 Baseline + 551 High Consequence).
-- **Total Comp math** = sum of base/bonus/equity averages (`totalCompAvg`), not mean of the
-  Total Comp column. Baseline **$734,041** · High Consequence **$1,006,851**.
-- **Headline figures forced white** (`--text-primary`): Total Comp, P25/P50/P75 labels,
-  Team Size median. Donut segments stay colored (graphical, not figures).
-- **Location filter + Role dropdown pulled from UI** (components/plumbing retained for later).
-- **Industry Tier promoted** to top primary control via new `size="lg"` on `Chip.tsx`.
+### UI polish + dark-theme CISO pass (commits `3aacead` ← `85242a1`)
+- White logo on dark theme (`hitch-logo-white.png`); Board Access donut recolored gold+cobalt+neutral.
+- **Data scoped to CISO** (`csv-to-json.ts` filters `Role_Bucket === "CISO"`) → **957 records**
+  (406 Baseline + 551 High Consequence). **Total Comp** = sum of base/bonus/equity averages
+  (`totalCompAvg`): Baseline **$734,041** · High Consequence **$1,006,851**.
+- Headline figures forced white; Location/Role pulled from UI (plumbing retained); Industry Tier
+  promoted to primary control (`size="lg"` Chip).
 
 ---
 
@@ -48,19 +49,18 @@ Feature-complete through Phases 1–3 (build, data, export/auth) and deployed on
 
 | # | Item | Sev | Notes |
 |---|------|-----|-------|
-| A | No live browser screenshot of dark-theme/UI-polish pass; verified via build + data probe. | Med | Confirm white logo, thicker bar alignment, donut legibility, no-scroll 100vh before demo. |
+| A | Responsive redesign not visually QA'd — local LinkedIn auth is broken, so verify on Vercel. | Med | Sweep 1920/1280/1024/390px: capped-center, no-scroll, sticky bar + 2×2, single column. |
 | B | Comp headline shows **averages (mean)** vs the legacy "median never mean" guardrail. | Med | Intentional for this dataset. Reconcile copy / confirm with stakeholders. |
-| C | Mobile/tablet not re-verified after pill + bar enlargement. | Low | May reflow chip row / bar labels. |
+| C | PDF export reflow not re-confirmed after responsive pass. | Low | `.export-ready` should force desktop grid — verify a sample export. |
 | D | Dead `RoleFilter`/`LocationFilter` files retained intentionally. | Low | Re-wire when Role returns. |
 
 ---
 
 ## 4. Best next moves
 
-1. **Visual QA in a real browser** (risk A/C): log in via access code, walk all zones at
-   1280px + 1280×720, confirm white logo/figures, enlarged tier pills, thicker bar, donut
-   colors; then tablet/mobile. Capture client screenshots.
-2. **Sample PDF export** end-to-end — confirms dark theme + white logo + CISO numbers in Puppeteer.
+1. **Visual QA on the Vercel deploy** (risk A): walk all zones across 1920/1280/1024/390px;
+   confirm no label overlap, no comp dead space, sticky top bar + 2×2 governance, capped-center.
+2. **Sample PDF export** end-to-end (risk C) — confirms desktop layout holds at Letter width.
 3. **Resolve mean-vs-median guardrail** (risk B) with Brett/Michael.
 4. **Smoke test on Vercel** after auto-deploy — auth, export, DNS at intelligence.hitchpartners.com.
 
@@ -115,6 +115,6 @@ console.log(n, Math.round(m(c("Base-Converted"))+m(c("Bonus-Converted"))+m(c("Eq
 
 - No Tailwind; CSS custom properties only; never hardcode hex in components.
 - Static JSON only — no DB/API for filtering. One dataset, one product.
-- Single-page no-scroll desktop. No tabs/modals/nav. Three chart types only.
+- No-scroll desktop ≥1280; responsive (stacks/scrolls) below. No tabs/modals/nav. Three chart types only.
 - `$XXXK` rounding; whole-number %; nulls excluded never imputed 0. (Headline shows averages — risk B.)
 - Surgical changes, minimal diffs. Ask before assuming. Commit/push only when asked.

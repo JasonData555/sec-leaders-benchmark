@@ -16,11 +16,13 @@ import {
   calcTeamMetrics,
   calcSeverance,
   calcVesting,
+  calcTierScatter,
   type CompMetrics,
   type BoardMetrics,
   type DOMetrics,
   type FunctionMetric,
   type TeamMetrics,
+  type TierScatter,
 } from "@/lib/metrics";
 
 export interface Metrics {
@@ -31,6 +33,13 @@ export interface Metrics {
   team: TeamMetrics;
   severance: number;
   vesting: number;
+}
+
+/** Per-tier scatter populations — always split across both tiers regardless
+ *  of the Industry Tier filter, so the Baseline-vs-HC comparison always holds. */
+export interface ScatterData {
+  baseline: TierScatter;
+  highCon: TierScatter;
 }
 
 /** A user-entered profile compared against the current peer group (§7.10). */
@@ -47,6 +56,7 @@ interface FilterContextValue {
   filterState: FilterState;
   filteredRecords: BenchmarkRecord[];
   metrics: Metrics;
+  scatter: ScatterData;
   nCount: number;
   floorWarning: boolean;
   /** No records match the active filters — show the empty state, not $0. */
@@ -113,6 +123,21 @@ export function FilterProvider({
     [filteredRecords]
   );
 
+  // Scatter populations split by tier, ignoring the Industry Tier filter so
+  // both columns always render (all other active filters still apply).
+  const scatter = useMemo<ScatterData>(() => {
+    const { records } = resolveLocation(allRecords, {
+      ...filterState,
+      industryTier: [],
+    });
+    const byTier = (t: string) =>
+      records.filter((r) => r["Industry Tier"] === t);
+    return {
+      baseline: calcTierScatter(byTier("Baseline")),
+      highCon: calcTierScatter(byTier("High Consequence")),
+    };
+  }, [filterState]);
+
   const setRole = (role: string | null) => {
     setFilterState((prev) => ({ ...prev, roles: role ? [role] : [] }));
   };
@@ -122,6 +147,7 @@ export function FilterProvider({
     filterState,
     filteredRecords,
     metrics,
+    scatter,
     nCount,
     floorWarning,
     noResults: nCount === 0,
