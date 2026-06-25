@@ -49,7 +49,7 @@ export default function Page() {
         }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/hitch-logo.png" alt="Hitch Partners" style={{ height: 48 }} />
+        <img src="/hitch-logo-white.png" alt="Hitch Partners" style={{ height: 48 }} />
 
         <p
           style={{

@@ -14,7 +14,7 @@ export default function ToolHeader() {
       {/* Wordmark */}
       <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/hitch-logo.png" alt="Hitch Partners" style={{ height: 28 }} />
+        <img src="/hitch-logo-white.png" alt="Hitch Partners" style={{ height: 28 }} />
         <span
           style={{ width: 1, height: 13, background: "var(--border)" }}
           aria-hidden

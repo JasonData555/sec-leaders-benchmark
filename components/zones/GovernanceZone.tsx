@@ -55,10 +55,10 @@ const C = 2 * Math.PI * 29; // circle circumference
 function BoardAccessCard({ board }: { board: BoardMetrics }) {
   const segments = [
     { label: "Quarterly", pct: board.quarterly, color: "var(--champagne)" },
-    { label: "Semi-Ann.", pct: board.semiAnnual, color: "var(--champagne-mid)" },
-    { label: "Annually", pct: board.annual, color: "#7A6548" },
-    { label: "Per Request", pct: board.perRequest, color: "#5C4E38" },
-    { label: "None", pct: board.none, color: "rgba(140, 109, 63, 0.30)" },
+    { label: "Semi-Ann.", pct: board.semiAnnual, color: "#E6C36B" },
+    { label: "Annually", pct: board.annual, color: "#4F9BF5" },
+    { label: "Per Request", pct: board.perRequest, color: "var(--data-cobalt)" },
+    { label: "None", pct: board.none, color: "rgba(247, 249, 252, 0.14)" },
   ];
   let cumulative = 0;
   return (

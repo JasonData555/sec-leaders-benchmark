@@ -59,7 +59,7 @@ export default async function ExportPage({
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/hitch-logo.png" alt="Hitch Partners" style={{ height: 26 }} />
+          <img src="/hitch-logo-white.png" alt="Hitch Partners" style={{ height: 26 }} />
           <span
             style={{
               fontFamily: "'DM Sans', sans-serif",

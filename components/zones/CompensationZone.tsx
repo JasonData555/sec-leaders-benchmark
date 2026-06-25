@@ -158,7 +158,7 @@ export default function CompensationZone() {
       </div>
 
       {/* Distribution bar */}
-      <div style={{ marginTop: 8, position: "relative", paddingTop: 22 }}>
+      <div style={{ marginTop: 8, position: "relative", paddingTop: 24 }}>
         {markers.map((m) => (
           <div
             key={m.label}
@@ -171,7 +171,7 @@ export default function CompensationZone() {
                 transform: "translateX(-50%)",
                 whiteSpace: "nowrap",
                 fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: 14,
+                fontSize: 16,
                 fontWeight: m.highlight ? 400 : 300,
                 color: "var(--text-primary)",
               }}
@@ -181,9 +181,9 @@ export default function CompensationZone() {
             <span
               style={{
                 position: "absolute",
-                top: 16,
+                top: 18,
                 width: m.highlight ? 2 : 1.5,
-                height: 17,
+                height: 24,
                 background: m.highlight ? "var(--data-cobalt)" : "var(--champagne)",
               }}
             />
@@ -193,9 +193,9 @@ export default function CompensationZone() {
         {/* Track */}
         <div
           style={{
-            height: 5,
+            height: 10,
             background: "var(--bar-bg)",
-            borderRadius: 3,
+            borderRadius: 5,
             backgroundImage:
               "linear-gradient(90deg, transparent 0%, var(--bar-bg) 8%, var(--champagne-mid) 35%, var(--champagne) 48%, var(--champagne) 52%, var(--champagne-mid) 65%, var(--bar-bg) 92%, transparent 100%)",
             opacity: 0.8,
@@ -209,7 +209,7 @@ export default function CompensationZone() {
           <span
             style={{
               fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: 10.5,
+              fontSize: 12,
               color: "var(--text-tertiary)",
             }}
           >
@@ -218,7 +218,7 @@ export default function CompensationZone() {
           <span
             style={{
               fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: 10.5,
+              fontSize: 12,
               color: "var(--text-tertiary)",
             }}
           >
