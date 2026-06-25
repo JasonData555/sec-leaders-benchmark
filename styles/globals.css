@@ -102,7 +102,7 @@ input::placeholder {
 
 /* Compensation header + stat tiles — sizes to content; the panel below fills
    the remaining height (preserves the no-scroll desktop). */
-.comp-zone { flex: none; }
+.comp-zone { flex: none; border-bottom: 1px solid var(--border); }
 
 /* Single-row panel: scatter (left half) + governance 2×2 (right half). */
 .benchmark-panel {

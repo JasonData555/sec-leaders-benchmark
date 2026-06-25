@@ -86,7 +86,7 @@ export default function CompensationZone() {
     <section
       className="comp-zone"
       style={{
-        padding: "20px 26px 0",
+        padding: "20px 26px 18px",
         display: "flex",
         flexDirection: "column",
         gap: 14,
