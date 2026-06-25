@@ -17,7 +17,6 @@ function StatBlock({
   label,
   value,
   sublabel,
-  accent,
   withDivider,
 }: {
   label: string;

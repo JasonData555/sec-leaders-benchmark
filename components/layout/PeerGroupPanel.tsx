@@ -1,7 +1,7 @@
 "use client";
 
 import { useFilters } from "@/app/benchmark/FilterContext";
-import { SIZE_ORDER, type FilterState } from "@/lib/filters";
+import { type FilterState } from "@/lib/filters";
 import Chip from "@/components/ui/Chip";
 import NCounter from "@/components/ui/NCounter";
 
@@ -9,20 +9,6 @@ interface Option {
   label: string;
   value: string;
 }
-
-const SIZE_LABELS: Record<string, string> = {
-  "< 250 employees": "< 250",
-  "250 - 499 employees": "250–499",
-  "500 - 999 employees": "500–999",
-  "1000 - 4999 employees": "1K–5K",
-  "5000 - 9,999 employees": "5K–10K",
-  "10,000 - 25,000 employees": "10K–25K",
-  "25,000+ employees": "25K+",
-};
-const SIZE_OPTIONS: Option[] = SIZE_ORDER.map((value) => ({
-  label: SIZE_LABELS[value],
-  value,
-}));
 
 const TIER_OPTIONS: Option[] = [
   { label: "Baseline Risk",    value: "Baseline" },
@@ -124,12 +110,6 @@ export default function PeerGroupPanel() {
         selected={filterState.industryTier}
         filterKey="industryTier"
         size="lg"
-      />
-      <ChipGroup
-        label="Company Size"
-        options={SIZE_OPTIONS}
-        selected={filterState.sizes}
-        filterKey="sizes"
       />
     </div>
   );
