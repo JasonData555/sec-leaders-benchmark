@@ -126,7 +126,7 @@ input::placeholder {
 .insight-band {
   flex: none;
   border-top: 1px solid var(--border);
-  padding: 14px 26px;
+  padding: 10px 26px;
 }
 
 /* Industry Tier segmented toggle — full-width segments stacked vertically */

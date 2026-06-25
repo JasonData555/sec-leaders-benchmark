@@ -16,12 +16,13 @@ export default function ToolFooter() {
     >
       <p
         style={{
+          flex: 1,
+          minWidth: 0,
           fontFamily: "'DM Sans', sans-serif",
           fontWeight: 300,
           fontSize: 10.5,
           lineHeight: 1.7,
           color: "var(--text-tertiary)",
-          maxWidth: 660,
         }}
       >
         This benchmark reflects 1,464 security leadership profiles across North

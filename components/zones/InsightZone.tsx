@@ -7,7 +7,7 @@
  *  no-scroll desktop is preserved. Dashboard only — not rendered on /export. */
 export default function InsightZone() {
   return (
-    <section className="insight-band" style={{ display: "flex", gap: 18, alignItems: "baseline" }}>
+    <section className="insight-band" style={{ display: "flex", gap: 16, alignItems: "baseline" }}>
       <span
         style={{
           flexShrink: 0,
@@ -25,8 +25,8 @@ export default function InsightZone() {
           margin: 0,
           fontFamily: "'DM Sans', sans-serif",
           fontWeight: 300,
-          fontSize: 12.5,
-          lineHeight: 1.55,
+          fontSize: 14,
+          lineHeight: 1.42,
           color: "var(--text-secondary)",
         }}
       >
