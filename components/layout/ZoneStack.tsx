@@ -4,14 +4,17 @@ import { useFilters } from "@/app/benchmark/FilterContext";
 import CompensationZone from "@/components/zones/CompensationZone";
 import GovernanceZone from "@/components/zones/GovernanceZone";
 import TierScatter from "@/components/zones/TierScatter";
+import InsightZone from "@/components/zones/InsightZone";
 import CandidateBand from "@/components/ui/CandidateBand";
 
 /** The three data zones — or, when no records match the active filters, a
  *  single empty state instead of misleading $0 / 0% values (DESIGN.md §10). */
 export default function ZoneStack({
   withCandidate = true,
+  showInsight = true,
 }: {
   withCandidate?: boolean;
+  showInsight?: boolean;
 }) {
   const { noResults } = useFilters();
 
@@ -74,6 +77,7 @@ export default function ZoneStack({
           <GovernanceZone />
         </div>
       </div>
+      {showInsight && <InsightZone />}
       {withCandidate && <CandidateBand />}
     </>
   );

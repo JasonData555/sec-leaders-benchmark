@@ -22,6 +22,19 @@ Feature-complete through Phases 1–3 (build, data, export/auth) and deployed on
 
 ## 2. Recently completed (newest first)
 
+### Key Insight band — (uncommitted)
+- **Full-width "Key Insight" prose band** added below the benchmark panel (above the footer) so
+  non-technical stakeholders get the High Consequence vs. Baseline Risk takeaway in plain language.
+  New `components/zones/InsightZone.tsx` — static editorial copy, **no data binding** (figures quoted
+  verbatim: medians/quartiles, deliberately distinct from the headline averages — risk B).
+- Wired via `showInsight` prop in `components/layout/ZoneStack.tsx`; `app/export/page.tsx` passes
+  `showInsight={false}` so the **PDF export is unchanged**.
+- New `.insight-band` class in `globals.css` (`flex:none`) — the `flex:1` benchmark panel absorbs the
+  height so the **no-scroll desktop ≥1280 is preserved** (charts shrink ~130–175px). On short laptops
+  the charts get tight; trimming the copy is the fallback if it's unacceptable.
+- Eyebrow reuses the `TierScatter` zone-header style (champagne accent); prose follows the
+  `ToolFooter`/export-footer pattern. No new tokens. `npm run build` clean.
+
 ### Tier toggle + comp hero + header legibility — (commit `29ee376`)
 - **Industry Tier → single-select segmented toggle** (`All Tiers · Baseline Risk · High
   Consequence`). New `setTier` in `FilterContext`; active segment = cobalt tint. Fixes the old

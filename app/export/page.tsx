@@ -99,7 +99,7 @@ export default async function ExportPage({
         </div>
 
         {/* Zones */}
-        <ZoneStack withCandidate={false} />
+        <ZoneStack withCandidate={false} showInsight={false} />
 
         {/* Methodology footer */}
         <div
