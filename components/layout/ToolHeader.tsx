@@ -1,6 +1,7 @@
 export default function ToolHeader() {
   return (
     <header
+      className="tool-header"
       style={{
         background: "var(--ink-deep)",
         padding: "17px 30px",
@@ -8,6 +9,8 @@ export default function ToolHeader() {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
+        flexWrap: "wrap",
+        gap: "8px 16px",
         flexShrink: 0,
       }}
     >

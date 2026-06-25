@@ -55,8 +55,8 @@ const C = 2 * Math.PI * 29; // circle circumference
 function BoardAccessCard({ board }: { board: BoardMetrics }) {
   const segments = [
     { label: "Quarterly", pct: board.quarterly, color: "var(--champagne)" },
-    { label: "Semi-Ann.", pct: board.semiAnnual, color: "#E6C36B" },
-    { label: "Annually", pct: board.annual, color: "#4F9BF5" },
+    { label: "Semi-Ann.", pct: board.semiAnnual, color: "var(--donut-champagne-light)" },
+    { label: "Annually", pct: board.annual, color: "var(--donut-cobalt-light)" },
     { label: "Per Request", pct: board.perRequest, color: "var(--data-cobalt)" },
     { label: "None", pct: board.none, color: "rgba(247, 249, 252, 0.14)" },
   ];
@@ -204,10 +204,8 @@ export default function GovernanceZone() {
   const fade = useZoneFade(filterState);
   return (
     <section
+      className="gov-zone"
       style={{
-        flex: 1.8,
-        minHeight: 0,
-        overflow: "hidden",
         padding: "20px 26px",
         borderTop: "1px solid var(--focus-cobalt-border)",
         display: "flex",
@@ -227,15 +225,7 @@ export default function GovernanceZone() {
       >
         Governance &amp; Protection
       </span>
-      <div
-        style={{
-          display: "flex",
-          gap: 16,
-          flex: 1,
-          minHeight: 0,
-          alignItems: "stretch",
-        }}
-      >
+      <div className="gov-cards">
         <BoardAccessCard board={metrics.board} />
         <DandOCard dao={metrics.do} />
         <StatCard

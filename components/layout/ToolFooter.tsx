@@ -1,6 +1,7 @@
 export default function ToolFooter() {
   return (
     <footer
+      className="tool-footer"
       style={{
         background: "var(--ink-deep)",
         padding: "10px 30px",
@@ -8,6 +9,7 @@ export default function ToolFooter() {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
+        flexWrap: "wrap",
         gap: 24,
         flexShrink: 0,
       }}

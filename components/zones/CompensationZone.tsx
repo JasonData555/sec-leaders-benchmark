@@ -13,30 +13,24 @@ const pos = (v: number) =>
 /** Whole-thousands integer for the $XXX<sup>K</sup> display. */
 const k = (v: number) => Math.round(v / 1000).toString();
 
+const endcapStyle: React.CSSProperties = {
+  fontFamily: "'IBM Plex Mono', monospace",
+  fontSize: 12,
+  color: "var(--text-tertiary)",
+};
+
 function StatBlock({
   label,
   value,
   sublabel,
-  withDivider,
 }: {
   label: string;
   value: number;
   sublabel: string;
   accent: boolean;
-  withDivider: boolean;
 }) {
   return (
-    <div
-      style={{
-        flex: 1,
-        paddingLeft: withDivider ? 20 : 0,
-        marginLeft: withDivider ? 20 : 0,
-        borderLeft: withDivider ? "1px solid var(--border)" : "none",
-        display: "flex",
-        flexDirection: "column",
-        gap: 6,
-      }}
-    >
+    <div className="stat-block">
       <span
         style={{
           fontFamily: "'DM Sans', sans-serif",
@@ -101,17 +95,15 @@ export default function CompensationZone() {
   ];
 
   const markers = [
-    { label: `P25 · ${formatDollars(c.tcP25)}`, left: pos(c.tcP25), highlight: false },
-    { label: `P50 · ${formatDollars(c.tcP50)}`, left: pos(c.tcP50), highlight: true },
-    { label: `P75 · ${formatDollars(c.tcP75)}`, left: pos(c.tcP75), highlight: false },
+    { tag: "P25", value: formatDollars(c.tcP25), left: pos(c.tcP25), highlight: false },
+    { tag: "P50", value: formatDollars(c.tcP50), left: pos(c.tcP50), highlight: true },
+    { tag: "P75", value: formatDollars(c.tcP75), left: pos(c.tcP75), highlight: false },
   ];
 
   return (
     <section
+      className="comp-zone"
       style={{
-        flex: 1.6,
-        minHeight: 0,
-        overflow: "hidden",
         padding: "20px 26px",
         display: "flex",
         flexDirection: "column",
@@ -151,79 +143,117 @@ export default function CompensationZone() {
       </div>
 
       {/* Stat blocks */}
-      <div style={{ display: "flex", alignItems: "flex-start" }}>
-        {stats.map((stat, i) => (
-          <StatBlock key={stat.label} {...stat} withDivider={i > 0} />
+      <div className="comp-stats">
+        {stats.map((stat) => (
+          <StatBlock key={stat.label} {...stat} />
         ))}
       </div>
 
-      {/* Distribution bar */}
-      <div style={{ marginTop: 8, position: "relative", paddingTop: 24 }}>
-        {markers.map((m) => (
-          <div
-            key={m.label}
-            style={{ position: "absolute", left: `${m.left}%`, top: 0 }}
-          >
-            <span
-              style={{
-                position: "absolute",
-                top: 0,
-                transform: "translateX(-50%)",
-                whiteSpace: "nowrap",
-                fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: 16,
-                fontWeight: m.highlight ? 400 : 300,
-                color: "var(--text-primary)",
-              }}
-            >
-              {m.label}
-            </span>
-            <span
-              style={{
-                position: "absolute",
-                top: 18,
-                width: m.highlight ? 2 : 1.5,
-                height: 24,
-                background: m.highlight ? "var(--data-cobalt)" : "var(--champagne)",
-              }}
-            />
+      {/* Distribution — grows to fill the zone and vertically centres so the
+          bar never strands a void above Governance. */}
+      <div
+        style={{
+          flex: 1,
+          minHeight: 0,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          gap: 22,
+        }}
+      >
+        {/* Total-comp range bar with percentile ticks */}
+        <div>
+          {/* Ticks sit directly on the track at their true positions */}
+          <div style={{ position: "relative", height: 14 }}>
+            {markers.map((m) => (
+              <span
+                key={m.tag}
+                style={{
+                  position: "absolute",
+                  left: `${m.left}%`,
+                  transform: "translateX(-50%)",
+                  bottom: 0,
+                  width: m.highlight ? 2 : 1.5,
+                  height: 14,
+                  background: m.highlight
+                    ? "var(--data-cobalt)"
+                    : "var(--champagne)",
+                }}
+              />
+            ))}
           </div>
-        ))}
 
-        {/* Track */}
+          {/* Track */}
+          <div
+            style={{
+              height: 14,
+              background: "var(--bar-bg)",
+              borderRadius: 7,
+              backgroundImage:
+                "linear-gradient(90deg, transparent 0%, var(--bar-bg) 8%, var(--champagne-mid) 35%, var(--champagne) 48%, var(--champagne) 52%, var(--champagne-mid) 65%, var(--bar-bg) 92%, transparent 100%)",
+              opacity: 0.85,
+            }}
+          />
+
+          {/* Floor / ceiling endcaps */}
+          <div
+            style={{
+              marginTop: 8,
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <span style={endcapStyle}>$150K</span>
+            <span style={endcapStyle}>$2.2M+</span>
+          </div>
+        </div>
+
+        {/* Percentile readout — evenly spaced beneath the bar so the dollar
+            figures can never overlap regardless of how the markers cluster. */}
         <div
           style={{
-            height: 10,
-            background: "var(--bar-bg)",
-            borderRadius: 5,
-            backgroundImage:
-              "linear-gradient(90deg, transparent 0%, var(--bar-bg) 8%, var(--champagne-mid) 35%, var(--champagne) 48%, var(--champagne) 52%, var(--champagne-mid) 65%, var(--bar-bg) 92%, transparent 100%)",
-            opacity: 0.8,
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1fr",
+            alignItems: "end",
           }}
-        />
-
-        {/* Floor / ceiling labels */}
-        <div
-          style={{ marginTop: 6, display: "flex", justifyContent: "space-between" }}
         >
-          <span
-            style={{
-              fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: 12,
-              color: "var(--text-tertiary)",
-            }}
-          >
-            $150K
-          </span>
-          <span
-            style={{
-              fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: 12,
-              color: "var(--text-tertiary)",
-            }}
-          >
-            $2.2M+
-          </span>
+          {markers.map((m, i) => (
+            <div
+              key={m.tag}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 5,
+                textAlign: i === 0 ? "left" : i === 2 ? "right" : "center",
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  fontSize: 12,
+                  letterSpacing: "0.12em",
+                  color: m.highlight
+                    ? "var(--data-cobalt)"
+                    : "var(--text-tertiary)",
+                }}
+              >
+                {m.tag}
+              </span>
+              <span
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontWeight: 400,
+                  fontSize: 28,
+                  lineHeight: 1,
+                  color: m.highlight
+                    ? "var(--text-primary)"
+                    : "var(--text-secondary)",
+                }}
+              >
+                {m.value}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
     </section>

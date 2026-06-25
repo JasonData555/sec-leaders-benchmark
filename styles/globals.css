@@ -18,6 +18,10 @@
   --data-cobalt-mid:    rgba(47, 128, 237, 0.12); /* Active chip background */
   --data-cobalt-border: rgba(47, 128, 237, 0.45); /* Active chip border */
 
+  /* Board-access donut segment fills — champagne-light & cobalt-light steps */
+  --donut-champagne-light: #E6C36B; /* Semi-annual segment */
+  --donut-cobalt-light:    #4F9BF5; /* Annual segment */
+
   /* Derived tokens — computed from the named tokens, never hardcoded elsewhere */
   --text-secondary: rgba(247, 249, 252, 0.65); /* Secondary labels, metadata */
   --text-tertiary:  rgba(247, 249, 252, 0.38); /* Zone labels, micro-labels */
@@ -40,4 +44,129 @@
 
 input::placeholder {
   color: var(--text-tertiary);
+}
+
+/* =====================================================================
+   Responsive dashboard layout (CLAUDE.md §7)
+   Desktop ≥1280: signature no-scroll 100vh layout.
+   Tablet 768–1279: page scrolls, sidebar → sticky top bar, cards 2×2.
+   Mobile <768: single column, comp stats 2×2.
+   Large ≥1680: shell capped & centered (handled by .app-shell max-width).
+   ===================================================================== */
+
+.app-shell {
+  max-width: 1680px;
+  margin: 0 auto;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--ink);
+}
+
+.app-body {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.peer-panel {
+  width: 236px;
+  flex-shrink: 0;
+  background: var(--ink-deep);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+}
+
+.peer-panel-inner {
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.comp-zone { flex: 1.6; min-height: 0; overflow: hidden; }
+.gov-zone  { flex: 1.8; min-height: 0; overflow: hidden; }
+
+/* Compensation stat-block row — flex with rule dividers between cells */
+.comp-stats { display: flex; align-items: flex-start; }
+.comp-stats > .stat-block {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.comp-stats > .stat-block + .stat-block {
+  border-left: 1px solid var(--border);
+  margin-left: 20px;
+  padding-left: 20px;
+}
+
+/* Governance 4-up card row */
+.gov-cards {
+  display: flex;
+  gap: 16px;
+  flex: 1;
+  min-height: 0;
+  align-items: stretch;
+}
+
+@media (max-width: 1279px) {
+  .app-shell { height: auto; min-height: 100vh; overflow: visible; }
+  .app-body { flex-direction: column; overflow: visible; }
+  .peer-panel {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    overflow-y: visible;
+  }
+  .peer-panel-inner {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px 28px;
+    padding: 14px 20px;
+  }
+  .app-main { overflow: visible; }
+  .comp-zone, .gov-zone { flex: none; overflow: visible; }
+  .gov-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    flex: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .comp-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 0; }
+  .comp-stats > .stat-block + .stat-block {
+    border-left: none;
+    margin-left: 0;
+    padding-left: 0;
+  }
+  .gov-cards { grid-template-columns: 1fr; }
+  .tool-header,
+  .tool-footer { padding-left: 18px; padding-right: 18px; }
+}
+
+/* PDF export renders near Letter width (~816px) — force the full desktop
+   layout so the exported document is never reflowed into the tablet grid. */
+.export-ready .gov-cards { display: flex !important; flex: none; }
+.export-ready .comp-stats { display: flex !important; }
+.export-ready .comp-stats > .stat-block + .stat-block {
+  border-left: 1px solid var(--border);
+  margin-left: 20px;
+  padding-left: 20px;
 }

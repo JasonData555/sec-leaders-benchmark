@@ -13,52 +13,20 @@ export default async function BenchmarkPage() {
 
   return (
     <FilterProvider>
-      <div
-        style={{
-          height: "100vh",
-          overflow: "hidden",
-          display: "flex",
-          flexDirection: "column",
-          background: "var(--ink)",
-        }}
-      >
-      <ToolHeader />
+      <div className="app-shell">
+        <ToolHeader />
 
-      <div
-        style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "row",
-          overflow: "hidden",
-          minHeight: 0,
-        }}
-      >
-        {/* Left panel */}
-        <aside
-          style={{
-            width: 236,
-            flexShrink: 0,
-            background: "var(--ink-deep)",
-            borderRight: "1px solid var(--border)",
-            overflowY: "auto",
-          }}
-        >
-          <PeerGroupPanel />
-        </aside>
+        <div className="app-body">
+          {/* Left panel — sidebar on desktop, sticky top bar on small screens */}
+          <aside className="peer-panel">
+            <PeerGroupPanel />
+          </aside>
 
-        {/* Right content */}
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "column",
-            overflow: "hidden",
-            minHeight: 0,
-          }}
-        >
-          <ZoneStack />
+          {/* Right content */}
+          <div className="app-main">
+            <ZoneStack />
+          </div>
         </div>
-      </div>
 
         <ToolFooter />
       </div>
