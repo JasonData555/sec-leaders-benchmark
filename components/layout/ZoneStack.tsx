@@ -3,7 +3,6 @@
 import { useFilters } from "@/app/benchmark/FilterContext";
 import CompensationZone from "@/components/zones/CompensationZone";
 import GovernanceZone from "@/components/zones/GovernanceZone";
-import FunctionalScopeZone from "@/components/zones/FunctionalScopeZone";
 import CandidateBand from "@/components/ui/CandidateBand";
 
 /** The three data zones — or, when no records match the active filters, a
@@ -67,7 +66,6 @@ export default function ZoneStack({
     <>
       <CompensationZone />
       <GovernanceZone />
-      <FunctionalScopeZone />
       {withCandidate && <CandidateBand />}
     </>
   );

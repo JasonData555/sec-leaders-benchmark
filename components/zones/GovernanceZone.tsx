@@ -8,7 +8,7 @@ import type { BoardMetrics, DOMetrics } from "@/lib/metrics";
 const CARD_LABEL: React.CSSProperties = {
   fontFamily: "'DM Sans', sans-serif",
   fontWeight: 400,
-  fontSize: 11,
+  fontSize: 13,
   letterSpacing: "0.10em",
   textTransform: "uppercase",
   color: "var(--text-tertiary)",
@@ -17,7 +17,7 @@ const CARD_LABEL: React.CSSProperties = {
 const SUBLABEL: React.CSSProperties = {
   fontFamily: "'DM Sans', sans-serif",
   fontWeight: 300,
-  fontSize: 10.5,
+  fontSize: 12.5,
   color: "var(--text-tertiary)",
 };
 
@@ -26,10 +26,11 @@ const cardStyle: React.CSSProperties = {
   background: "var(--ink-surface)",
   border: "1px solid var(--border)",
   borderRadius: 3,
-  padding: "12px 14px",
+  padding: "24px",
   display: "flex",
   flexDirection: "column",
-  gap: 8,
+  justifyContent: "center",
+  gap: 14,
 };
 
 function BigStat({ value }: { value: number }) {
@@ -38,18 +39,18 @@ function BigStat({ value }: { value: number }) {
       style={{
         fontFamily: "'Cormorant Garamond', serif",
         fontWeight: 400,
-        fontSize: 32,
+        fontSize: 48,
         lineHeight: 1,
         color: "var(--text-primary)",
       }}
     >
       {Math.round(value)}
-      <sup style={{ fontSize: 17, opacity: 0.7 }}>%</sup>
+      <sup style={{ fontSize: 26, opacity: 0.7 }}>%</sup>
     </span>
   );
 }
 
-const C = 2 * Math.PI * 19.5; // circle circumference
+const C = 2 * Math.PI * 29; // circle circumference
 
 function BoardAccessCard({ board }: { board: BoardMetrics }) {
   const segments = [
@@ -64,15 +65,15 @@ function BoardAccessCard({ board }: { board: BoardMetrics }) {
     <div style={cardStyle}>
       <span style={CARD_LABEL}>Board Access</span>
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <svg width={48} height={48} viewBox="0 0 48 48">
-          <g transform="rotate(-90 24 24)">
+        <svg width={72} height={72} viewBox="0 0 72 72">
+          <g transform="rotate(-90 36 36)">
             <circle
-              cx={24}
-              cy={24}
-              r={19.5}
+              cx={36}
+              cy={36}
+              r={29}
               fill="none"
               stroke="var(--bar-bg)"
-              strokeWidth={9}
+              strokeWidth={13}
             />
             {segments.map((seg) => {
               const len = (seg.pct / 100) * C;
@@ -81,12 +82,12 @@ function BoardAccessCard({ board }: { board: BoardMetrics }) {
               return (
                 <circle
                   key={seg.label}
-                  cx={24}
-                  cy={24}
-                  r={19.5}
+                  cx={36}
+                  cy={36}
+                  r={29}
                   fill="none"
                   stroke={seg.color}
-                  strokeWidth={9}
+                  strokeWidth={13}
                   strokeDasharray={`${len} ${C - len}`}
                   strokeDashoffset={offset}
                 />
@@ -94,16 +95,16 @@ function BoardAccessCard({ board }: { board: BoardMetrics }) {
             })}
           </g>
         </svg>
-        <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
           {segments.map((seg) => (
             <div
               key={seg.label}
-              style={{ display: "flex", alignItems: "center", gap: 5 }}
+              style={{ display: "flex", alignItems: "center", gap: 7 }}
             >
               <span
                 style={{
-                  width: 6,
-                  height: 6,
+                  width: 8,
+                  height: 8,
                   borderRadius: "50%",
                   background: seg.color,
                   flexShrink: 0,
@@ -113,7 +114,7 @@ function BoardAccessCard({ board }: { board: BoardMetrics }) {
               <span
                 style={{
                   fontFamily: "'IBM Plex Mono', monospace",
-                  fontSize: 10.5,
+                  fontSize: 12.5,
                   color: "var(--text-tertiary)",
                   marginLeft: "auto",
                 }}
@@ -142,11 +143,11 @@ function DandOCard({ dao }: { dao: DOMetrics }) {
       <div style={{ display: "flex", flexDirection: "column", gap: 4, marginTop: 2 }}>
         {bars.map((bar) => (
           <div key={bar.label} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <span style={{ ...SUBLABEL, width: 80, flexShrink: 0 }}>{bar.label}</span>
+            <span style={{ ...SUBLABEL, width: 96, flexShrink: 0 }}>{bar.label}</span>
             <span
               style={{
                 flex: 1,
-                height: 2.5,
+                height: 4,
                 background: "var(--bar-bg)",
                 borderRadius: 2,
                 overflow: "hidden",
@@ -164,9 +165,9 @@ function DandOCard({ dao }: { dao: DOMetrics }) {
             <span
               style={{
                 fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: 10.5,
+                fontSize: 13,
                 color: "var(--text-tertiary)",
-                width: 34,
+                width: 40,
                 textAlign: "right",
                 flexShrink: 0,
               }}
@@ -204,7 +205,7 @@ export default function GovernanceZone() {
   return (
     <section
       style={{
-        flex: 1.2,
+        flex: 1.8,
         minHeight: 0,
         overflow: "hidden",
         padding: "20px 26px",
@@ -226,7 +227,15 @@ export default function GovernanceZone() {
       >
         Governance &amp; Protection
       </span>
-      <div style={{ display: "flex", gap: 10 }}>
+      <div
+        style={{
+          display: "flex",
+          gap: 16,
+          flex: 1,
+          minHeight: 0,
+          alignItems: "stretch",
+        }}
+      >
         <BoardAccessCard board={metrics.board} />
         <DandOCard dao={metrics.do} />
         <StatCard

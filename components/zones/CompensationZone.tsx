@@ -109,7 +109,7 @@ export default function CompensationZone() {
   return (
     <section
       style={{
-        flex: 1.4,
+        flex: 1.6,
         minHeight: 0,
         overflow: "hidden",
         padding: "20px 26px",
@@ -158,7 +158,7 @@ export default function CompensationZone() {
       </div>
 
       {/* Distribution bar */}
-      <div style={{ marginTop: 8, position: "relative", paddingTop: 18 }}>
+      <div style={{ marginTop: 8, position: "relative", paddingTop: 22 }}>
         {markers.map((m) => (
           <div
             key={m.label}
@@ -171,7 +171,7 @@ export default function CompensationZone() {
                 transform: "translateX(-50%)",
                 whiteSpace: "nowrap",
                 fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: 10.5,
+                fontSize: 14,
                 fontWeight: m.highlight ? 400 : 300,
                 color: "var(--text-primary)",
               }}
@@ -181,7 +181,7 @@ export default function CompensationZone() {
             <span
               style={{
                 position: "absolute",
-                top: 12,
+                top: 16,
                 width: m.highlight ? 2 : 1.5,
                 height: 17,
                 background: m.highlight ? "var(--data-cobalt)" : "var(--champagne)",
