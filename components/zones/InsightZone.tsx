@@ -11,7 +11,7 @@ const bulletStyle: React.CSSProperties = {
   fontFamily: "'DM Sans', sans-serif",
   fontWeight: 300,
   fontSize: 11,
-  lineHeight: 1.45,
+  lineHeight: 1.4,
   color: "var(--text-dim)",
 };
 
@@ -35,7 +35,7 @@ export default function InsightZone() {
       >
         Key Insight
       </span>
-      <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
         <p style={bulletStyle}>
           — The Baseline Risk market is predictable in its middle: the typical CISO earns between{" "}
           <strong>$390K–$772K</strong> with a median of <strong>$530K</strong> — a range driven by

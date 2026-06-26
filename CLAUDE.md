@@ -41,7 +41,7 @@ styles/     globals.css             # all design tokens — never hardcode hex i
 
 ## 4. Design system (see DESIGN.md)
 - **Never hardcode hex in components.** All colors are CSS custom properties in `styles/globals.css` (`:root`). Change values there.
-- Current core tokens: `--ink-deep #0B1F3A`, `--ink #0D1B2E`, `--ink-surface #122338`, `--champagne #C9A44C`, `--champagne-mid #A8873A`, `--text-primary #F7F9FC`, `--data-cobalt #2F80ED` (signal accent), `--hitch-blue #2F80ED` (auth LinkedIn button ONLY), `--donut-champagne-light #E6C36B` + `--donut-cobalt-light #4F9BF5` (Board Access donut segments).
+- Current core tokens: `--ink-deep #0B1F3A`, `--ink #0D1B2E`, `--ink-surface #122338`, `--champagne #C9A44C`, `--champagne-mid #A8873A`, `--text-primary #F7F9FC`, `--data-cobalt #2F80ED` (signal accent), `--hitch-blue #2F80ED` (auth LinkedIn button ONLY), `--donut-champagne-light #E6C36B` + `--donut-cobalt-light #4F9BF5` (Board Access bar fills).
 - **Fonts** (loaded in `app/layout.tsx`): Cormorant Garamond (display/numbers), DM Sans (UI copy), IBM Plex Mono (labels/percentages/ranges/metadata).
 - Border-radius max: 10px outer container, 3–5px cards/charts, 2px chips/buttons. Shadows use `rgba(0,0,0,n)` only.
 
@@ -89,7 +89,7 @@ styles/     globals.css             # all design tokens — never hardcode hex i
 New cohort CSV → synthesis pipeline → retire oldest cohort → `csv-to-json.ts` → replace JSON → update vintage label (`2025–2026 survey period`) → redeploy. Confirm before deploy.
 
 ## 13. What this is NOT
-Not DB-backed (static JSON only) · not real-time · not public (auth on every route) · not multi-tenant · not search (filters only) · not a scrolling dashboard (no tabs/modals/nav) · not Tailwind · three chart types only (distribution bar, board donut, horizontal function bars).
+Not DB-backed (static JSON only) · not real-time · not public (auth on every route) · not multi-tenant · not search (filters only) · not a scrolling dashboard (no tabs/modals/nav) · not Tailwind · two chart types only (tier scatter distribution, horizontal bars — Board Access, D&O, functional scope).
 
 ## 14. Future Hitch Intelligence products
 This file is the fork template; DESIGN.md inherited wholesale (only wordmark string changes). Core color tokens and auth-only `--hitch-blue` stay constant. New products may add one champagne-derived data accent.

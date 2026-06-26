@@ -23,14 +23,16 @@ const SUBLABEL: React.CSSProperties = {
 
 const cardStyle: React.CSSProperties = {
   flex: 1,
+  minHeight: 0,
+  overflow: "hidden",
   background: "var(--ink-surface)",
   border: "1px solid var(--border)",
   borderRadius: 3,
-  padding: "10px 14px",
+  padding: "8px 12px",
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
-  gap: 10,
+  gap: 8,
 };
 
 function BigStat({ value }: { value: number }) {
@@ -39,18 +41,16 @@ function BigStat({ value }: { value: number }) {
       style={{
         fontFamily: "'Cormorant Garamond', serif",
         fontWeight: 400,
-        fontSize: 48,
+        fontSize: 34,
         lineHeight: 1,
         color: "var(--text-primary)",
       }}
     >
       {Math.round(value)}
-      <sup style={{ fontSize: 26, opacity: 0.7 }}>%</sup>
+      <sup style={{ fontSize: 18, opacity: 0.7 }}>%</sup>
     </span>
   );
 }
-
-const C = 2 * Math.PI * 24; // circle circumference
 
 function BoardAccessCard({ board }: { board: BoardMetrics }) {
   const segments = [
@@ -60,70 +60,45 @@ function BoardAccessCard({ board }: { board: BoardMetrics }) {
     { label: "Per Request", pct: board.perRequest, color: "var(--data-cobalt)" },
     { label: "None", pct: board.none, color: "rgba(247, 249, 252, 0.14)" },
   ];
-  let cumulative = 0;
   return (
     <div style={cardStyle}>
       <span style={CARD_LABEL}>Board Access</span>
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <svg width={60} height={60} viewBox="0 0 60 60">
-          <g transform="rotate(-90 30 30)">
-            <circle
-              cx={30}
-              cy={30}
-              r={24}
-              fill="none"
-              stroke="var(--bar-bg)"
-              strokeWidth={11}
-            />
-            {segments.map((seg) => {
-              const len = (seg.pct / 100) * C;
-              const offset = -(cumulative / 100) * C;
-              cumulative += seg.pct;
-              return (
-                <circle
-                  key={seg.label}
-                  cx={30}
-                  cy={30}
-                  r={24}
-                  fill="none"
-                  stroke={seg.color}
-                  strokeWidth={11}
-                  strokeDasharray={`${len} ${C - len}`}
-                  strokeDashoffset={offset}
-                />
-              );
-            })}
-          </g>
-        </svg>
-        <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-          {segments.map((seg) => (
-            <div
-              key={seg.label}
-              style={{ display: "flex", alignItems: "center", gap: 7 }}
+      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        {segments.map((seg) => (
+          <div key={seg.label} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <span style={{ ...SUBLABEL, width: 74, flexShrink: 0 }}>{seg.label}</span>
+            <span
+              style={{
+                flex: 1,
+                height: 4,
+                background: "var(--bar-bg)",
+                borderRadius: 2,
+                overflow: "hidden",
+              }}
             >
               <span
                 style={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: "50%",
+                  display: "block",
+                  width: `${seg.pct}%`,
+                  height: "100%",
                   background: seg.color,
-                  flexShrink: 0,
                 }}
               />
-              <span style={SUBLABEL}>{seg.label}</span>
-              <span
-                style={{
-                  fontFamily: "'IBM Plex Mono', monospace",
-                  fontSize: 12.5,
-                  color: "var(--text-tertiary)",
-                  marginLeft: "auto",
-                }}
-              >
-                {formatPercent(seg.pct)}
-              </span>
-            </div>
-          ))}
-        </div>
+            </span>
+            <span
+              style={{
+                fontFamily: "'IBM Plex Mono', monospace",
+                fontSize: 12.5,
+                color: "var(--text-tertiary)",
+                width: 32,
+                textAlign: "right",
+                flexShrink: 0,
+              }}
+            >
+              {formatPercent(seg.pct)}
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );
