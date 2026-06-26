@@ -29,7 +29,7 @@ app/
   api/{auth,export,log}/  # NextAuth · Puppeteer PDF · session log
 components/
   layout/   ToolHeader, ToolFooter, PeerGroupPanel, ZoneStack, ExportButton
-  zones/    CompensationZone, GovernanceZone, FunctionalScopeZone  (charts rendered INLINE here)
+  zones/    CompensationZone, TierScatter, GovernanceZone, InsightZone, FunctionalScopeZone  (charts rendered INLINE here)
   filters/  RoleFilter, LocationFilter (retained, not in UI) · others
   ui/       Chip (size md|lg), NCounter, CandidateBand, FloorWarning, CompareForm
 lib/        data.ts · filters.ts · metrics.ts · scripts/csv-to-json.ts · auth.ts
@@ -64,6 +64,8 @@ styles/     globals.css             # all design tokens — never hardcode hex i
 - **Tablet 768–1279px:** page scrolls; left panel → sticky top bar (horizontal); governance cards 2×2.
 - **Mobile <768px:** single column; comp stat blocks 2×2 (dividers off); Industry Tier pills ride the sticky top bar.
 - **Comp distribution:** taller (14px) bar with ticks at true P25/P50/P75 positions; dollar figures in an evenly-spaced 3-column readout **below** the bar (no overlap); block `flex:1`, vertically centered to fill the zone.
+- **Key Insight band (`.insight-band`):** full-width static prose strip below the benchmark panel, above the footer. `flex:none` so the `flex:1` panel absorbs its height (no-scroll preserved). Champagne `KEY INSIGHT` eyebrow + 14px DM Sans copy. Dashboard only — gated off `/export` via `showInsight={false}` on `ZoneStack`. Copy is verbatim (medians/quartiles), not data-bound.
+- **Footer prose:** full-width (`flex:1`, no max-width cap), stretches to the "Hitch Partners" wordmark.
 - **PDF export:** `.export-ready` overrides force the desktop layout at Letter width — don't let the tablet/mobile breakpoints reflow the print output.
 
 ## 8. Auth
@@ -93,4 +95,4 @@ Not DB-backed (static JSON only) · not real-time · not public (auth on every r
 This file is the fork template; DESIGN.md inherited wholesale (only wordmark string changes). Core color tokens and auth-only `--hitch-blue` stay constant. New products may add one champagne-derived data accent.
 
 ---
-_Last updated: 2026-06-25 · v1.0 · Next.js · Vercel · NextAuth · Puppeteer_
+_Last updated: 2026-06-25 · v1.1 · Next.js · Vercel · NextAuth · Puppeteer_

@@ -3,7 +3,7 @@
 > Living working-log. Most-recent-first. Build rules in **CLAUDE.md**, design in **DESIGN.md**.
 > This file is the *state of play* — what's done, pending, and how to verify.
 
-_Last updated: 2026-06-25 · branch `main` · tier toggle + comp hero + header legibility (commit `29ee376`)._
+_Last updated: 2026-06-25 · branch `main` · Key Insight band + footer full-width (commit `aac76fa`)._
 
 ---
 
@@ -22,18 +22,17 @@ Feature-complete through Phases 1–3 (build, data, export/auth) and deployed on
 
 ## 2. Recently completed (newest first)
 
-### Key Insight band — (uncommitted)
-- **Full-width "Key Insight" prose band** added below the benchmark panel (above the footer) so
-  non-technical stakeholders get the High Consequence vs. Baseline Risk takeaway in plain language.
-  New `components/zones/InsightZone.tsx` — static editorial copy, **no data binding** (figures quoted
-  verbatim: medians/quartiles, deliberately distinct from the headline averages — risk B).
-- Wired via `showInsight` prop in `components/layout/ZoneStack.tsx`; `app/export/page.tsx` passes
-  `showInsight={false}` so the **PDF export is unchanged**.
-- New `.insight-band` class in `globals.css` (`flex:none`) — the `flex:1` benchmark panel absorbs the
-  height so the **no-scroll desktop ≥1280 is preserved** (charts shrink ~130–175px). On short laptops
-  the charts get tight; trimming the copy is the fallback if it's unacceptable.
-- Eyebrow reuses the `TierScatter` zone-header style (champagne accent); prose follows the
-  `ToolFooter`/export-footer pattern. No new tokens. `npm run build` clean.
+### Key Insight band + footer full-width — (commits `aac76fa` ← `00818b3`)
+- **Full-width "Key Insight" prose band** below the benchmark panel (above the footer) — plain-language
+  High Consequence vs. Baseline Risk takeaway for non-technical readers. New
+  `components/zones/InsightZone.tsx`: static copy, **no data binding** (verbatim medians/quartiles,
+  deliberately distinct from the headline averages — risk B). Champagne eyebrow + 14px DM Sans copy.
+- `.insight-band` in `globals.css` is `flex:none` → the `flex:1` panel absorbs its height, so the
+  **no-scroll desktop ≥1280 holds** (charts shrink). On short laptops watch for footer crowding;
+  trimming the copy / 13.5px is the fallback.
+- Gated off `/export` via `showInsight={false}` on `ZoneStack` (new prop) — **PDF unchanged**.
+- **Footer prose** un-capped (`flex:1`, dropped `maxWidth:660`) → spans full width to the wordmark.
+- `npm run build` clean; pushed to `main`.
 
 ### Tier toggle + comp hero + header legibility — (commit `29ee376`)
 - **Industry Tier → single-select segmented toggle** (`All Tiers · Baseline Risk · High
@@ -49,25 +48,18 @@ Feature-complete through Phases 1–3 (build, data, export/auth) and deployed on
 - `npm run build` clean; pushed to `main`.
 
 ### Responsive redesign + comp distribution rework — (commit `4a2a63c`)
-- **Fully responsive** via `@media` layout classes in `globals.css` applied to shell/body/
-  sidebar/zones (SSR-safe, token-based, layout-only; colors/type stay inline). Breakpoints:
-  **≥1680** capped & centered · **≥1280** signature no-scroll desktop · **768–1279** sidebar →
-  sticky top bar + governance 2×2, page scrolls · **<768** single column + comp stats 2×2.
-- **Label overlap fixed.** P25/P50/P75 dollar figures moved to an evenly-spaced 3-column
-  readout *below* a taller (14px) bar; thin ticks still mark true positions → no collision.
-  `components/zones/CompensationZone.tsx`.
-- **Comp dead space reclaimed.** Distribution block now `flex:1`, vertically centered.
-- **Donut hexes tokenized.** `#E6C36B`/`#4F9BF5` → `--donut-champagne-light`/`--donut-cobalt-light`.
-- **PDF export protected.** `.export-ready` overrides force desktop layout at Letter width.
-- `npm run build` clean; pushed to `main`.
+- **Fully responsive** via `@media` layout classes in `globals.css` (SSR-safe, layout-only):
+  **≥1680** capped & centered · **≥1280** no-scroll desktop · **768–1279** sticky top bar + gov 2×2 ·
+  **<768** single column + comp stats 2×2. `.export-ready` forces desktop layout for the PDF.
+- **Label overlap fixed** (P25/P50/P75 → 3-column readout below a 14px bar); comp dead space
+  reclaimed (`flex:1`); donut hexes tokenized. `npm run build` clean; pushed.
 
 ### UI polish + dark-theme CISO pass (commits `3aacead` ← `85242a1`)
-- White logo on dark theme (`hitch-logo-white.png`); Board Access donut recolored gold+cobalt+neutral.
+- White logo on dark theme; Board Access donut recolored gold+cobalt+neutral.
 - **Data scoped to CISO** (`csv-to-json.ts` filters `Role_Bucket === "CISO"`) → **957 records**
   (406 Baseline + 551 High Consequence). **Total Comp** = sum of base/bonus/equity averages
   (`totalCompAvg`): Baseline **$734,041** · High Consequence **$1,006,851**.
-- Headline figures forced white; Location/Role pulled from UI (plumbing retained); Industry Tier
-  promoted to primary control (`size="lg"` Chip).
+- Headline figures forced white; Location/Role pulled from UI (plumbing retained).
 
 ---
 
@@ -99,27 +91,13 @@ npm run dev          # Next 14 App Router (3000, or 3001 if taken)
 npm run build        # full typecheck + prod build
 ```
 
-**Auth-gated routes** (`/benchmark`, `/export`) 307-redirect when unauthed. Get a session:
-```
-JAR=/tmp/jar; rm -f $JAR
-CODE=$(grep '^NEXTAUTH_ACCESS_CODE=' .env.local | cut -d= -f2- | tr -d '"')
-CSRF=$(curl -s -c $JAR localhost:3000/api/auth/csrf | sed -E 's/.*"csrfToken":"([^"]+)".*/\1/')
-curl -s -b $JAR -c $JAR -o /dev/null -X POST localhost:3000/api/auth/callback/credentials \
-  -H "Content-Type: application/x-www-form-urlencoded" \
-  --data-urlencode "csrfToken=$CSRF" --data-urlencode "code=$CODE" --data-urlencode "json=true"
-curl -s -b $JAR localhost:3000/api/auth/session   # should show a user
-```
+**Auth-gated routes** (`/benchmark`, `/export`) 307-redirect when unauthed. For a local session, POST
+the shared `NEXTAUTH_ACCESS_CODE` to `/api/auth/callback/credentials` with a csrf token from
+`/api/auth/csrf` (jar-backed curl), then check `/api/auth/session`. LinkedIn OAuth is broken locally —
+**verify on Vercel** (risk A).
 
-**Math probe** (no auth): per-tier averages should match the target table:
-```
-node -e 'const d=require("./data/allsec-benchmark.json");
-const p=v=>v?+String(v).replace(/[$,]/g,""):null;const m=a=>a.reduce((s,x)=>s+x,0)/a.length;
-const t=n=>d.filter(r=>r["Industry Tier"]===n);
-for(const n of ["Baseline","High Consequence"]){const rs=t(n);
-const c=f=>rs.map(r=>p(r[f])).filter(Boolean);
-console.log(n, Math.round(m(c("Base-Converted"))+m(c("Bonus-Converted"))+m(c("Equity-Converted"))));}'
-# → Baseline 734041 · High Consequence 1006851
-```
+**Math probe** (no auth): per-tier `totalCompAvg` (mean of base+bonus+equity column means) should be
+**Baseline 734041 · High Consequence 1006851** — quick `node -e` over `data/allsec-benchmark.json`.
 
 ---
 

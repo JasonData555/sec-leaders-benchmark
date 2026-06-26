@@ -26,11 +26,11 @@ const cardStyle: React.CSSProperties = {
   background: "var(--ink-surface)",
   border: "1px solid var(--border)",
   borderRadius: 3,
-  padding: "24px",
+  padding: "10px 14px",
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
-  gap: 14,
+  gap: 10,
 };
 
 function BigStat({ value }: { value: number }) {
@@ -50,7 +50,7 @@ function BigStat({ value }: { value: number }) {
   );
 }
 
-const C = 2 * Math.PI * 29; // circle circumference
+const C = 2 * Math.PI * 24; // circle circumference
 
 function BoardAccessCard({ board }: { board: BoardMetrics }) {
   const segments = [
@@ -65,15 +65,15 @@ function BoardAccessCard({ board }: { board: BoardMetrics }) {
     <div style={cardStyle}>
       <span style={CARD_LABEL}>Board Access</span>
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <svg width={72} height={72} viewBox="0 0 72 72">
-          <g transform="rotate(-90 36 36)">
+        <svg width={60} height={60} viewBox="0 0 60 60">
+          <g transform="rotate(-90 30 30)">
             <circle
-              cx={36}
-              cy={36}
-              r={29}
+              cx={30}
+              cy={30}
+              r={24}
               fill="none"
               stroke="var(--bar-bg)"
-              strokeWidth={13}
+              strokeWidth={11}
             />
             {segments.map((seg) => {
               const len = (seg.pct / 100) * C;
@@ -82,12 +82,12 @@ function BoardAccessCard({ board }: { board: BoardMetrics }) {
               return (
                 <circle
                   key={seg.label}
-                  cx={36}
-                  cy={36}
-                  r={29}
+                  cx={30}
+                  cy={30}
+                  r={24}
                   fill="none"
                   stroke={seg.color}
-                  strokeWidth={13}
+                  strokeWidth={11}
                   strokeDasharray={`${len} ${C - len}`}
                   strokeDashoffset={offset}
                 />

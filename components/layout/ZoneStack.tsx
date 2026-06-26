@@ -69,6 +69,7 @@ export default function ZoneStack({
   return (
     <>
       <CompensationZone />
+      {showInsight && <InsightZone />}
       <div className="benchmark-panel">
         <div className="scatter-half">
           <TierScatter />
@@ -77,7 +78,6 @@ export default function ZoneStack({
           <GovernanceZone />
         </div>
       </div>
-      {showInsight && <InsightZone />}
       {withCandidate && <CandidateBand />}
     </>
   );

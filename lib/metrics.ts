@@ -138,9 +138,11 @@ export function calcCompMetrics(records: BenchmarkRecord[]): CompMetrics {
  *  parseComp + percentile, no new math. Nulls excluded, never imputed. */
 export interface TierScatter {
   points: number[];
+  p10: number;
   p25: number;
   p50: number;
   p75: number;
+  p90: number;
   n: number;
 }
 
@@ -148,9 +150,11 @@ export function calcTierScatter(records: BenchmarkRecord[]): TierScatter {
   const { values } = compColumn(records, "Total Comp-Converted");
   return {
     points: values,
+    p10: values.length ? percentile(values, 10) : 0,
     p25: values.length ? percentile(values, 25) : 0,
     p50: values.length ? percentile(values, 50) : 0,
     p75: values.length ? percentile(values, 75) : 0,
+    p90: values.length ? percentile(values, 90) : 0,
     n: values.length,
   };
 }
