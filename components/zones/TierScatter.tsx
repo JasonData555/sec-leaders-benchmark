@@ -60,7 +60,7 @@ function TierColumn({
 
   // Label rows: place each at its true position (top%), then nudge apart so the
   // two-line labels don't collide, clamping within the strip top/bottom.
-  const MIN_GAP = 14; // percent of plot height between adjacent labels
+  const MIN_GAP = 15; // percent of plot height between adjacent labels
   const PAD = 5; // keep labels off the very top/bottom edge
   const rows = PCTS.map((p) => ({
     ...p,
@@ -169,9 +169,10 @@ function TierColumn({
                 <span
                   style={{
                     fontFamily: "'IBM Plex Mono', monospace",
-                    fontSize: 8.5,
-                    letterSpacing: "0.06em",
-                    color: "var(--text-tertiary)",
+                    fontSize: 9,
+                    fontWeight: 500,
+                    letterSpacing: "0.04em",
+                    color: "var(--scatter-axis)",
                   }}
                 >
                   {r.name}
@@ -179,8 +180,8 @@ function TierColumn({
                 <span
                   style={{
                     fontFamily: "'IBM Plex Mono', monospace",
-                    fontSize: 11,
-                    fontWeight: r.bold ? 500 : 400,
+                    fontSize: 12.5,
+                    fontWeight: r.bold ? 600 : 500,
                     color,
                   }}
                 >

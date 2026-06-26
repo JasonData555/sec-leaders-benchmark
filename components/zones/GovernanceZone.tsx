@@ -22,13 +22,11 @@ const SUBLABEL: React.CSSProperties = {
 };
 
 const cardStyle: React.CSSProperties = {
-  flex: 1,
-  minHeight: 0,
-  overflow: "hidden",
+  flex: "1 0 auto",
   background: "var(--ink-surface)",
   border: "1px solid var(--border)",
   borderRadius: 3,
-  padding: "8px 12px",
+  padding: "11px 13px",
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
@@ -118,7 +116,7 @@ function DandOCard({ dao }: { dao: DOMetrics }) {
       <div style={{ display: "flex", flexDirection: "column", gap: 4, marginTop: 2 }}>
         {bars.map((bar) => (
           <div key={bar.label} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <span style={{ ...SUBLABEL, width: 96, flexShrink: 0 }}>{bar.label}</span>
+            <span style={{ ...SUBLABEL, width: 70, flexShrink: 0 }}>{bar.label}</span>
             <span
               style={{
                 flex: 1,
@@ -181,7 +179,7 @@ export default function GovernanceZone() {
     <section
       className="gov-zone"
       style={{
-        padding: "20px 26px",
+        padding: "16px 18px",
         display: "flex",
         flexDirection: "column",
         gap: 12,

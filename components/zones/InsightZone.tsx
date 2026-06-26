@@ -37,9 +37,10 @@ export default function InsightZone() {
       </span>
       <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
         <p style={bulletStyle}>
-          — The Baseline Risk market is predictable in its middle: the typical CISO earns between{" "}
-          <strong>$390K–$772K</strong> with a median of <strong>$530K</strong> — a range driven by
-          company size, industry, and program maturity
+          — Above <strong>$1.5M</strong>, High Consequence sustains a dense, visible concentration of
+          profiles — a structural tier of the market, not an outlier band. Organizations competing for
+          security leaders in regulated, high-exposure environments should model <strong>$1.5M+</strong>{" "}
+          as a realistic planning anchor for top-quartile talent
         </p>
         <p style={bulletStyle}>
           — High Consequence organizations price security leadership differently from day one — the
@@ -48,10 +49,9 @@ export default function InsightZone() {
           market&apos;s direct valuation of organizational risk
         </p>
         <p style={bulletStyle}>
-          — Above <strong>$1.5M</strong>, High Consequence sustains a dense, visible concentration of
-          profiles — a structural tier of the market, not an outlier band. Organizations competing for
-          security leaders in regulated, high-exposure environments should model <strong>$1.5M+</strong>{" "}
-          as a realistic planning anchor for top-quartile talent
+          — The Baseline Risk market is predictable in its middle: the typical CISO earns between{" "}
+          <strong>$390K–$772K</strong> with a median of <strong>$530K</strong> — a range driven by
+          company size, industry, and program maturity
         </p>
       </div>
     </section>
