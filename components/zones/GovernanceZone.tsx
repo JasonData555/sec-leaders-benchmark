@@ -200,16 +200,18 @@ export default function GovernanceZone() {
       <div className="gov-cards">
         <BoardAccessCard board={metrics.board} />
         <DandOCard dao={metrics.do} />
-        <StatCard
-          label="Severance"
-          value={metrics.severance}
-          sublabel="Pre-negotiated agreement"
-        />
-        <StatCard
-          label="Accelerated Vesting"
-          value={metrics.vesting}
-          sublabel="Accelerated vesting clause"
-        />
+        <div className="gov-pair">
+          <StatCard
+            label="Severance"
+            value={metrics.severance}
+            sublabel="Pre-negotiated agreement"
+          />
+          <StatCard
+            label="Accelerated Vesting"
+            value={metrics.vesting}
+            sublabel="Accelerated vesting clause"
+          />
+        </div>
       </div>
     </section>
   );

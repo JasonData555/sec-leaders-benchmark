@@ -176,6 +176,9 @@ input::placeholder {
   flex: 1;
   min-height: 0;
 }
+/* Severance + Accelerated Vesting share one row to keep the rail to 3 rows. */
+.gov-pair { display: flex; gap: 10px; }
+.gov-pair > * { flex: 1; min-width: 0; }
 
 @media (max-width: 1279px) {
   .app-shell { height: auto; min-height: 100vh; overflow: visible; }
@@ -239,6 +242,8 @@ input::placeholder {
   grid-template-columns: 1fr 1fr;
   flex: none;
 }
+/* Dissolve the pair so its two cards rejoin the 2×2 export grid directly. */
+.export-ready .gov-pair { display: contents; }
 .export-ready .comp-row { flex-direction: row !important; gap: 26px; }
 .export-ready .comp-row > .comp-stats {
   border-left: 1px solid var(--border);
