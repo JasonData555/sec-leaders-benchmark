@@ -166,7 +166,13 @@ function StatCard({
   half?: boolean;
 }) {
   return (
-    <div style={half ? { ...cardStyle, flex: "1 1 0", minWidth: 0 } : cardStyle}>
+    <div
+      style={
+        half
+          ? { ...cardStyle, flex: "1 1 0", minWidth: 0, alignItems: "center" }
+          : cardStyle
+      }
+    >
       <span
         style={
           half
