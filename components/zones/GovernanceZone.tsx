@@ -158,16 +158,18 @@ function StatCard({
   label,
   value,
   sublabel,
+  half,
 }: {
   label: string;
   value: number;
-  sublabel: string;
+  sublabel?: string;
+  half?: boolean;
 }) {
   return (
-    <div style={cardStyle}>
-      <span style={CARD_LABEL}>{label}</span>
+    <div style={half ? { ...cardStyle, flex: "1 1 0", minWidth: 0 } : cardStyle}>
+      <span style={half ? { ...CARD_LABEL, fontSize: 11.5 } : CARD_LABEL}>{label}</span>
       <BigStat value={value} />
-      <span style={SUBLABEL}>{sublabel}</span>
+      {sublabel ? <span style={SUBLABEL}>{sublabel}</span> : null}
     </div>
   );
 }
@@ -201,16 +203,8 @@ export default function GovernanceZone() {
         <BoardAccessCard board={metrics.board} />
         <DandOCard dao={metrics.do} />
         <div className="gov-pair">
-          <StatCard
-            label="Severance"
-            value={metrics.severance}
-            sublabel="Pre-negotiated agreement"
-          />
-          <StatCard
-            label="Accelerated Vesting"
-            value={metrics.vesting}
-            sublabel="Accelerated vesting clause"
-          />
+          <StatCard half label="Severance" value={metrics.severance} />
+          <StatCard half label="Accl. Vesting" value={metrics.vesting} />
         </div>
       </div>
     </section>
