@@ -167,7 +167,15 @@ function StatCard({
 }) {
   return (
     <div style={half ? { ...cardStyle, flex: "1 1 0", minWidth: 0 } : cardStyle}>
-      <span style={half ? { ...CARD_LABEL, fontSize: 11.5 } : CARD_LABEL}>{label}</span>
+      <span
+        style={
+          half
+            ? { ...CARD_LABEL, fontSize: 11.5, letterSpacing: "0.04em", textAlign: "center" }
+            : CARD_LABEL
+        }
+      >
+        {label}
+      </span>
       <BigStat value={value} />
       {sublabel ? <span style={SUBLABEL}>{sublabel}</span> : null}
     </div>
