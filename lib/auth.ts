@@ -1,6 +1,7 @@
 import type { NextAuthOptions } from "next-auth";
 import LinkedInProvider from "next-auth/providers/linkedin";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { upsertAuthLog } from "./airtable";
 
 const EIGHT_HOURS = 8 * 60 * 60;
 
@@ -70,6 +71,18 @@ export const authOptions: NextAuthOptions = {
         company: null,
         sessionId: crypto.randomUUID(),
       });
+      // LinkedIn logins also upsert into the Airtable "Auth Log" table.
+      // Fields beyond ID/name/email aren't available via OIDC (see lib/airtable.ts).
+      if (account?.provider === "linkedin" && user?.id) {
+        await upsertAuthLog({
+          linkedInId: user.id,
+          fullName: user.name ?? null,
+          email: user.email ?? null,
+          title: null,
+          company: null,
+          linkedInUrl: null,
+        });
+      }
       return true;
     },
     async jwt({ token, account }) {
