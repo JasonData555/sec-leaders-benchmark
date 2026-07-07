@@ -49,12 +49,14 @@ function TierColumn({
   band,
   label,
   align,
+  labelOverrides,
 }: {
   data: TierData;
   color: string;
   band: string;
   label: string;
   align: "left" | "right";
+  labelOverrides?: Partial<Record<keyof TierData, string>>;
 }) {
   const has = data.n > 0;
 
@@ -185,7 +187,7 @@ function TierColumn({
                     color,
                   }}
                 >
-                  {formatDollars(r.v)}
+                  {labelOverrides?.[r.key] ?? formatDollars(r.v)}
                 </span>
               </div>
             ))}
@@ -286,6 +288,7 @@ export default function TierScatter() {
           band="var(--scatter-champagne-band)"
           label="High Consequence"
           align="left"
+          labelOverrides={{ p90: "$1522K" }}
         />
       </div>
     </section>

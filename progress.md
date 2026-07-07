@@ -3,7 +3,7 @@
 > Living working-log. Most-recent-first. Build rules in **CLAUDE.md**, design in **DESIGN.md**.
 > This file is the *state of play* — what's done, pending, and how to verify.
 
-_Last updated: 2026-06-25 · branch `main` · Key Insight band + footer full-width (commit `aac76fa`)._
+_Last updated: 2026-07-02 · branch `main` · Airtable Auth Log logging live (commit `e07ccf4`); LinkedIn enrichment investigated + paused._
 
 ---
 
@@ -21,6 +21,17 @@ Feature-complete through Phases 1–3 (build, data, export/auth) and deployed on
 ---
 
 ## 2. Recently completed (newest first)
+
+### Airtable Auth Log + LinkedIn enrichment (investigated, paused) — (commit `e07ccf4`)
+- **LinkedIn logins now upsert into an Airtable "Auth Log"** (`lib/airtable.ts` →
+  `upsertAuthLog`, fire-and-forget from `signIn`; table `tbl0hdV62NZ7WNqrO` in HITCHBASE).
+  Deduped by `LinkedIn ID` (OIDC `sub`), bumps `Login Count`/`Last Seen` on repeat.
+  Best-effort; never blocks auth; no-op if `AIRTABLE_TOKEN`/`AIRTABLE_BASE_ID` unset.
+- **Profile enrichment (`Title`/`Company`/`Headline`/`LinkedIn URL`) investigated → paused.**
+  A `/v2/me` OAuth-callback call is infeasible (OIDC, not legacy `r_liteprofile`;
+  `headline`/`vanityName` partner-restricted; `sub` opaque, not reversible). Columns exist but
+  stay blank. Deferred path: offline **Clay** batch keyed on `Full Name` + email-domain, written
+  back via Airtable MCP (**no app code**) — blocked on a company signal for personal-email logins.
 
 ### Key Insight band + footer full-width — (commits `aac76fa` ← `00818b3`)
 - **Full-width "Key Insight" prose band** below the benchmark panel (above the footer) — plain-language
@@ -51,15 +62,14 @@ Feature-complete through Phases 1–3 (build, data, export/auth) and deployed on
 - **Fully responsive** via `@media` layout classes in `globals.css` (SSR-safe, layout-only):
   **≥1680** capped & centered · **≥1280** no-scroll desktop · **768–1279** sticky top bar + gov 2×2 ·
   **<768** single column + comp stats 2×2. `.export-ready` forces desktop layout for the PDF.
-- **Label overlap fixed** (P25/P50/P75 → 3-column readout below a 14px bar); comp dead space
-  reclaimed (`flex:1`); donut hexes tokenized. `npm run build` clean; pushed.
+- **Label overlap fixed** (P25/P50/P75 → 3-column readout below a 14px bar); comp dead space reclaimed (`flex:1`); donut hexes tokenized.
 
 ### UI polish + dark-theme CISO pass (commits `3aacead` ← `85242a1`)
-- White logo on dark theme; Board Access donut recolored gold+cobalt+neutral.
+- White logo on dark theme; Board Access donut recolored gold+cobalt+neutral; headline figures
+  forced white; Location/Role pulled from UI (plumbing retained).
 - **Data scoped to CISO** (`csv-to-json.ts` filters `Role_Bucket === "CISO"`) → **957 records**
   (406 Baseline + 551 High Consequence). **Total Comp** = sum of base/bonus/equity averages
   (`totalCompAvg`): Baseline **$734,041** · High Consequence **$1,006,851**.
-- Headline figures forced white; Location/Role pulled from UI (plumbing retained).
 
 ---
 

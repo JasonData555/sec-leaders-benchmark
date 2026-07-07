@@ -32,7 +32,7 @@ components/
   zones/    CompensationZone, TierScatter, GovernanceZone, InsightZone, FunctionalScopeZone  (charts rendered INLINE here)
   filters/  RoleFilter, LocationFilter (retained, not in UI) · others
   ui/       Chip (size md|lg), NCounter, CandidateBand, FloorWarning, CompareForm
-lib/        data.ts · filters.ts · metrics.ts · scripts/csv-to-json.ts · auth.ts
+lib/        data.ts · filters.ts · metrics.ts · scripts/csv-to-json.ts · auth.ts · airtable.ts
 data/       allsec-benchmark.json   # source of truth (CISO-only, ~957 records)
 public/     hitch-logo.png · hitch-logo-white.png (white used on the dark theme)
 styles/     globals.css             # all design tokens — never hardcode hex in components
@@ -71,6 +71,8 @@ styles/     globals.css             # all design tokens — never hardcode hex i
 ## 8. Auth
 - `app/api/auth/[...nextauth]/route.ts` + `lib/auth.ts`. Providers: LinkedIn OAuth (`openid profile email`) + Credentials (shared `NEXTAUTH_ACCESS_CODE`). JWT session, 8h max.
 - On login POST `/api/log` (timestamp, provider, name/title/company, sessionId). Session-level only.
+- **Airtable "Auth Log" upsert** (`lib/airtable.ts` → `upsertAuthLog`, called fire-and-forget from the `signIn` callback): one row per LinkedIn member deduped by `LinkedIn ID` (the OIDC `sub` — opaque, app-scoped, **not** resolvable to a public profile). Bumps `Login Count` / `Last Seen` on repeat, creates on first sight. Best-effort, never blocks auth; skips silently if `AIRTABLE_TOKEN`/`AIRTABLE_BASE_ID` unset. Table `tbl0hdV62NZ7WNqrO` in HITCHBASE.
+- **Enrichment gap:** the `Title`/`Company`/`Headline`/`LinkedIn URL` columns exist but stay blank — OIDC (`openid profile email`) only yields id/name/email; `/v2/me` + `vanityName`/`headline` need legacy `r_liteprofile` or partner scopes this app lacks. Backfill would be an offline Clay batch (name + email-domain anchor), not auth-callback code. Paused (see progress.md).
 - Auth screen: `--ink-deep` full viewport, centered max-w 400px, white logo, LinkedIn button (`--hitch-blue`), divider, access-code input, methodology footnote.
 
 ## 9. PDF export
@@ -78,7 +80,7 @@ styles/     globals.css             # all design tokens — never hardcode hex i
 - `app/export/page.tsx`: same three zones, no header/footer chrome, dark cover strip (white logo · product name · date + peer summary `n=X`), methodology footer.
 
 ## 10. Environment (`.env.local`, never commit)
-`NEXTAUTH_URL` · `NEXTAUTH_SECRET` · `LINKEDIN_CLIENT_ID/SECRET` · `NEXTAUTH_ACCESS_CODE` · `KV_URL` + `KV_REST_API_*` (session log).
+`NEXTAUTH_URL` · `NEXTAUTH_SECRET` · `LINKEDIN_CLIENT_ID/SECRET` · `NEXTAUTH_ACCESS_CODE` · `KV_URL` + `KV_REST_API_*` (session log) · `AIRTABLE_TOKEN` + `AIRTABLE_BASE_ID` (Auth Log; PAT needs `data.records:read`+`write` on HITCHBASE).
 
 ## 11. Vercel & DNS
 - Project: Next.js framework, root `/`, build `next build`, Node 20.x. Push to `main` auto-deploys.
@@ -95,4 +97,4 @@ Not DB-backed (static JSON only) · not real-time · not public (auth on every r
 This file is the fork template; DESIGN.md inherited wholesale (only wordmark string changes). Core color tokens and auth-only `--hitch-blue` stay constant. New products may add one champagne-derived data accent.
 
 ---
-_Last updated: 2026-06-25 · v1.1 · Next.js · Vercel · NextAuth · Puppeteer_
+_Last updated: 2026-07-02 · v1.2 · Next.js · Vercel · NextAuth · Puppeteer · Airtable Auth Log_
