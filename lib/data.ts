@@ -4,5 +4,5 @@ import data from "@/data/allsec-benchmark.json";
  *  every field is a string (raw CSV value; blanks are ""). */
 export type BenchmarkRecord = (typeof data)[number];
 
-/** All 1,464 records. Loaded once at module init; never re-fetched. */
+/** All 957 records. Loaded once at module init; never re-fetched. */
 export const allRecords: BenchmarkRecord[] = data;

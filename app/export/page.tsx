@@ -122,10 +122,10 @@ export default async function ExportPage({
               maxWidth: 660,
             }}
           >
-            This benchmark reflects 1,464 security leadership profiles across
+            This benchmark reflects 957 security leadership profiles across
             North America and Europe, collected across the 2025–2026 survey
             period. Compensation figures are reported and normalized in USD. Peer
-            group filters dynamically adjust to available data — combinations
+            group filters dynamically adjust to available data; combinations
             yielding fewer than 20 matching profiles automatically broaden to the
             next geographic level to preserve statistical reliability. Prepared by
             Hitch Partners · {date}.

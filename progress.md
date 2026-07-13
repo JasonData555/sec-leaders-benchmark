@@ -13,7 +13,7 @@ Feature-complete through Phases 1–3 (build, data, export/auth) and deployed on
 (push to `main` auto-deploys). Live app:
 
 - Auth-gated single-page tool (LinkedIn OAuth + access code); fully responsive (no-scroll ≥1280, stacks
-  below, capped ≥1680); dark theme; PDF export via Puppeteer. **CISO dataset** (~1,464 records).
+  below, capped ≥1680); dark theme; PDF export via Puppeteer. **CISO dataset** (957 records).
 - **NEW (uncommitted):** scatter comp-view toggle (Total/Cash/Base) + Median Breakdown strip + Methodology
   modal — see §2. Build clean, math verified; visual QA (no-scroll 1280×720/800) pending on Vercel.
 
@@ -70,9 +70,9 @@ Feature-complete through Phases 1–3 (build, data, export/auth) and deployed on
 
 ### UI polish + dark-theme CISO pass (commits `3aacead` ← `85242a1`)
 - White logo on dark theme; Board donut gold+cobalt+neutral; Location/Role pulled from UI (plumbing kept).
-- **Data scoped to CISO** (`csv-to-json.ts` filters `Role_Bucket === "CISO"`). **Total Comp** = sum of
-  base/bonus/equity averages (`totalCompAvg`): Baseline **$734,041** · High Consequence **$1,006,851**.
-  (Note: dataset is now ~1,464 records — header/methodology reflect this; the "957" figure is retired.)
+- **Data scoped to CISO** (`csv-to-json.ts` filters `Role_Bucket === "CISO"`) → **957 records**
+  (406 Baseline + 551 High Consequence). **Total Comp** = sum of base/bonus/equity averages
+  (`totalCompAvg`): Baseline **$734,041** · High Consequence **$1,006,851**.
 
 ---
 
