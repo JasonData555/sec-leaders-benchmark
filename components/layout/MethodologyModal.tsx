@@ -165,7 +165,7 @@ export default function MethodologyModal() {
                 opacity: 0.6,
               }}
             >
-              2025–2026 Survey Period · Last Updated March 2026 · North America &amp; Europe
+              2025–2026 Survey Period · Last Updated March 2026 · North America
             </div>
           </div>
         </div>
@@ -175,7 +175,7 @@ export default function MethodologyModal() {
 }
 
 const BODY = [
-  "The Security Leadership Benchmark draws on proprietary survey data collected directly from verified security executives across North America and Europe. Participants are identified and recruited through Hitch Partners' retained search network, a practitioner-sourced sample that reflects active, senior-level security leadership, not self-selected or panel-recruited respondents.",
+  "The Security Leadership Benchmark draws on proprietary survey data collected directly from verified security executives across North America. Participants are identified and recruited through Hitch Partners' retained search network, a practitioner-sourced sample that reflects active, senior-level security leadership, not self-selected or panel-recruited respondents.",
   "Compensation figures are reported by participants and normalized to USD. Peer group filters adjust dynamically to available data; combinations yielding fewer than 20 matching profiles automatically broaden to preserve statistical reliability.",
   "The Baseline Risk and High Consequence segmentation reflects a proprietary framework developed by Hitch Partners to classify organizations by the structural severity of a potential security failure, incorporating regulatory exposure, attack surface complexity, and breach consequence magnitude. This classification is applied at the organizational level prior to analysis and serves as the primary lens through which compensation and governance patterns are interpreted.",
   "All figures represent the 2025–2026 survey period. Data is refreshed on an annual cadence. Published by Hitch Partners.",

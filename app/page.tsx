@@ -191,9 +191,8 @@ export default function Page() {
           }}
         >
           This benchmark reflects 957 security leadership profiles across
-          North America and Europe, collected across the 2025–2026 survey
-          period. Compensation figures are reported and normalized in USD.
-          Published by Hitch Partners.
+          North America, collected across the 2025–2026 survey period.
+          Compensation figures are reported and normalized in USD.
         </p>
       </div>
     </main>
