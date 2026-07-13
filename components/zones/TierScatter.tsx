@@ -80,6 +80,10 @@ function jitter(i: number): number {
   return x - Math.floor(x);
 }
 
+// Uniform typographic nudge (px) keeping label text off its line — applied
+// identically to every label so it never accumulates across the stack.
+const LABEL_NUDGE = 4;
+
 // Percentile line + label definitions (high→low). `dash` empty = solid.
 type PctSpec = {
   key: keyof TierData;
@@ -120,26 +124,13 @@ function TierColumn({
   const move = animate ? "bottom 250ms ease, height 250ms ease" : undefined;
   const moveTop = animate ? "top 250ms ease" : undefined;
 
-  // Label rows: place each at its true position (top%), then nudge apart so the
-  // two-line labels don't collide, clamping within the strip top/bottom.
-  const MIN_GAP = 15; // percent of plot height between adjacent labels
-  const PAD = 5; // keep labels off the very top/bottom edge
+  // Label rows: each label's vertical anchor is derived from the identical pos()
+  // call used to draw its line (:180), so labels track the data, never drift.
   const rows = PCTS.map((p) => ({
     ...p,
     v: data[p.key] as number,
-    top: 100 - pos(data[p.key] as number),
+    top: 100 - pos(data[p.key] as number), // identical expression to the line
   }));
-  for (let i = 1; i < rows.length; i++) {
-    if (rows[i].top - rows[i - 1].top < MIN_GAP) {
-      rows[i].top = rows[i - 1].top + MIN_GAP;
-    }
-  }
-  const overflow = rows[rows.length - 1].top - (100 - PAD);
-  if (overflow > 0) rows.forEach((r) => (r.top -= overflow));
-  if (rows[0].top < PAD) {
-    const under = PAD - rows[0].top;
-    rows.forEach((r) => (r.top += under));
-  }
 
   return (
     <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 10 }}>
@@ -219,7 +210,7 @@ function TierColumn({
                 key={r.key as string}
                 style={{
                   position: "absolute",
-                  top: `${r.top}%`,
+                  top: `calc(${r.top}% + ${LABEL_NUDGE}px)`,
                   transform: "translateY(-50%)",
                   [align === "right" ? "left" : "right"]: 8,
                   width: 94,
