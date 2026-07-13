@@ -1,3 +1,5 @@
+import MethodologyModal from "@/components/layout/MethodologyModal";
+
 export default function ToolHeader() {
   return (
     <header
@@ -36,16 +38,23 @@ export default function ToolHeader() {
         </span>
       </div>
 
-      {/* Metadata */}
-      <span
-        style={{
-          fontFamily: "'IBM Plex Mono', monospace",
-          fontSize: 11,
-          color: "var(--text-tertiary)",
-        }}
-      >
-        1,464 profiles · 2025–2026
-      </span>
+      {/* Methodology + metadata */}
+      <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+        <MethodologyModal />
+        <span
+          style={{ width: 1, height: 13, background: "var(--border)" }}
+          aria-hidden
+        />
+        <span
+          style={{
+            fontFamily: "'IBM Plex Mono', monospace",
+            fontSize: 11,
+            color: "var(--text-tertiary)",
+          }}
+        >
+          1,464 profiles · 2025–2026
+        </span>
+      </div>
     </header>
   );
 }

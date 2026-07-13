@@ -1,22 +1,76 @@
 "use client";
 
+import { useEffect, useMemo, useState } from "react";
 import { useFilters } from "@/app/benchmark/FilterContext";
 import { useZoneFade } from "@/app/benchmark/useZoneFade";
-import { formatDollars, type TierScatter as TierData } from "@/lib/metrics";
+import {
+  formatDollars,
+  type CompView,
+  type TierScatter as TierData,
+} from "@/lib/metrics";
 
-// Shared Y-axis scale (fixed floor/ceiling, $150K–$2.2M) — matches the
-// retired distribution bar so figures stay comparable across filters.
-const FLOOR_$ = 150000;
-const CEIL_$ = 2200000;
-const pos = (v: number) =>
-  Math.max(0, Math.min(100, ((v - FLOOR_$) / (CEIL_$ - FLOOR_$)) * 100));
+// ── Y-axis scale ────────────────────────────────────────────────────────────
+// The Total view keeps the original fixed floor/ceiling ($150K–$2.2M) and tick
+// labels verbatim so the default distribution is pixel-identical to before.
+// Cash / Base derive a padded scale from their own data.
+const clamp = (x: number) => Math.max(0, Math.min(100, x));
 
-// Y-axis gridline labels at their true scale positions.
-const AXIS_TICKS: { v: number; label: string }[] = [
-  { v: 150000, label: "$150K" },
-  { v: 750000, label: "$750K" },
-  { v: 1500000, label: "$1.5M" },
-  { v: 2200000, label: "$2.2M+" },
+interface Scale {
+  pos: (v: number) => number;
+  ticks: { v: number; label: string }[];
+  /** Displayed-label overrides for the High Consequence column (Total only). */
+  hcOverrides?: Partial<Record<keyof TierData, string>>;
+}
+
+function fmtAxis(v: number): string {
+  if (v >= 1_000_000) return `$${(v / 1_000_000).toFixed(1)}M`;
+  return `$${Math.round(v / 1000)}K`;
+}
+
+const TOTAL_SCALE: Scale = {
+  pos: (v) => clamp(((v - 150000) / (2200000 - 150000)) * 100),
+  ticks: [
+    { v: 150000, label: "$150K" },
+    { v: 750000, label: "$750K" },
+    { v: 1500000, label: "$1.5M" },
+    { v: 2200000, label: "$2.2M+" },
+  ],
+  hcOverrides: { p90: "$1522K" },
+};
+
+function makeScale(view: CompView, baseline: TierData, highCon: TierData): Scale {
+  if (view === "total") return TOTAL_SCALE;
+
+  const all = [...baseline.points, ...highCon.points];
+  if (!all.length) return TOTAL_SCALE;
+
+  const min = Math.min(...all);
+  const max = Math.max(...all);
+  const range = max - min || max || 1;
+  const pad = range * 0.05;
+  const floor = Math.max(0, min - pad);
+  const ceil = max + pad;
+  const span = ceil - floor || 1;
+
+  return {
+    pos: (v) => clamp(((v - floor) / span) * 100),
+    ticks: [0, 1, 2, 3].map((i) => {
+      const v = floor + span * (i / 3);
+      return { v, label: fmtAxis(v) };
+    }),
+  };
+}
+
+const VIEW_LABEL: Record<CompView, string> = {
+  total: "Total Comp Distribution",
+  cash: "Cash Comp Distribution",
+  base: "Base Distribution",
+};
+
+const SEGMENTS: { value: CompView; label: string }[] = [
+  { value: "total", label: "Total Comp" },
+  { value: "cash", label: "Cash Comp" },
+  { value: "base", label: "Base Only" },
 ];
 
 // Deterministic horizontal jitter for a given index — keeps dots stable across
@@ -49,16 +103,22 @@ function TierColumn({
   band,
   label,
   align,
+  pos,
   labelOverrides,
+  animate,
 }: {
   data: TierData;
   color: string;
   band: string;
   label: string;
   align: "left" | "right";
+  pos: (v: number) => number;
   labelOverrides?: Partial<Record<keyof TierData, string>>;
+  animate: boolean;
 }) {
   const has = data.n > 0;
+  const move = animate ? "bottom 250ms ease, height 250ms ease" : undefined;
+  const moveTop = animate ? "top 250ms ease" : undefined;
 
   // Label rows: place each at its true position (top%), then nudge apart so the
   // two-line labels don't collide, clamping within the strip top/bottom.
@@ -105,6 +165,7 @@ function TierColumn({
                 bottom: `${pos(data.p25)}%`,
                 height: `${pos(data.p75) - pos(data.p25)}%`,
                 background: band,
+                transition: move,
               }}
             />
             {/* Percentile lines (P10/P25/P50/P75/P90) */}
@@ -148,6 +209,7 @@ function TierColumn({
                   borderRadius: "50%",
                   background: color,
                   opacity: 0.32,
+                  transition: move,
                 }}
               />
             ))}
@@ -166,6 +228,7 @@ function TierColumn({
                   flexDirection: "column",
                   lineHeight: 1.1,
                   pointerEvents: "none",
+                  transition: moveTop,
                 }}
               >
                 <span
@@ -210,9 +273,103 @@ function TierColumn({
   );
 }
 
-export default function TierScatter() {
+/** Compact, fixed-height median-breakdown strip below the two columns. Height is
+ *  constant across views (single row), so switching views never reflows the
+ *  no-scroll layout. Uses existing peer-group medians — no new math. */
+function DecompStrip({ view }: { view: CompView }) {
+  const { metrics } = useFilters();
+  const c = metrics.comp;
+
+  const cells: { label: string; value: number }[] =
+    view === "cash"
+      ? [
+          { label: "Base", value: c.baseP50 },
+          { label: "Bonus", value: c.bonusP50 },
+        ]
+      : view === "base"
+      ? [{ label: "Base", value: c.baseP50 }]
+      : [
+          { label: "Base", value: c.baseP50 },
+          { label: "Bonus", value: c.bonusP50 },
+          { label: "Equity", value: c.equityP50 },
+          { label: "Total", value: c.tcP50 },
+        ];
+
+  return (
+    <div
+      style={{
+        flex: "none",
+        display: "flex",
+        alignItems: "center",
+        gap: 20,
+        paddingTop: 10,
+        marginTop: 2,
+        borderTop: "1px solid var(--border)",
+      }}
+    >
+      <span
+        style={{
+          fontFamily: "'DM Sans', sans-serif",
+          fontSize: 9,
+          textTransform: "uppercase",
+          letterSpacing: "0.12em",
+          color: "var(--text-tertiary)",
+          whiteSpace: "nowrap",
+        }}
+      >
+        Median Breakdown
+      </span>
+      <div style={{ display: "flex", gap: 22, flexWrap: "wrap" }}>
+        {cells.map((cell) => (
+          <div key={cell.label} style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+            <span
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 10,
+                textTransform: "uppercase",
+                letterSpacing: "0.06em",
+                color: "var(--text-secondary)",
+              }}
+            >
+              {cell.label}
+            </span>
+            <span
+              style={{
+                fontFamily: "'IBM Plex Mono', monospace",
+                fontSize: 12,
+                fontWeight: 500,
+                color: "var(--text-primary)",
+              }}
+            >
+              {formatDollars(cell.value)}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function TierScatter({ showToggle = true }: { showToggle?: boolean }) {
   const { scatter, filterState } = useFilters();
   const fade = useZoneFade(filterState);
+
+  const [view, setView] = useState<CompView>("total");
+  const compView: CompView = showToggle ? view : "total";
+
+  // Enable position transitions only after first paint so the initial (Total)
+  // render — and the static PDF export snapshot — never animate.
+  const [animate, setAnimate] = useState(false);
+  useEffect(() => setAnimate(true), []);
+
+  const baseline = scatter.baseline[compView];
+  const highCon = scatter.highCon[compView];
+  const scale = useMemo(
+    () => makeScale(compView, baseline, highCon),
+    [compView, baseline, highCon]
+  );
+
+  const excluded = baseline.excluded + highCon.excluded;
 
   return (
     <section
@@ -225,17 +382,66 @@ export default function TierScatter() {
         ...fade,
       }}
     >
-      <span
+      {/* Header: section label + view toggle */}
+      <div
         style={{
-          fontFamily: "'IBM Plex Mono', monospace",
-          fontSize: 11,
-          letterSpacing: "0.18em",
-          textTransform: "uppercase",
-          color: "var(--text-secondary)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 12,
         }}
       >
-        Total Comp Distribution
-      </span>
+        <span
+          style={{
+            fontFamily: "'IBM Plex Mono', monospace",
+            fontSize: 11,
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+            color: "var(--text-secondary)",
+          }}
+        >
+          {VIEW_LABEL[compView]}
+        </span>
+
+        {showToggle && (
+          <div
+            style={{
+              display: "flex",
+              background: "var(--chip-bg)",
+              border: "1px solid var(--border)",
+              borderRadius: 2,
+              overflow: "hidden",
+            }}
+          >
+            {SEGMENTS.map((seg, i) => {
+              const active = seg.value === compView;
+              return (
+                <button
+                  key={seg.value}
+                  type="button"
+                  onClick={() => setView(seg.value)}
+                  style={{
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontWeight: 300,
+                    fontSize: 11,
+                    lineHeight: 1.3,
+                    padding: "6px 11px",
+                    whiteSpace: "nowrap",
+                    cursor: "pointer",
+                    border: "none",
+                    borderLeft: i === 0 ? "none" : "1px solid var(--border)",
+                    background: active ? "var(--data-cobalt-mid)" : "transparent",
+                    color: active ? "var(--data-cobalt)" : "var(--text-secondary)",
+                    transition: "background 120ms ease, color 120ms ease",
+                  }}
+                >
+                  {seg.label}
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </div>
 
       <div style={{ flex: 1, minHeight: 0, display: "flex", gap: 14 }}>
         {/* Shared Y-axis — mirrors the column layout (plot area + header-height
@@ -250,12 +456,12 @@ export default function TierScatter() {
           }}
         >
           <div style={{ flex: 1, minHeight: 0, position: "relative" }}>
-            {AXIS_TICKS.map((t) => (
+            {scale.ticks.map((t) => (
               <span
                 key={t.v}
                 style={{
                   position: "absolute",
-                  bottom: `${pos(t.v)}%`,
+                  bottom: `${scale.pos(t.v)}%`,
                   right: 0,
                   transform: "translateY(50%)",
                   fontFamily: "'IBM Plex Mono', monospace",
@@ -276,21 +482,43 @@ export default function TierScatter() {
 
         {/* Two tier columns */}
         <TierColumn
-          data={scatter.baseline}
+          data={baseline}
           color="var(--scatter-slate)"
           band="var(--scatter-slate-band)"
           label="Baseline Risk"
           align="right"
+          pos={scale.pos}
+          animate={animate}
         />
         <TierColumn
-          data={scatter.highCon}
+          data={highCon}
           color="var(--champagne)"
           band="var(--scatter-champagne-band)"
           label="High Consequence"
           align="left"
-          labelOverrides={{ p90: "$1522K" }}
+          pos={scale.pos}
+          labelOverrides={scale.hcOverrides}
+          animate={animate}
         />
       </div>
+
+      {/* Median breakdown strip (fixed height across views) */}
+      <DecompStrip view={compView} />
+
+      {/* Cash-view methodology footnote */}
+      {compView === "cash" && (
+        <span
+          style={{
+            flex: "none",
+            fontFamily: "'IBM Plex Mono', monospace",
+            fontSize: 9,
+            color: "var(--scatter-slate)",
+            opacity: 0.6,
+          }}
+        >
+          Percentiles exclude profiles without a reported bonus (n = {excluded}).
+        </span>
+      )}
     </section>
   );
 }

@@ -16,7 +16,7 @@ import {
   calcTeamMetrics,
   calcSeverance,
   calcVesting,
-  calcTierScatter,
+  calcTierScatterView,
   type CompMetrics,
   type BoardMetrics,
   type DOMetrics,
@@ -35,11 +35,18 @@ export interface Metrics {
   vesting: number;
 }
 
+/** One tier's distribution across the three comp lenses. */
+export interface TierViews {
+  total: TierScatter;
+  cash: TierScatter;
+  base: TierScatter;
+}
+
 /** Per-tier scatter populations — always split across both tiers regardless
  *  of the Industry Tier filter, so the Baseline-vs-HC comparison always holds. */
 export interface ScatterData {
-  baseline: TierScatter;
-  highCon: TierScatter;
+  baseline: TierViews;
+  highCon: TierViews;
 }
 
 /** A user-entered profile compared against the current peer group (§7.10). */
@@ -134,9 +141,14 @@ export function FilterProvider({
     });
     const byTier = (t: string) =>
       records.filter((r) => r["Industry Tier"] === t);
+    const views = (rs: BenchmarkRecord[]): TierViews => ({
+      total: calcTierScatterView(rs, "total"),
+      cash: calcTierScatterView(rs, "cash"),
+      base: calcTierScatterView(rs, "base"),
+    });
     return {
-      baseline: calcTierScatter(byTier("Baseline")),
-      highCon: calcTierScatter(byTier("High Consequence")),
+      baseline: views(byTier("Baseline")),
+      highCon: views(byTier("High Consequence")),
     };
   }, [filterState]);
 

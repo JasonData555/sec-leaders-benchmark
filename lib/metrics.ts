@@ -134,8 +134,8 @@ export function calcCompMetrics(records: BenchmarkRecord[]): CompMetrics {
   };
 }
 
-/** Per-tier Total-Comp distribution for the scatter plot. Read-only: reuses
- *  parseComp + percentile, no new math. Nulls excluded, never imputed. */
+/** Per-tier distribution for the scatter plot. Read-only: reuses parseComp +
+ *  percentile, no new math. Nulls excluded, never imputed. */
 export interface TierScatter {
   points: number[];
   p10: number;
@@ -144,19 +144,61 @@ export interface TierScatter {
   p75: number;
   p90: number;
   n: number;
+  /** Points plotted but excluded from the percentile markers (cash view only,
+   *  where zero/null-bonus profiles are dropped from the lines but still dotted). */
+  excluded: number;
 }
 
-export function calcTierScatter(records: BenchmarkRecord[]): TierScatter {
-  const { values } = compColumn(records, "Total Comp-Converted");
+/** Which compensation lens the scatter renders. */
+export type CompView = "total" | "cash" | "base";
+
+/** Build one tier's distribution for a given comp view. Dots plot every profile
+ *  with a valid value; percentile markers are computed over the marker set
+ *  (which, for the cash view, excludes zero/null-bonus profiles). */
+export function calcTierScatterView(
+  records: BenchmarkRecord[],
+  view: CompView
+): TierScatter {
+  const points: number[] = [];
+  const markers: number[] = [];
+  let excluded = 0;
+
+  for (const r of records) {
+    if (view === "cash") {
+      const base = parseComp(r["Base-Converted"]);
+      if (base === null) continue;
+      const bonus = parseComp(r["Bonus-Converted"]);
+      // Dot = base + reported bonus (base alone when bonus is absent/zero).
+      points.push(base + (bonus ?? 0));
+      // Percentile lines exclude profiles without a reported (non-zero) bonus.
+      if (bonus !== null && bonus !== 0) markers.push(base + bonus);
+      else excluded++;
+    } else {
+      const field = view === "base" ? "Base-Converted" : "Total Comp-Converted";
+      const v = parseComp(r[field]);
+      if (v === null) continue;
+      points.push(v);
+      markers.push(v);
+    }
+  }
+
+  const p = (q: number) => (markers.length ? percentile(markers, q) : 0);
   return {
-    points: values,
-    p10: values.length ? percentile(values, 10) : 0,
-    p25: values.length ? percentile(values, 25) : 0,
-    p50: values.length ? percentile(values, 50) : 0,
-    p75: values.length ? percentile(values, 75) : 0,
-    p90: values.length ? percentile(values, 90) : 0,
-    n: values.length,
+    points,
+    p10: p(10),
+    p25: p(25),
+    p50: p(50),
+    p75: p(75),
+    p90: p(90),
+    n: markers.length,
+    excluded,
   };
+}
+
+/** Total-Comp distribution — the default scatter view. Thin wrapper so the
+ *  Total code path stays byte-identical to the original implementation. */
+export function calcTierScatter(records: BenchmarkRecord[]): TierScatter {
+  return calcTierScatterView(records, "total");
 }
 
 export interface BoardMetrics {

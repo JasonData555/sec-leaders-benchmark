@@ -52,7 +52,8 @@ styles/     globals.css             # all design tokens — never hardcode hex i
 - Key fields: `Base/Bonus/Equity/Total Comp-Converted` (parse via `parseComp`), `How often do you present to the Board of Directors?`, `Are you currently included in the following?` (D&O), severance/vesting Yes/No, `Team Size`.
 
 ## 6. Metrics (`lib/metrics.ts` — no calc logic in components)
-- `percentile()` (P25/P50/P75 markers), `parseComp()`, `classifyDO()`, board/severance/vesting rates.
+- `percentile()` (arbitrary p — P10/P25/P50/P75/P90 markers), `parseComp()`, `classifyDO()`, board/severance/vesting rates.
+- `calcTierScatterView(records, view)` — per-tier distribution for `view` = `total | cash | base`. Dots plot every valid profile; percentile markers use a marker set. **Cash = Base+Bonus**, and the markers **exclude zero/null-bonus profiles** (still dotted) — count surfaced as `excluded`. `calcTierScatter()` is a thin `total` wrapper (Total output byte-identical to the original).
 - **Headline Total Comp = sum of base+bonus+equity averages** (`totalCompAvg`), NOT the mean of the Total Comp column. This dataset intentionally shows **averages**, deviating from the legacy "median never mean" rule — keep as-is unless stakeholders change it.
 - Display rules: `$XXXK` (round to $1K), whole-number `%`, nulls excluded never imputed 0.
 
@@ -64,6 +65,8 @@ styles/     globals.css             # all design tokens — never hardcode hex i
 - **Tablet 768–1279px:** page scrolls; left panel → sticky top bar (horizontal); governance cards 2×2.
 - **Mobile <768px:** single column; comp stat blocks 2×2 (dividers off); Industry Tier pills ride the sticky top bar.
 - **Comp distribution:** taller (14px) bar with ticks at true P25/P50/P75 positions; dollar figures in an evenly-spaced 3-column readout **below** the bar (no overlap); block `flex:1`, vertically centered to fill the zone.
+- **Scatter view toggle (`TierScatter`):** 3-segment header toggle (`Total Comp · Cash Comp · Base Only`, local state, styled like `TierToggle`) swaps dots/percentile-lines/labels + a **branched Y-axis** — Total keeps the fixed `$150K–$2.2M` scale + hardcoded `$1522K` p90 override; Cash/Base scale dynamically (5% padding). 250ms position transitions gated behind a post-mount flag (initial paint + PDF static). A **compact fixed-height "Median Breakdown" strip** (`flex:none`, so the `flex:1` plot absorbs it → no-scroll holds) shows peer-group P50s: Total=Base·Bonus·Equity·Total(tcP50), Cash=Base·Bonus, Base=Base (no summed cell — avoids sum-of-medians). Cash view adds a quiet exclusion footnote. Gated off `/export` via `showViewToggle={false}` (forces Total, hides toggle).
+- **Methodology modal:** `components/layout/MethodologyModal.tsx` — header `METHODOLOGY` link (right of it, before the meta label, using the 1px-divider idiom) opens a centered modal (backdrop `rgba(13,17,23,0.82)`, panel `--ink-surface` + `--champagne` top border, `zIndex:200`). Self-contained client component; Escape/click-outside/× dismiss; **no body scroll-lock** (page is already `overflow:hidden`). Not in `/export` (its cover strip doesn't render `ToolHeader`).
 - **Key Insight band (`.insight-band`):** full-width static prose strip below the benchmark panel, above the footer. `flex:none` so the `flex:1` panel absorbs its height (no-scroll preserved). Champagne `KEY INSIGHT` eyebrow + 14px DM Sans copy. Dashboard only — gated off `/export` via `showInsight={false}` on `ZoneStack`. Copy is verbatim (medians/quartiles), not data-bound.
 - **Footer prose:** full-width (`flex:1`, no max-width cap), stretches to the "Hitch Partners" wordmark.
 - **PDF export:** `.export-ready` overrides force the desktop layout at Letter width — don't let the tablet/mobile breakpoints reflow the print output.
@@ -91,10 +94,10 @@ styles/     globals.css             # all design tokens — never hardcode hex i
 New cohort CSV → synthesis pipeline → retire oldest cohort → `csv-to-json.ts` → replace JSON → update vintage label (`2025–2026 survey period`) → redeploy. Confirm before deploy.
 
 ## 13. What this is NOT
-Not DB-backed (static JSON only) · not real-time · not public (auth on every route) · not multi-tenant · not search (filters only) · not a scrolling dashboard (no tabs/modals/nav) · not Tailwind · two chart types only (tier scatter distribution, horizontal bars — Board Access, D&O, functional scope).
+Not DB-backed (static JSON only) · not real-time · not public (auth on every route) · not multi-tenant · not search (filters only) · not a scrolling dashboard (no tabs/nav; the only modal is the Methodology overlay) · not Tailwind · two chart types only (tier scatter distribution, horizontal bars — Board Access, D&O, functional scope).
 
 ## 14. Future Hitch Intelligence products
 This file is the fork template; DESIGN.md inherited wholesale (only wordmark string changes). Core color tokens and auth-only `--hitch-blue` stay constant. New products may add one champagne-derived data accent.
 
 ---
-_Last updated: 2026-07-02 · v1.2 · Next.js · Vercel · NextAuth · Puppeteer · Airtable Auth Log_
+_Last updated: 2026-07-10 · v1.3 · Next.js · Vercel · NextAuth · Puppeteer · Airtable Auth Log · scatter view toggle + Methodology modal_

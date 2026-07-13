@@ -3,7 +3,7 @@
 > Living working-log. Most-recent-first. Build rules in **CLAUDE.md**, design in **DESIGN.md**.
 > This file is the *state of play* — what's done, pending, and how to verify.
 
-_Last updated: 2026-07-02 · branch `main` · Airtable Auth Log logging live (commit `e07ccf4`); LinkedIn enrichment investigated + paused._
+_Last updated: 2026-07-10 · branch `main` · Scatter comp-view toggle + Methodology modal built locally (uncommitted); build clean, math verified._
 
 ---
 
@@ -12,15 +12,34 @@ _Last updated: 2026-07-02 · branch `main` · Airtable Auth Log logging live (co
 Feature-complete through Phases 1–3 (build, data, export/auth) and deployed on Vercel
 (push to `main` auto-deploys). Live app:
 
-- Single-page benchmark tool, auth-gated (LinkedIn OAuth + shared access code).
-- **Now fully responsive** — no-scroll desktop ≥1280, stacks/scrolls below, capped & centered ≥1680.
-- **Dark enterprise theme** (Hitch navy/gold; cobalt data accent).
-- **CISO-only dataset** — `data/allsec-benchmark.json`, **957 records**, filtering client-side.
-- PDF export via Puppeteer at `/export`.
+- Auth-gated single-page tool (LinkedIn OAuth + access code); fully responsive (no-scroll ≥1280, stacks
+  below, capped ≥1680); dark theme; PDF export via Puppeteer. **CISO dataset** (~1,464 records).
+- **NEW (uncommitted):** scatter comp-view toggle (Total/Cash/Base) + Median Breakdown strip + Methodology
+  modal — see §2. Build clean, math verified; visual QA (no-scroll 1280×720/800) pending on Vercel.
 
 ---
 
 ## 2. Recently completed (newest first)
+
+### Scatter comp-view toggle + Median Breakdown + Methodology modal — (uncommitted)
+- **`TierScatter` 3-way view toggle** (`Total Comp · Cash Comp · Base Only`, local state, `showToggle`
+  prop). Swaps dots/percentile-lines/labels + **branched Y-axis**: Total keeps the fixed `$150K–$2.2M`
+  scale and hardcoded `$1522K` p90 override **unchanged** (byte-identical default); Cash/Base scale
+  dynamically (5% pad). 250ms transitions gated behind a post-mount flag (initial paint + PDF stay static).
+- **`lib/metrics.ts`:** new `calcTierScatterView(records, view)`; `calcTierScatter` is now a thin `total`
+  wrapper. **Cash = Base+Bonus**; percentile markers **exclude zero/null-bonus** profiles (still dotted),
+  `excluded` count surfaced. `FilterContext` scatter now carries `{total,cash,base}` per tier (`TierViews`).
+- **Compact fixed-height "Median Breakdown" strip** below the columns (`flex:none` → `flex:1` plot absorbs
+  it, **no-scroll holds**): peer-group P50s per view. **Deviation from plan (correctness):** no summed
+  "Cash Total" cell — Cash shows Base·Bonus, Base shows Base; avoids the sum-of-medians fallacy /
+  mislabeling `tcP50`. Cash view adds a quiet exclusion footnote (`n = excluded`).
+- **Methodology modal** (`components/layout/MethodologyModal.tsx`): header `METHODOLOGY` link → centered
+  overlay (`zIndex:200`, `--ink-surface` panel + champagne top border). Self-contained client component,
+  Escape/click-outside/× dismiss, **no body scroll-lock**. Handoff tokens remapped (`--slate→--scatter-slate`,
+  `--ink-mid→--ink-surface`, `--text-pri→--text-primary`). Not in `/export`.
+- **Export gating:** `ZoneStack` gains `showViewToggle` (→ `TierScatter showToggle`); `/export` passes
+  `false` → fixed Total view, no toggle. `npm run build` clean; math probe confirms Total 406/551 unchanged,
+  Cash between Base and Total, 130 zero-bonus excluded peer-wide. Plan: `read-claude-md-...-narwhal.md`.
 
 ### Airtable Auth Log + LinkedIn enrichment (investigated, paused) — (commit `e07ccf4`)
 - **LinkedIn logins now upsert into an Airtable "Auth Log"** (`lib/airtable.ts` →
@@ -34,42 +53,26 @@ Feature-complete through Phases 1–3 (build, data, export/auth) and deployed on
   back via Airtable MCP (**no app code**) — blocked on a company signal for personal-email logins.
 
 ### Key Insight band + footer full-width — (commits `aac76fa` ← `00818b3`)
-- **Full-width "Key Insight" prose band** below the benchmark panel (above the footer) — plain-language
-  High Consequence vs. Baseline Risk takeaway for non-technical readers. New
-  `components/zones/InsightZone.tsx`: static copy, **no data binding** (verbatim medians/quartiles,
-  deliberately distinct from the headline averages — risk B). Champagne eyebrow + 14px DM Sans copy.
-- `.insight-band` in `globals.css` is `flex:none` → the `flex:1` panel absorbs its height, so the
-  **no-scroll desktop ≥1280 holds** (charts shrink). On short laptops watch for footer crowding;
-  trimming the copy / 13.5px is the fallback.
-- Gated off `/export` via `showInsight={false}` on `ZoneStack` (new prop) — **PDF unchanged**.
-- **Footer prose** un-capped (`flex:1`, dropped `maxWidth:660`) → spans full width to the wordmark.
-- `npm run build` clean; pushed to `main`.
+- Full-width static **"Key Insight" prose band** (`components/zones/InsightZone.tsx`, no data binding —
+  verbatim medians/quartiles, distinct from headline averages, risk B) below the panel. `.insight-band`
+  is `flex:none` so the `flex:1` panel absorbs it → **no-scroll ≥1280 holds** (watch footer crowding on
+  short laptops). Gated off `/export` via `showInsight={false}`. Footer prose un-capped to full width.
 
 ### Tier toggle + comp hero + header legibility — (commit `29ee376`)
-- **Industry Tier → single-select segmented toggle** (`All Tiers · Baseline Risk · High
-  Consequence`). New `setTier` in `FilterContext`; active segment = cobalt tint. Fixes the old
-  multi-select 3-click dance and makes the "both tiers" default explicit.
-  `components/layout/PeerGroupPanel.tsx` (`TierToggle`; dead `ChipGroup`/`Chip` removed).
-- **Average Total Comp featured as a hero** — large gold (`--champagne`) figure, leftmost, with
-  Base/Bonus/Equity as a smaller inline breakdown past a divider. Dropped the Bonus/Equity
-  "% report none" sublabels + the redundant legend. `components/zones/CompensationZone.tsx`,
-  `.comp-row`/`.comp-hero` in `globals.css` (+ mobile stack + `.export-ready` override).
-- **Section headers brightened** `--text-tertiary` → `--text-secondary` (Compensation, Total Comp
-  Distribution, Governance & Protection) for legibility; propagates to PDF export via `ZoneStack`.
-- `npm run build` clean; pushed to `main`.
+- **Industry Tier → single-select segmented toggle** (`TierToggle` in `PeerGroupPanel.tsx`; `setTier` in
+  `FilterContext`; active = cobalt). **Average Total Comp = hero** (gold, leftmost; Base/Bonus/Equity
+  inline breakdown past a divider). Section headers `--text-tertiary` → `--text-secondary` for legibility.
 
 ### Responsive redesign + comp distribution rework — (commit `4a2a63c`)
-- **Fully responsive** via `@media` layout classes in `globals.css` (SSR-safe, layout-only):
-  **≥1680** capped & centered · **≥1280** no-scroll desktop · **768–1279** sticky top bar + gov 2×2 ·
-  **<768** single column + comp stats 2×2. `.export-ready` forces desktop layout for the PDF.
-- **Label overlap fixed** (P25/P50/P75 → 3-column readout below a 14px bar); comp dead space reclaimed (`flex:1`); donut hexes tokenized.
+- **Fully responsive** `@media` classes in `globals.css` (SSR-safe): ≥1680 capped/centered · ≥1280
+  no-scroll · 768–1279 sticky top bar + gov 2×2 · <768 single column. `.export-ready` forces desktop PDF.
+  Label overlap fixed (P25/P50/P75 → 3-column readout below a 14px bar); comp dead space reclaimed.
 
 ### UI polish + dark-theme CISO pass (commits `3aacead` ← `85242a1`)
-- White logo on dark theme; Board Access donut recolored gold+cobalt+neutral; headline figures
-  forced white; Location/Role pulled from UI (plumbing retained).
-- **Data scoped to CISO** (`csv-to-json.ts` filters `Role_Bucket === "CISO"`) → **957 records**
-  (406 Baseline + 551 High Consequence). **Total Comp** = sum of base/bonus/equity averages
-  (`totalCompAvg`): Baseline **$734,041** · High Consequence **$1,006,851**.
+- White logo on dark theme; Board donut gold+cobalt+neutral; Location/Role pulled from UI (plumbing kept).
+- **Data scoped to CISO** (`csv-to-json.ts` filters `Role_Bucket === "CISO"`). **Total Comp** = sum of
+  base/bonus/equity averages (`totalCompAvg`): Baseline **$734,041** · High Consequence **$1,006,851**.
+  (Note: dataset is now ~1,464 records — header/methodology reflect this; the "957" figure is retired.)
 
 ---
 
@@ -86,11 +89,10 @@ Feature-complete through Phases 1–3 (build, data, export/auth) and deployed on
 
 ## 4. Best next moves
 
-1. **Visual QA on the Vercel deploy** (risk A): walk all zones across 1920/1280/1024/390px;
-   confirm no label overlap, no comp dead space, sticky top bar + 2×2 governance, capped-center.
-2. **Sample PDF export** end-to-end (risk C) — confirms desktop layout holds at Letter width.
-3. **Resolve mean-vs-median guardrail** (risk B) with Brett/Michael.
-4. **Smoke test on Vercel** after auto-deploy — auth, export, DNS at intelligence.hitchpartners.com.
+1. **Commit + Visual QA** the new scatter toggle / Median Breakdown / Methodology modal on Vercel — modal
+   open/dismiss, toggle animation, and **no vertical scroll at 1280×720/800** (decomp strip height risk).
+2. **Visual QA** all zones across 1920/1280/1024/390px (risk A); **sample PDF export** at Letter (risk C).
+3. **Resolve mean-vs-median guardrail** (risk B) with Brett/Michael; smoke-test auth/export/DNS on Vercel.
 
 ---
 
@@ -101,13 +103,12 @@ npm run dev          # Next 14 App Router (3000, or 3001 if taken)
 npm run build        # full typecheck + prod build
 ```
 
-**Auth-gated routes** (`/benchmark`, `/export`) 307-redirect when unauthed. For a local session, POST
-the shared `NEXTAUTH_ACCESS_CODE` to `/api/auth/callback/credentials` with a csrf token from
-`/api/auth/csrf` (jar-backed curl), then check `/api/auth/session`. LinkedIn OAuth is broken locally —
-**verify on Vercel** (risk A).
+**Auth-gated routes** (`/benchmark`, `/export`) 307-redirect when unauthed. For a local session, POST the
+shared `NEXTAUTH_ACCESS_CODE` to `/api/auth/callback/credentials` (csrf from `/api/auth/csrf`, jar-backed
+curl). LinkedIn OAuth is broken locally — **verify interactive UI on Vercel** (risk A).
 
-**Math probe** (no auth): per-tier `totalCompAvg` (mean of base+bonus+equity column means) should be
-**Baseline 734041 · High Consequence 1006851** — quick `node -e` over `data/allsec-benchmark.json`.
+**Math probe** (no auth): `node -e` over `data/allsec-benchmark.json` — per-tier `totalCompAvg`
+**Baseline 734041 · HC 1006851**; scatter Total 406/551; Cash markers exclude zero/null-bonus.
 
 ---
 

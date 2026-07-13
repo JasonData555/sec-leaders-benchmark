@@ -12,9 +12,11 @@ import CandidateBand from "@/components/ui/CandidateBand";
 export default function ZoneStack({
   withCandidate = true,
   showInsight = true,
+  showViewToggle = true,
 }: {
   withCandidate?: boolean;
   showInsight?: boolean;
+  showViewToggle?: boolean;
 }) {
   const { noResults } = useFilters();
 
@@ -72,7 +74,7 @@ export default function ZoneStack({
       {showInsight && <InsightZone />}
       <div className="benchmark-panel">
         <div className="scatter-half">
-          <TierScatter />
+          <TierScatter showToggle={showViewToggle} />
         </div>
         <div className="gov-half">
           <GovernanceZone />
