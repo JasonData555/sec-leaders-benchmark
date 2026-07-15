@@ -264,83 +264,6 @@ function TierColumn({
   );
 }
 
-/** Compact, fixed-height median-breakdown strip below the two columns. Height is
- *  constant across views (single row), so switching views never reflows the
- *  no-scroll layout. Uses existing peer-group medians — no new math. */
-function DecompStrip({ view }: { view: CompView }) {
-  const { metrics } = useFilters();
-  const c = metrics.comp;
-
-  const cells: { label: string; value: number }[] =
-    view === "cash"
-      ? [
-          { label: "Base", value: c.baseP50 },
-          { label: "Bonus", value: c.bonusP50 },
-        ]
-      : view === "base"
-      ? [{ label: "Base", value: c.baseP50 }]
-      : [
-          { label: "Base", value: c.baseP50 },
-          { label: "Bonus", value: c.bonusP50 },
-          { label: "Equity", value: c.equityP50 },
-          { label: "Total", value: c.tcP50 },
-        ];
-
-  return (
-    <div
-      style={{
-        flex: "none",
-        display: "flex",
-        alignItems: "center",
-        gap: 20,
-        paddingTop: 10,
-        marginTop: 2,
-        borderTop: "1px solid var(--border)",
-      }}
-    >
-      <span
-        style={{
-          fontFamily: "'DM Sans', sans-serif",
-          fontSize: 9,
-          textTransform: "uppercase",
-          letterSpacing: "0.12em",
-          color: "var(--text-tertiary)",
-          whiteSpace: "nowrap",
-        }}
-      >
-        Median Breakdown
-      </span>
-      <div style={{ display: "flex", gap: 22, flexWrap: "wrap" }}>
-        {cells.map((cell) => (
-          <div key={cell.label} style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-            <span
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: 10,
-                textTransform: "uppercase",
-                letterSpacing: "0.06em",
-                color: "var(--text-secondary)",
-              }}
-            >
-              {cell.label}
-            </span>
-            <span
-              style={{
-                fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: 12,
-                fontWeight: 500,
-                color: "var(--text-primary)",
-              }}
-            >
-              {formatDollars(cell.value)}
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 export default function TierScatter({ showToggle = true }: { showToggle?: boolean }) {
   const { scatter, filterState } = useFilters();
   const fade = useZoneFade(filterState);
@@ -492,9 +415,6 @@ export default function TierScatter({ showToggle = true }: { showToggle?: boolea
           animate={animate}
         />
       </div>
-
-      {/* Median breakdown strip (fixed height across views) */}
-      <DecompStrip view={compView} />
 
       {/* Cash-view methodology footnote */}
       {compView === "cash" && (
